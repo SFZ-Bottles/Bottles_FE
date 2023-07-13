@@ -1,10 +1,13 @@
 import React from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import LogInPage from './pages/LogInPage';
 function App() {
   return (
-    <div>
-      초기세팅
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<LogInPage/>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

@@ -7,7 +7,7 @@ interface IUserInfo{
 
 export const signIn = async (ID: string, Password: string) => {
     try{
-        const response = await fetch(`${process.env.REACT_APP_SERVER}/api/auth/login/`, {
+        const response = await fetch(`${process.env.REACT_APP_SERVER}api/auth/login/`, {
             method: 'POST',
             body: JSON.stringify({
               id: ID,
@@ -26,7 +26,7 @@ export const signIn = async (ID: string, Password: string) => {
 
 export const signUp = async (userInfo: IUserInfo) => {
     try{
-        const response = await fetch(`${process.env.REACT_APP_SERVER}/api/auth/login/`, {
+        const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/`, {
             method: 'POST',
             body: JSON.stringify({
               id: userInfo.id,
@@ -39,6 +39,7 @@ export const signUp = async (userInfo: IUserInfo) => {
               Accept: "application/json",
             }
         })
+        console.log(response);
         return (response.status === 200 ? true : false);
     } catch (error:any) {
         alert(error.message);
@@ -47,8 +48,8 @@ export const signUp = async (userInfo: IUserInfo) => {
 
 export const checkDuplicate = async (ID: string) => {
   try{
-      const response = await fetch(`${process.env.REACT_APP_SERVER}/api/users/check-duplicate-id/${ID}`, {
-          method: 'POST',
+      const response = await fetch(`${process.env.REACT_APP_SERVER}api/check-duplicate-id/${ID}`, {
+          method: 'GET',
           body: JSON.stringify({
             id: ID
           }),
@@ -57,6 +58,8 @@ export const checkDuplicate = async (ID: string) => {
             Accept: "application/json",
           }
       })
+
+      console.log(response);
       return (response.status === 200 ? true : false);
   } catch (error:any) {
       alert(error.message);

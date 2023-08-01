@@ -33,7 +33,7 @@ export const SemiTitle = styled(Title)`
 `;
 
 export const Input = styled.input`
-    width: 50rem;
+    width: 800px;
     height: 4rem;
     border-radius: 2rem;
     font-size: 1.5rem;
@@ -117,13 +117,13 @@ export const CheckId = styled.div`
     padding: 0 1rem;
 `;
 
-export const IdLength = styled.div<{length: number}>`
+export const IdLength = styled.div<{len: number}>`
     position: absolute;
     right: 2rem;
     bottom: -1rem;
     font-size: 1.5rem;
     font-weight: 600;
-    color: ${(props) => props.length < 30 ? "#888888" : "#FC7268"};
+    color: ${(props) => props.len < 30 ? "#888888" : "#FC7268"};
 `;
 
 export const PasswordLength = styled(IdLength)`
@@ -131,7 +131,7 @@ export const PasswordLength = styled(IdLength)`
 `;
 
 export const IntroLegnth = styled(PasswordLength)`
-    color: ${(props) => props.length < 150 ? "#888888" : "#FC7268"};
+    color: ${(props) => props.len < 150 ? "#888888" : "#FC7268"};
 `;
 
 export const AvailableBox = styled.div<{available: boolean}>`
@@ -145,7 +145,9 @@ export const AvailableBox = styled.div<{available: boolean}>`
 
 export const NextButton = styled.button`  
     height: 4rem;
+    width: 10rem;
     border: none;
+    border-radius: 2rem;
     margin-top: 6rem;
     margin-right: 5rem;
     font-size: 1.5rem;

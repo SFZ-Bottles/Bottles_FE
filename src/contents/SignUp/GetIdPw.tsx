@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SignupState, signupPage } from "../../Atom/atom";
+import { SignupState, signupPage } from "../../atom/atom";
 import { AvailableBox, C_FlexBox, CheckId, FlexBox, Form, IdLength, Input, InputDiv, PasswordLength, SignInDiv, LoginInfo, SemiTitle, Span, Title, NextButton } from "../../styled-components/styled_LogIn";
 import { useRecoilState } from 'recoil';
 import { checkDuplicate } from "../../services/API";
@@ -9,7 +9,7 @@ function GetIdPw() {
     const [signup,setSignup] = useRecoilState(SignupState);
     const [pageNum,setPageNum] = useRecoilState(signupPage);
     const [checkId, setCheckId] = useState({
-        check: true,
+        check: false,
         available: false,
         mention: ''
     });
@@ -24,10 +24,11 @@ function GetIdPw() {
         }
     };
 
-    const onSubmit = () => {
-        // if(!checkId.check || !checkId.available){    // 조건 충족시 페이지 전환
-        //     setPageNum(pageNum + 1);
-        // }
+    const onSubmit = (e: any) => {
+        e.preventDefault();
+         if(checkId.check && checkId.available){    // 조건 충족시 페이지 전환
+             setPageNum(pageNum + 1);
+         }
     }
 
     return(
@@ -45,7 +46,7 @@ function GetIdPw() {
                         <CheckId onClick={clickIdCheck}>check id</CheckId>
                     </C_FlexBox>
                     <IdLength
-                    length={signup?.id.length}
+                    len={signup?.id.length}
                     >{signup?.id.length} / 30</IdLength>
                     {checkId?.check ?
                     <AvailableBox available={checkId.available}>
@@ -59,11 +60,11 @@ function GetIdPw() {
                     </Span>
                     <Input type="password" placeholder="Password" value={signup.password} onChange={(e: any) => setSignup({...signup, password: e.target.value})} required/>
                     <PasswordLength
-                    length={signup?.password.length}
+                    len={signup?.password.length}
                     >{signup?.password.length} / 30</PasswordLength>
                 </InputDiv>
+                <NextButton>1 / 3 다음단계로</NextButton>
             </Form>
-            <NextButton onClick={() => setPageNum(2)}>({pageNum} / 3) 다음단계로</NextButton>
         </SignInDiv>
     )
 }

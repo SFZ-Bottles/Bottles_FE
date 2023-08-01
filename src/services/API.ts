@@ -1,6 +1,7 @@
 interface IUserInfo{
   id: string;
   password: string;
+  name: string;
   email: string;
   intro: string;
 }
@@ -17,8 +18,8 @@ export const signIn = async (ID: string, Password: string) => {
               'Content-Type': 'application/json',
               Accept: "application/json",
             }
-        }).then((result) => result.json());    
-        return response;
+        }).then((result) => result.json());
+        return response.token;
     } catch (error:any) {
         console.log(error.message);
     }
@@ -26,20 +27,20 @@ export const signIn = async (ID: string, Password: string) => {
 
 export const signUp = async (userInfo: IUserInfo) => {
     try{
+        console.log(userInfo);
         const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/`, {
             method: 'POST',
             body: JSON.stringify({
               id: userInfo.id,
               pw: userInfo.password,
+              name: userInfo.name,
               email: userInfo.email,
-              intro: userInfo.intro
+              info: userInfo.intro
             }),
             headers: {
-              'Content-Type': 'application/json',
-              Accept: "application/json",
+              'Content-Type': 'application/json; charset=utf-8',
             }
         })
-        console.log(response);
         return (response.status === 200 ? true : false);
     } catch (error:any) {
         alert(error.message);
@@ -47,19 +48,14 @@ export const signUp = async (userInfo: IUserInfo) => {
 };
 
 export const checkDuplicate = async (ID: string) => {
+  console.log(ID);
   try{
-      const response = await fetch(`${process.env.REACT_APP_SERVER}api/check-duplicate-id/${ID}`, {
+      const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/check-duplicate-id/${ID}/`, {
           method: 'GET',
-          body: JSON.stringify({
-            id: ID
-          }),
           headers: {
-            'Content-Type': 'application/json',
-            Accept: "application/json",
+            'Content-Type': 'application/json; charset=utf-8',
           }
       })
-
-      console.log(response);
       return (response.status === 200 ? true : false);
   } catch (error:any) {
       alert(error.message);

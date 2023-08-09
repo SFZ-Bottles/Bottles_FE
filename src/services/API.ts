@@ -61,3 +61,40 @@ export const checkDuplicate = async (ID: string) => {
       alert(error.message);
   }
 };
+
+export const registAlbum = async(file: any, id: string) => {
+  try{
+    await fetch(`${process.env.REACT_APP_SERVER}api/albums/`, {
+      method: 'POST',
+      headers: {
+
+      },
+    })
+  }
+  catch{
+
+  }
+}
+
+export const regist = async (fileInfo: any, id: string, token: string) => {
+  try{
+    await fetch(`${process.env.REACT_APP_SERVER}api/albums/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: token
+      },
+      body: JSON.stringify({
+        is_private: fileInfo?.is_private,
+        num: fileInfo.num,
+        user_id: fileInfo.user_id,
+        title: fileInfo?.title,
+        preface: fileInfo?.preface,
+        data: fileInfo.data
+      })
+    })
+  }
+  catch{
+
+  }
+}

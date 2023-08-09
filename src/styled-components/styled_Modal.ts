@@ -27,6 +27,8 @@ export const CustomButton = styled.button`
 
 export const ButtonDiv = styled.div`
     display: flex;
+    position: relative;
+    bottom:0;
     width: 100%;
     justify-content: center;
     gap: 50px;
@@ -43,7 +45,9 @@ export const Box = styled.div`
 `;
 
 export const ListContainer = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-rows: repeat(2,1fr);
+    grid-template-columns: repeat(6,1fr);
     width: 100%;
     padding: 24px;
     gap: 10px;
@@ -54,6 +58,7 @@ export const BoxContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding-right: 1rem;
 `;
 
 export const AddButton = styled.button`

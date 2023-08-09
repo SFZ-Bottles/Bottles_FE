@@ -1,15 +1,39 @@
 import { useRecoilState } from "recoil";
-import { templateState } from "../../atom/atom";
+import { albumState, templateState } from "../../atom/atom";
 import FileInput from "../../contents/Modal/FileInput";
 import UploadButton from "../../contents/Button/UploadButton";
 import { useState } from "react";
-import { ButtonDiv, CustomButton } from "../../styled-components/styled_Modal";
-import React from "react";
+import { ButtonDiv, CustomButton} from "../../styled-components/styled_Modal";
+import { ModalContainer, ModalImgDiv } from "../../styled-components/styled_Home";
+import ModalInput from "./ModalInput";
 
-function ModalContent({onClose, modalType ,children}: any) {
+interface ITemplate{
+  id: string;
+  url: string;
+  text: string;
+  file: any;
+  species: string;
+  order: number;
+}
+
+
+interface IAlbum{
+  is_private: boolean;
+  num: number;
+  user_id: string;
+  title: string;
+  preface: string;
+  data: {
+      pages: ITemplate[];
+  };
+}
+
+function ModalContent({onClose, modalType, listNum, setListNum, children}: any) {
     const [template, setTemplate] = useRecoilState<any>(templateState);
     const [fileReader, setFileReader] = useState();
     const [text, setText] = useState("");
+    const [board, setBoard] = useRecoilState<IAlbum>(albumState);
+    
     const encodeFile = (fileBlob: any) => {
         const reader = new FileReader();
     
@@ -38,36 +62,62 @@ function ModalContent({onClose, modalType ,children}: any) {
         encodeFile(uploadImage);
       };
 
-      const handleComplete = () => {
+      const handleComplete = (listNum: number) => {
         const newItem = {
             id: modalType,
             url: `img/${modalType}.svg`,
             text: text,
             file: fileReader,
+            species: modalType,
+            order: listNum
         };
     
         setTemplate((prev: any[]) => [...prev, newItem]);
+        setListNum((prev: number) => prev + 1);
         onClose(null);
       };
 
     return(
-        <React.Fragment>
-            <FileInput setText={setText}>
+        <ModalContainer>
+          {modalType}
                 {modalType !== "text" ?
-                <UploadButton label="파일 선택" onChange={onFileReaderChange}/>
+                <>
+                  {modalType === "cover" ?
+                    <ModalInput P={{
+                      value: board,
+                      set: setBoard
+                  }}
+                  inputInfo={{
+                      first: "Title",
+                      second: "Preface"
+                  }}/>
+                  :
+                  null}
+                  <UploadButton label="파일 선택" onChange={onFileReaderChange}/>
+                  <ModalImgDiv>
+                    {fileReader ?
+                        <img style={{maxWidth:"300px", maxHeight:"300px"}} src={fileReader} alt="업로드 오류"/>
+                        :
+                        <img style={{width:"200px", height:"200px"}} src="/img/image.svg" alt="이미지"/>
+                    }
+                  </ModalImgDiv>
+                </>
                 :
-                null}
-                {fileReader ?
-                    <img style={{width:"200px", height:"200px"}} src={fileReader} alt="업로드 오류"/>
-                    :
-                    null
-                }
+                <FileInput setText={setText}>
             </FileInput>
+            }
             <ButtonDiv>
-                <CustomButton onClick={handleComplete}>완료</CustomButton>
-                <CustomButton onClick={() => onClose(null)}>취소</CustomButton>
+              {modalType !== "text" ?
+              fileReader ?
+              <CustomButton onClick={() => handleComplete(listNum)}>완료</CustomButton>
+              :
+              null
+              :
+              <CustomButton onClick={() => handleComplete(listNum)}>완료</CustomButton>
+              }
+              <CustomButton onClick={() => onClose(null)}>취소</CustomButton>
             </ButtonDiv>
-        </React.Fragment>
+        </ModalContainer>
     );
 }
 

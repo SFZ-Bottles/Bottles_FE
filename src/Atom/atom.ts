@@ -5,6 +5,19 @@ interface ITemplate{
     url: string;
     text: string;
     file: any;
+    species: string;
+    order: number;
+}
+
+interface IAlbum{
+    is_private: boolean;
+    num: number;
+    user_id: string;
+    title: string;
+    preface: string;
+    data: {
+        pages: ITemplate[];
+    };
 }
 
 export const SignupState = atom({
@@ -27,4 +40,18 @@ export const templateState = atom<ITemplate[]>({
     key: 'templateState',
     default: []
 });
+
+export const albumState = atom<IAlbum>({
+    key: 'albumState',
+    default: {
+        is_private: false,
+        num: 0,
+        user_id: '',
+        title: '',
+        preface: '',
+        data: {
+            pages: []
+        }
+    }
+})
 

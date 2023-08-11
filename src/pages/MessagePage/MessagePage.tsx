@@ -5,7 +5,7 @@ import {
   LogoutItem,
   PageContainer,
   ImageContainer,
-} from "../../styled-components/styled_Home";
+} from "../../styled-components/styled_Main";
 import { Link, useLocation } from "react-router-dom";
 
 const MessagePage = () => {

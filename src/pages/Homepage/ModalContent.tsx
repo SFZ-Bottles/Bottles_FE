@@ -31,6 +31,7 @@ interface IAlbum{
 function ModalContent({onClose, modalType, listNum, setListNum, children}: any) {
     const [template, setTemplate] = useRecoilState<any>(templateState);
     const [fileReader, setFileReader] = useState();
+    const [image, setImage] = useState<any>();
     const [text, setText] = useState("");
     const [board, setBoard] = useRecoilState<IAlbum>(albumState);
     
@@ -40,11 +41,10 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
         if (!fileBlob) return;
     
         reader.readAsDataURL(fileBlob);
-    
+        console.log(reader);
         return new Promise((resolve: any) => {
           reader.onload = () => {
             const result: any = reader.result;
-    
             setFileReader(result);
     
             resolve();
@@ -56,22 +56,24 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
         const { files } = e.target;
     
         if (!files || !files[0]) return;
-    
+        setImage(files[0]);
         const uploadImage = files[0];
-    
         encodeFile(uploadImage);
       };
 
       const handleComplete = (listNum: number) => {
+        let formData = new FormData();
+        formData.append("image", image);
+        formData.append('hi', 'hihihi');
+        
         const newItem = {
             id: modalType,
             url: `img/${modalType}.svg`,
             text: text,
-            file: fileReader,
+            file: formData,
             species: modalType,
             order: listNum
         };
-    
         setTemplate((prev: any[]) => [...prev, newItem]);
         setListNum((prev: number) => prev + 1);
         onClose(null);

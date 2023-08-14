@@ -1,19 +1,10 @@
-import React from "react";
 import {
-  HeaderContainer,
-  HeaderItem,
-  LogoutItem,
   PageContainer,
-  ImageContainer,
   GrayCircle,
   UserText,
   Introduction
 } from "../../styled-components/styled_Main";
-import { Link, useLocation } from "react-router-dom";
-
 const MyAlbumsPage = () => {
-  const location = useLocation();
-
   return (
     <>
       <PageContainer>

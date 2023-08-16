@@ -3,12 +3,14 @@ import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
   position: fixed;
+  display: flex;
+  height: 90px;
   top: 0;
   left: 0;
   width: 100%;
-  background-color: #f0f0f0;
+  background-color: white;  
   padding: 10px;
-  display: flex;
+  border-bottom: 3px solid #D9D9D9;
 `;
 
 export const HeaderItem = styled.div<{ isTitle?: boolean; isActive?: boolean }>`

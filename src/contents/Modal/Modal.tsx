@@ -30,7 +30,7 @@ const S = {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 2;
+    z-index: 3;
   `,
   ModalOverlay: styled.div`
     position: fixed;
@@ -39,6 +39,7 @@ const S = {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
+    z-index: 4;
 `
 };
 

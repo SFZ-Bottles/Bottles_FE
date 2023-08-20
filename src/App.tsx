@@ -8,6 +8,7 @@ import SearchPage from './pages/SearchPage/SearchPage';
 import MessagePage from './pages/MessagePage/MessagePage';
 import MyAlbumsPage from './pages/MyAlbumsPage/MyAlbumsPage';
 import SettingPage from './pages/SettingPage/SettingPage';
+import HomeModal from './pages/HomeModal/HomeModal';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path='/home/message' element={<MessagePage/>}/>
             <Route path='/home/myAlbums' element={<MyAlbumsPage/>}/>
             <Route path='/home/setting' element={<SettingPage/>}/>
+            <Route path='/home/modal' element={<HomeModal/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

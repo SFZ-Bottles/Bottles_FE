@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { albumState, templateState } from "../../atom/atom";
+import { albumState, contentState, templateState } from "../../atom/atom";
 import FileInput from "../../contents/Modal/FileInput";
 import UploadButton from "../../contents/Button/UploadButton";
 import { useState } from "react";
@@ -8,10 +8,7 @@ import { ModalContainer, ModalImgDiv } from "../../styled-components/styled_Home
 import ModalInput from "./ModalInput";
 
 interface ITemplate{
-  id: string;
-  url: string;
-  text: string;
-  file: any;
+  data: string;
   species: string;
   order: number;
 }
@@ -31,22 +28,20 @@ interface IAlbum{
 function ModalContent({onClose, modalType, listNum, setListNum, children}: any) {
     const [template, setTemplate] = useRecoilState<any>(templateState);
     const [fileReader, setFileReader] = useState();
-    const [image, setImage] = useState<any>();
     const [text, setText] = useState("");
+    const [content, setContent] = useRecoilState(contentState);
     const [board, setBoard] = useRecoilState<IAlbum>(albumState);
-    
+    const [image, setImage] = useState<any>();
     const encodeFile = (fileBlob: any) => {
         const reader = new FileReader();
     
         if (!fileBlob) return;
     
         reader.readAsDataURL(fileBlob);
-        console.log(reader);
         return new Promise((resolve: any) => {
           reader.onload = () => {
             const result: any = reader.result;
             setFileReader(result);
-    
             resolve();
           };
         });
@@ -54,26 +49,33 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
 
       const onFileReaderChange = (e: any) => {
         const { files } = e.target;
-    
         if (!files || !files[0]) return;
-        setImage(files[0]);
         const uploadImage = files[0];
+        setImage(uploadImage);
         encodeFile(uploadImage);
       };
 
-      const handleComplete = (listNum: number) => {
-        let formData = new FormData();
-        formData.append("image", image);
-        formData.append('hi', 'hihihi');
-        
+      const handleComplete = (listNum: number, modalType: string) => {
         const newItem = {
-            id: modalType,
-            url: `img/${modalType}.svg`,
-            text: text,
-            file: formData,
+            data: (modalType + (Date.now()).toString()),
             species: modalType,
             order: listNum
         };
+        
+        if(modalType === 'image'){
+          setContent((prev: any) => [...prev, image]);
+          setBoard((prev: IAlbum) => ({
+            ...board,
+            data: {
+              ...board.data,
+              pages: content,
+            },
+          }));
+        }
+        else{
+          setContent((prev: any) => [...prev, text]);
+        }
+
         setTemplate((prev: any[]) => [...prev, newItem]);
         setListNum((prev: number) => prev + 1);
         onClose(null);
@@ -90,8 +92,8 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
                       set: setBoard
                   }}
                   inputInfo={{
-                      first: "Title",
-                      second: "Preface"
+                      title: "Title",
+                      preface: "Preface"
                   }}/>
                   :
                   null}
@@ -111,11 +113,11 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
             <ButtonDiv>
               {modalType !== "text" ?
               fileReader ?
-              <CustomButton onClick={() => handleComplete(listNum)}>완료</CustomButton>
+              <CustomButton onClick={() => handleComplete(listNum,modalType)} >완료</CustomButton>
               :
               null
               :
-              <CustomButton onClick={() => handleComplete(listNum)}>완료</CustomButton>
+              <CustomButton onClick={() => handleComplete(listNum,modalType)}>완료</CustomButton>
               }
               <CustomButton onClick={() => onClose(null)}>취소</CustomButton>
             </ButtonDiv>

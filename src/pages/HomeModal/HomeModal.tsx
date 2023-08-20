@@ -10,10 +10,7 @@ import { AddButton } from "../../styled-components/styled_Modal";
 import ModalInput from "./ModalInput";
 
 export interface ITemplate{
-    id: string;
-    url: string;
-    text: string;
-    file: any;
+    data: string;
     species: string;
     order: number;
 }
@@ -34,7 +31,7 @@ function HomePage() {
     const [listNum, setListNum] = useState(0);
     const [template, setTemplate] = useRecoilState(templateState);
     const [board, setBoard] = useRecoilState<IAlbum>(albumState);
-    console.log(board)
+    console.log(board);
     useEffect(() => {
         setListNum(template.length);
     },[]);

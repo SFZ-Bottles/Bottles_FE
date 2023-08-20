@@ -1,5 +1,5 @@
 import React from "react";
-import { C_FlexBox, Form, Input, InputDiv, LoginInfo, NextButton, PasswordLength, Span } from "../../styled-components/styled_LogIn";
+import { C_FlexBox, Form, Input, InputDiv, Span } from "../../styled-components/styled_LogIn";
 
 function ModalInput({P, inputInfo}: any) {
     
@@ -8,25 +8,25 @@ function ModalInput({P, inputInfo}: any) {
             <Form>
                 <InputDiv>
                     <Span>
-                        {inputInfo?.first}
+                        {inputInfo?.title}
                     </Span>
                     <C_FlexBox>
                         <Input type="text" 
-                        placeholder={inputInfo?.first}
-                        value={P?.value?.first}
+                        placeholder={inputInfo?.title}
+                        value={P?.value?.title}
                         onChange={(e: any) => 
-                        P.set({...P.value, first: e.target.value})} 
+                        P.set({...P.value, title: e.target.value})} 
                         required/>
                     </C_FlexBox>
                 </InputDiv>
                 <InputDiv>
                     <Span>
-                        {inputInfo?.second}
+                        {inputInfo?.preface}
                     </Span>
                     <Input type="text" 
-                    placeholder={inputInfo?.second}
-                    value={P?.value.second}
-                    onChange={(e: any) => P.set({...P?.value, second: e.target.value})} 
+                    placeholder={inputInfo?.preface}
+                    value={P?.value.preface}
+                    onChange={(e: any) => P.set({...P?.value, preface: e.target.value})} 
                     required/>
                 </InputDiv>
             </Form>

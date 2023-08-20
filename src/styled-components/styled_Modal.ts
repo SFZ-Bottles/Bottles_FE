@@ -46,11 +46,28 @@ export const Box = styled.div`
 
 export const ListContainer = styled.div`
     display: grid;
+    position: relative;
     grid-template-rows: repeat(2,1fr);
     grid-template-columns: repeat(6,1fr);
     width: 100%;
     padding: 24px;
     gap: 10px;
+    z-index: -1;
+`;
+
+export const UploadButton = styled.div`
+    display:flex;
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    right: 50%; 
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 30px;
+    cursor: pointer;
+    background-color: white;
+    z-index: -2;
 `;
 
 export const BoxContainer = styled.div`

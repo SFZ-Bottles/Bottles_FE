@@ -1,11 +1,11 @@
-import { useRecoilState } from "recoil";
 import { signupPage } from "../../atom/atom";
 import GetIdPw from "../../contents/SignUp/GetIdPw";
 import GetName from "../../contents/SignUp/GetName";
 import GetIntro from "../../contents/SignUp/GetIntro";
+import { useRecoilValue } from "recoil";
 
 function SignUpPage() {
-    const [pageNumber, setPageNumber] = useRecoilState(signupPage);
+    const pageNumber = useRecoilValue(signupPage);
 
     const getPage = () => {
         switch(pageNumber){

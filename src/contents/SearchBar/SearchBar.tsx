@@ -30,7 +30,7 @@ const SearchBar = ({input,setInput}: IProps) => {
       align-items: center;
       width: 100%;
       height: 100px;
-      background-color: white;
+      background-color: ${props => props.theme.color.bgColor};
     `,
   
     SearchDiv : styled.div`

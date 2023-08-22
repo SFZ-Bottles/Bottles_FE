@@ -1,11 +1,18 @@
 import { Link, useLocation } from "react-router-dom";
 import { HeaderContainer, HeaderItem, LogoutItem } from "../../styled-components/styled_Main";
+import { themeState } from "../../atom/atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 function Navbar() {
     const location = useLocation();
+    const setTheme = useSetRecoilState(themeState);
+
+    const titleClick = () => {
+        setTheme((prev:boolean) => !prev);
+    };
     return(
         <HeaderContainer>
-            <HeaderItem isTitle>BOTTLES</HeaderItem>
+            <HeaderItem isTitle onClick={titleClick}>BOTTLES</HeaderItem>
             <HeaderItem isActive={location.pathname === "/home"}><Link to="/home">Home</Link></HeaderItem>
             <HeaderItem isActive={location.pathname === "/home/search"}><Link to="/home/search">Search</Link></HeaderItem>
             <HeaderItem isActive={location.pathname === "/home/message"}><Link to="/home/message">Message</Link></HeaderItem>

@@ -1,3 +1,5 @@
+import { IAlbum } from "../pages/HomeModal/HomeModal";
+
 interface IUserInfo{
   id: string;
   password: string;
@@ -62,8 +64,18 @@ export const checkDuplicate = async (ID: string) => {
   }
 };
 
-export const registAlbum = async(file: any, id: string) => {
+export const registAlbum = async(content: any, album: IAlbum) => {
   try{
+    const formData = new FormData();
+    formData.append(`${album.data}`, content);
+    formData.append('is_private', "False");
+    formData.append('num', content.size());
+    formData.append('user_id', "jun");
+    formData.append('title', album?.title);
+    formData.append('preface', album?.preface);
+
+    formData.append('data', JSON.stringify(content));
+    
     await fetch(`${process.env.REACT_APP_SERVER}api/albums/`, {
       method: 'POST',
       headers: {
@@ -71,8 +83,8 @@ export const registAlbum = async(file: any, id: string) => {
       },
     })
   }
-  catch{
-
+  catch (error:any) {
+    alert(error.message);
   }
 }
 
@@ -94,7 +106,37 @@ export const regist = async (fileInfo: any, id: string, token: string) => {
       })
     })
   }
-  catch{
-
+  catch (error:any) {
+    alert(error.message);
   }
 }
+
+export const getAlbum = async (fileInfo: any, id: string, token: string) => {
+  try{
+    await fetch(`${process.env.REACT_APP_SERVER}api/albums/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: token
+      }
+    })
+  }
+  catch (error:any) {
+    alert(error.message);
+  }
+};
+
+export const getUserInfo = async (id: string, token: string) => {
+  try{
+    await fetch(`${process.env.REACT_APP_SERVER}api/users/${id}`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: token      
+      }
+    })
+  }
+  catch(error:any){
+    alert(error);
+  }
+};

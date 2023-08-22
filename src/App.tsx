@@ -9,6 +9,8 @@ import SettingPage from './pages/SettingPage/SettingPage';
 
 import { RecoilRoot } from 'recoil';
 import SignUpPage from './pages/SignupPage/SignUpPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
     <RecoilRoot>

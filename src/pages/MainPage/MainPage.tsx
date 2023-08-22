@@ -18,7 +18,7 @@ const MainPage = () => {
       </HeaderContainer>
       <PageContainer>
         <ImageContainer>
-          <img src="image1jpg" alt="Image 5" width="150" height="150" />
+          <img src="image1.jpg" alt="Image 5" width="150" height="150" />
         </ImageContainer>
         <ImageContainer>
           <img src="image2.jpg" alt="Image 2" width="150" height="150" />

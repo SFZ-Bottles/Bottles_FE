@@ -1,12 +1,9 @@
 import { atom } from "recoil";
 
 interface ITemplate{
-    id: string;
-    url: string;
-    text: string;
-    file: any;
-    species: string;
-    order: number;
+    data: string;     
+    species: string;    // required
+    order: number;  // required
 }
 
 interface IAlbum{
@@ -31,7 +28,7 @@ export const SignupState = atom({
     }
 });
 
-export const signupPage = atom({
+export const signupPage = atom<number>({
     key: 'signupPage',
     default: 1
 });
@@ -50,8 +47,17 @@ export const albumState = atom<IAlbum>({
         title: '',
         preface: '',
         data: {
-            pages: []
+            pages:[]
         }
     }
-})
+});
 
+export const contentState = atom<any>({
+    key: 'contentState',
+    default: []
+});
+
+export const themeState = atom<boolean>({
+    key: 'themeState',
+    default: true
+});

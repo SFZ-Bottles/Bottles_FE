@@ -7,10 +7,10 @@ export const HeaderContainer = styled.div`
   height: 90px;
   top: 0;
   left: 0;
-  width: 100%;
-  background-color: white;  
+  width: 100%;  
   padding: 10px;
   border-bottom: 3px solid #D9D9D9;
+  border-color: ${props => props.theme.color.navBorder};
 `;
 
 export const HeaderItem = styled.div<{ isTitle?: boolean; isActive?: boolean }>`
@@ -28,7 +28,7 @@ export const HeaderItem = styled.div<{ isTitle?: boolean; isActive?: boolean }>`
   ${({ isActive }) => isActive && 'font-weight: bold;'} /* Apply bold style to active item */
 
   a {
-    color: black; /* Set link color to black */
+    color: ${props => props.theme.color.fontColor}; /* Set link color to black */
     text-decoration: none; /* Remove underlines from links */
     transition: font-weight 0.2s; /* Add a transition effect for font-weight change */
 

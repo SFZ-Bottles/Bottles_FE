@@ -1,4 +1,4 @@
-import { signupPage } from "../../atom/atom";
+import { signupPage } from "../../Atom/atom";
 import GetIdPw from "../../contents/SignUp/GetIdPw";
 import GetName from "../../contents/SignUp/GetName";
 import GetIntro from "../../contents/SignUp/GetIntro";

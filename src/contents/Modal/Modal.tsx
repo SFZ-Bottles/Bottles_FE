@@ -45,4 +45,3 @@ const S = {
 
 
 export default Modal;
-

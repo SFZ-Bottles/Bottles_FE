@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SignupState, signupPage } from "../../atom/atom";
+import { SignupState, signupPage } from "../../Atom/atom";
 import { AvailableBox, C_FlexBox, CheckId, FlexBox, Form, IdLength, Input, InputDiv, PasswordLength, SignInDiv, LoginInfo, SemiTitle, Span, Title, NextButton } from "../../styled-components/styled_LogIn";
 import { useRecoilState } from 'recoil';
 import { checkDuplicate } from "../../services/API";

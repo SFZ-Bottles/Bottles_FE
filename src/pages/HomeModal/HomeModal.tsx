@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Modal from "../../contents/Modal/Modal";
 import { ChoiceBox, Phrase, Template, TemplateContainer } from "../../styled-components/styled_Home";
 import { useRecoilState } from "recoil";
-import { albumState, templateState } from "../../atom/atom";
+import { albumState, templateState } from "../../Atom/atom";
 import ModalContent from "./ModalContent";
 import ListContent from "./ListContent";
 import { C_FlexBox } from "../../styled-components/styled_LogIn";

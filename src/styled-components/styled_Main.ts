@@ -14,8 +14,11 @@ export const HeaderContainer = styled.div`
 `;
 
 export const HeaderItem = styled.div<{ isTitle?: boolean; isActive?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: ${({ isTitle }) => (isTitle ? '40px' : '20px')};
-  padding-top: ${({ isTitle }) => (isTitle ? '0px' : '20px')};
+  padding-top: ${({ isTitle }) => (isTitle ? '0px' : '10px')};
   padding-right: 30px;
   
   letter-spacing: ${({ isTitle }) => (isTitle ? '7px' : '0px')};

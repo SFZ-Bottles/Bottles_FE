@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { contentState, templateState } from "../../atom/atom";
+import { contentState, templateState } from "../../Atom/atom";
 import { AddButton, Box, BoxContainer, DeleteButton, ListContainer, UploadButton } from "../../styled-components/styled_Modal";
 import { registAlbum } from "../../services/API";
 

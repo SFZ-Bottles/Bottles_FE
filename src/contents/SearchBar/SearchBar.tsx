@@ -8,9 +8,6 @@ interface IProps{
 
 const SearchBar = ({input,setInput}: IProps) => {
   
-  useEffect(() => {
-    
-  },[]);
   return (
       <>
         <S.SearchContainer>
@@ -33,7 +30,7 @@ const SearchBar = ({input,setInput}: IProps) => {
       background-color: ${props => props.theme.color.bgColor};
     `,
   
-    SearchDiv : styled.div`
+    SearchDiv: styled.div`
       display: flex;
       align-items: center;
       width: 40%;

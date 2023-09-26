@@ -7,12 +7,12 @@ import ModalContent from "./ModalContent";
 import ListContent from "./ListContent";
 import { C_FlexBox } from "../../styled-components/styled_LogIn";
 import { AddButton } from "../../styled-components/styled_Modal";
-import ModalInput from "./ModalInput";
 
 export interface ITemplate{
     data: string;
     species: string;
     order: number;
+    content: any;
 }
 
 export interface IAlbum{
@@ -30,8 +30,6 @@ function HomePage() {
     const [modalState, setModalState] = useState<any>(null);
     const [listNum, setListNum] = useState(0);
     const [template, setTemplate] = useRecoilState(templateState);
-    const [board, setBoard] = useRecoilState<IAlbum>(albumState);
-    console.log(board);
     useEffect(() => {
         setListNum(template.length);
     },[]);

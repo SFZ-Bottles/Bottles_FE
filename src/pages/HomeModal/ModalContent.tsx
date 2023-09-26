@@ -7,14 +7,15 @@ import { ButtonDiv, CustomButton} from "../../styled-components/styled_Modal";
 import { ModalContainer, ModalImgDiv } from "../../styled-components/styled_Home";
 import ModalInput from "./ModalInput";
 
-interface ITemplate{
+export interface ITemplate{
   data: string;
   species: string;
   order: number;
+  content: any;
 }
 
 
-interface IAlbum{
+export interface IAlbum{
   is_private: boolean;
   num: number;
   user_id: string;
@@ -56,13 +57,14 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
       };
 
       const handleComplete = (listNum: number, modalType: string) => {
-        const newItem = {
+        let newItem = {
             data: (modalType + (Date.now()).toString()),
             species: modalType,
-            order: listNum
+            order: listNum,
+            content: image
         };
         
-        if(modalType === 'image'){
+        if(modalType === 'image' || modalType === 'cover'){
           setContent((prev: any) => [...prev, image]);
           setBoard((prev: IAlbum) => ({
             ...board,
@@ -73,7 +75,7 @@ function ModalContent({onClose, modalType, listNum, setListNum, children}: any) 
           }));
         }
         else{
-          setContent((prev: any) => [...prev, text]);
+          newItem = {...newItem, content: text};
         }
 
         setTemplate((prev: any[]) => [...prev, newItem]);

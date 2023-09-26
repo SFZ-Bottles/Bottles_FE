@@ -1,18 +1,20 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { contentState, templateState } from "../../Atom/atom";
+import { albumState, contentState, templateState } from "../../Atom/atom";
 import { AddButton, Box, BoxContainer, DeleteButton, ListContainer, UploadButton } from "../../styled-components/styled_Modal";
-import { registAlbum } from "../../services/API";
+import { regist, registAlbum } from "../../services/API";
+import { IAlbum } from "./ModalContent";
 
 interface ITemplate{
     data: string;
     species: string;
     order: number;
+    content: any;   
 }
 
 function ListContent(){
     const [template, setTemplate] = useRecoilState<ITemplate[]>(templateState);
-    const [content, setContent] = useRecoilState(contentState);
-
+    const [board, setBoard] = useRecoilState<IAlbum>(albumState);
+    
     const deleteClick = (indexNum: number) => {
         setTemplate((prev: any) => 
             prev.filter((index: any) => index !== indexNum)
@@ -20,14 +22,13 @@ function ListContent(){
     };
 
     const uploadClick = async () => {
-        console.log(content);
-        console.log(template);
+        const data = await registAlbum({pages: template}, {...board, num: template.length});
     }
 
     const getImage = (species: string) => {
         if(species === 'cover') return '/img/cover.svg';
         else if(species === 'text') return '/img/text.svg';
-        else if(species === 'image')    return '/img/image.svg';
+        else if(species === 'image') return '/img/image.svg';
         else return '/img/video.svg';
     }
 

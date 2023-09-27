@@ -1,6 +1,6 @@
 import { styled } from "styled-components"
 
-function Button({name, onClick}: any){
+function CustomButton({name, onClick}: any){
     return(
         <S.Button onClick={onClick}>
             {name}
@@ -10,7 +10,6 @@ function Button({name, onClick}: any){
 
 const S = {
     Button: styled.button`
-        width: 40px;
         height: 20px;
         background-color: ${props => props.theme.color.bgColor};
         border: none;
@@ -20,4 +19,4 @@ const S = {
     `,
 }
 
-export default Button;
+export default CustomButton;

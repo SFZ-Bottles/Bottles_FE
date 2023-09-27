@@ -1,5 +1,4 @@
-import { IAlbum } from "../pages/HomeModal/HomeModal";
-
+import { IAlbum } from "../pages/HomeModal/ModalContent";
 
 const id = localStorage.getItem('id');
 const token = localStorage.getItem('token');

@@ -11,12 +11,13 @@ function LogInPage() {
         ID: '',
         password: ''
     });
-
+    console.log(form);
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const result = await signIn(form.ID, form.password);
-        if(result?.token){
-            localStorage.setItem('token', result.token);
+        if(result){
+            localStorage.setItem('token', result);
+            localStorage.setItem('id', form.ID);    
             navigate("/home");
         }
         else{   
@@ -25,7 +26,7 @@ function LogInPage() {
     }
 
     useEffect(() => {
-        checkToken({navigate});
+        // checkToken({navigate});
     },[]);
 
     return(

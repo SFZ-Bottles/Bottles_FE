@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
 import { styled } from "styled-components";
 import { useState } from "react";
+import MemberCard from "../../components/MemberCard/MemberCard";
 
 const data = [
   {
@@ -42,20 +43,7 @@ const MessagePage = () => {
       <SideBar>
         <S.ItemContainer>
           {data.map((item, index) => 
-            <S.Item onClick={() => onClickRoom(index)}>
-              <S.UserContainer>
-                <S.Profile/>
-                <S.UserDiv>
-                  <S.UserName>
-                    {item.name}
-                  </S.UserName>
-                  <S.UserInfo>
-                    {item.info}
-                  </S.UserInfo>
-                </S.UserDiv>
-              </S.UserContainer>
-              <S.Message src="/img/message.svg"/>
-            </S.Item>
+            <MemberCard info={item} onClick={() => onClickRoom(index)}/>
           )}
         </S.ItemContainer>
       </SideBar>
@@ -113,34 +101,12 @@ const S = {
     font-weight: 700;
   `,
 
-  UserInfo: styled.div`
-    font-size: 1rem;
-    color: #918f8f;
-  `,
-
   Profile: styled.img`
     width: 70px;
     height: 70px;
     border: 2px solid #D9D9D9;
     border-radius: 40px;
     background-color: #9e9d9d;
-  `,
-
-  Item: styled.div`
-    display: flex;
-    align-items: center;
-    width: 370px;
-    height: 100px;
-    border: 2px solid #D9D9D9;
-    border-radius: 2rem;
-    justify-content: space-between;
-    padding: 0 20px;
-    cursor: pointer;
-  `,
-
-  Message: styled.img`  
-    width: 50px;
-    height: 50px;
   `,
 
   ChatProfileDiv: styled.div`
@@ -150,7 +116,7 @@ const S = {
     align-items: center;
     width: 100%;
     height: 160px;
-  `
-}
+  `,
+};
 
 export default MessagePage;

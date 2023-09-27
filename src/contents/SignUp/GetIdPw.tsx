@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { SignupState, signupPage } from "../../atom/atom";
+import { SignupState, signupPage } from "../../Atom/atom";
 import { AvailableBox, C_FlexBox, CheckId, FlexBox, Form, IdLength, Input, InputDiv, PasswordLength, SignInDiv, LoginInfo, SemiTitle, Span, Title, NextButton } from "../../styled-components/styled_LogIn";
 import { useRecoilState } from 'recoil';
 import { checkDuplicate } from "../../services/API";
-import { useNavigate } from "react-router-dom";
 
 function GetIdPw() {
     const [signup,setSignup] = useRecoilState(SignupState);
@@ -63,7 +62,7 @@ function GetIdPw() {
                     len={signup?.password.length}
                     >{signup?.password.length} / 30</PasswordLength>
                 </InputDiv>
-                <NextButton>1 / 3 다음단계로</NextButton>
+                <NextButton onClick={onSubmit}>1 / 3 다음단계로</NextButton>
             </Form>
         </SignInDiv>
     )

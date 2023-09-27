@@ -4,6 +4,7 @@ interface ITemplate{
     data: string;     
     species: string;    // required
     order: number;  // required
+    content: any;
 }
 
 interface IAlbum{

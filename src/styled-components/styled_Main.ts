@@ -1,9 +1,9 @@
-
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.div`
   position: fixed;
   display: flex;
+  background-color: ${(props) => props.theme.color.bgColor};
   height: 90px;
   top: 0;
   left: 0;
@@ -13,34 +13,26 @@ export const HeaderContainer = styled.div`
   border-color: ${props => props.theme.color.navBorder};
 `;
 
-export const HeaderItem = styled.div<{ isTitle?: boolean; isActive?: boolean }>`
-  font-size: ${({ isTitle }) => (isTitle ? '40px' : '20px')};
-  padding-top: ${({ isTitle }) => (isTitle ? '0px' : '20px')};
+export const HeaderItem = styled.div<{ title: boolean, active: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${({ title }) => (title ? '40px' : '20px')};
+  padding-top: ${({ title }) => (title ? '0px' : '10px')};
   padding-right: 30px;
   
-  letter-spacing: ${({ isTitle }) => (isTitle ? '7px' : '0px')};
+  letter-spacing: ${({ title }) => (title ? '7px' : '0px')};
   cursor: pointer;
   margin-top:10px;
-  margin-left:${({ isTitle }) => (isTitle ? '60px' : '10px')};
+  margin-left:${({ title }) => (title ? '60px' : '10px')};
 
-  ${({ isTitle }) => (isTitle ? 'font-weight: bold;' : '')}
+  ${({ title }) => (title ? 'font-weight: bold;' : '')}
 
-  ${({ isActive }) => isActive && 'font-weight: bold;'} /* Apply bold style to active item */
-
-  a {
-    color: ${props => props.theme.color.fontColor}; /* Set link color to black */
-    text-decoration: none; /* Remove underlines from links */
-    transition: font-weight 0.2s; /* Add a transition effect for font-weight change */
-
-    &:hover {
-      font-weight: bold; /* Change font-weight on hover */
-    }
-  } 
+  ${({ active }) => active && 'font-weight: bold;'}
 `;
 
 export const LogoutItem = styled.div`
   font-size: 18px;
-  
   justify-content: flex-end;
   cursor: pointer;
   margin-left: auto;

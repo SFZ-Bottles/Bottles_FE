@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SignupState, signupPage } from "../../atom/atom";
+import { SignupState, signupPage } from "../../Atom/atom";
 import { AvailableBox, C_FlexBox, CheckId, FlexBox, Form, IdLength, Input, InputDiv, IntroLegnth, SignInDiv, LoginInfo, SemiTitle, Span, Title, NextButton, BigInput } from "../../styled-components/styled_LogIn";
 import { useRecoilState } from 'recoil';
 import { checkDuplicate, signUp } from "../../services/API";
@@ -15,6 +15,8 @@ function GetIntro() {
     const signupClick = async () => {
         if(isValidInput(signup.intro.length, 150)){
             const result = await signUp(signup);
+            console.log(result);
+            navigate("/");
         }
     };
 

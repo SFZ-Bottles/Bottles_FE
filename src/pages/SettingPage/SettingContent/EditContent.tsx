@@ -1,14 +1,35 @@
 import { styled } from "styled-components";
-import EditButton from "../../../contents/Button/EditButton";
-import DeleteButton from "../../../contents/Button/DeleteButton";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getUserInfo } from "../../../services/API";
+import EditModal from "../../../contents/Modal/EditModal";
+import CustomButton from "../../../contents/Button/CustomButton";
+
+export interface IEdit{
+        id: string;
+        info: string;
+        email: string;
+        name: string;
+}
 
 function EditContent(){
-    useEffect(() => {
+    const [userData, setUserData] = useState<IEdit>();
+    const [editData, setEditData] = useState<null | string>(null);
+    const fetchData = async () => {
         const token = localStorage.getItem('token');
-        // getUserInfo(token)
+        const id = localStorage.getItem('id');
+        if(id && token){
+            const result = await getUserInfo(id, token);
+            console.log(result);
+            if(result){
+                setUserData({...result});
+            }
+        }
+    };
+    
+    useEffect(() => {
+        fetchData();
     },[]);
+
     return(
         <S.Container>
             <S.ContentContainer>
@@ -17,8 +38,11 @@ function EditContent(){
                 </S.Title>
                 <S.ProfileDiv>
                     <S.ImageDiv/>
-                    <EditButton/>
-                    <DeleteButton/>
+                    <CustomButton
+                    name='Edit'
+                    onClick={() => setEditData('profile')}/>
+                    <CustomButton
+                    name='Delete'/>
                 </S.ProfileDiv>
             </S.ContentContainer>
 
@@ -26,28 +50,47 @@ function EditContent(){
                 <S.Title>
                     ID
                 </S.Title>
-                <EditButton/>
+                <S.InfoDiv>
+                    {userData?.id}
+                    <CustomButton
+                    name='Edit'
+                    onClick={() => setEditData('id')}/>
+                </S.InfoDiv>
             </S.ContentContainer>
             
             <S.ContentContainer>
                 <S.Title>
                     Password
                 </S.Title>
-                <EditButton/>
+                <S.InfoDiv>
+                    <CustomButton
+                    name='Edit'
+                    onClick={() => setEditData('password')}/>
+                </S.InfoDiv>
             </S.ContentContainer>
             
             <S.ContentContainer>
                 <S.Title>
                     E-mail
                 </S.Title>
-                <EditButton/>
+                <S.InfoDiv>
+                    {userData?.email}
+                    <CustomButton
+                    name='Edit'
+                    onClick={() => setEditData('email')}/>
+                </S.InfoDiv>
             </S.ContentContainer>
             
             <S.ContentContainer>
                 <S.Title>
                     Name
                 </S.Title>
-                <EditButton/>
+                <S.InfoDiv>
+                    {userData?.name}
+                    <CustomButton
+                    name='Edit'
+                    onClick={() => setEditData('name')}/>
+                </S.InfoDiv>
             </S.ContentContainer>
             
             <S.ContentContainer>
@@ -55,10 +98,24 @@ function EditContent(){
                     Info
                 </S.Title>
                 <S.ButtonDiv>
-                    <EditButton/>
-                    <DeleteButton/>
+                    <S.InfoDiv>
+                        {userData?.info}
+                        <CustomButton
+                        onClick={() => setEditData('info')}
+                        name='Edit'/>
+                        <CustomButton
+                        name='Delete'/>
+                    </S.InfoDiv>
                 </S.ButtonDiv>
             </S.ContentContainer>
+            {editData ?
+            <EditModal
+            editData={editData}
+            onClose={() => setEditData(null)}
+            setUserData={setUserData}
+            userData={userData}/>
+            :
+            null}
         </S.Container>
     );
 }
@@ -82,6 +139,10 @@ const S = {
     ProfileDiv: styled.div`
         display: flex;
         align-items: end;
+    `,
+    InfoDiv: styled.div`
+        display: flex;
+        gap: 10px;  
     `,
     ImageDiv: styled.div`
         width: 100px;

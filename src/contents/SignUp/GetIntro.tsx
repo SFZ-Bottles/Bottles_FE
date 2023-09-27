@@ -15,6 +15,8 @@ function GetIntro() {
     const signupClick = async () => {
         if(isValidInput(signup.intro.length, 150)){
             const result = await signUp(signup);
+            console.log(result);
+            navigate("/");
         }
     };
 

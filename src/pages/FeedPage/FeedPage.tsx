@@ -1,74 +1,47 @@
 import { useEffect, useState } from "react";
 import { getAlbum } from "../../services/API";
 import { styled } from "styled-components";
-import Modal from "../../contents/Modal/Modal";
 import Comment from "../../contents/Comment/CommentModal";
 import Modal2 from "../../contents/Modal/Modal2";
 import CommentImage from "../../contents/Comment/CommentImage";
 
-
-export const result = [
-    {
-        id: 'slsl',
-        userId: 'EXUSER',
-        cover_image_url: "/img/image1.jpg",
-        title: 'first',
-        create_at: "2023-07-22T09", 
-    },
-    {
-        id: 'slsl',
-        userId: 'EXUSER',
-        cover_image_url: "/img/image2.jpg",
-        title: 'second',
-        create_at: "2023-07-22T09", 
-    },
-    {
-        id: 'slsl',
-        userId: 'EXUSER',
-        cover_image_url: "/img/image3.jpg",
-        title: 'third',
-        create_at: "2023-07-22T09", 
-    },
-    {
-        id: 'slsl',
-        userId: 'EXUSER',
-        cover_image_url: "/img/image4.jpg",
-        title: 'fourth',
-        create_at: "2023-07-22T09", 
-    },
-];
-
 function FeedPage(){
     const [modal, setModal] = useState(false);
-    const [commentModal, setCommentModal] = useState(false);
-    const initialFeed = async () => {
-        const id = 'gg';
-        const token = localStorage.getItem('token');
-        // await getAlbum(id, token);
+    const [result, setResult] = useState<any>();
+    const [AlbumId, setAlbumId] = useState<string>();
+    const initialFeed = async () => { 
+        const result = await getAlbum();
+        setResult(result);
+        console.log(result);
+    };
+    
+    const onImgClick = (id: string) => {
+        setModal(true);
+        setAlbumId(id);
     };
 
-    const onImgClick = (URL: string) => {
-        setModal(true);
-    };
+    useEffect(() => {
+        initialFeed();
+    },[]);
 
     return(
         <S.Container>
             <S.AlbumContainer>
-                {result.map((album: any, index) => (
+                {result?.map((album: any, index: number) => (
                 <S.ImgDiv 
                 key={index}
-                onClick={() => onImgClick(album.cover_image_url)} 
+                onClick={() => onImgClick(album.id)} 
                 address={album.cover_image_url}>
                 </S.ImgDiv>
                 )
                 )}
             </S.AlbumContainer>
-            {modal ? 
+            {modal && AlbumId? 
                 <div style={{display: "flex", position: "absolute"}}>
                 <Modal2 onClose={() => setModal(false)}>
                     {{
-                        left: <CommentImage/>,
-                        right: <Comment/>
+                        left: <CommentImage AlbumId={AlbumId}/>,
+                        right: <Comment AlbumId={AlbumId}/>
                     }}
                 </Modal2>
                 </div>

@@ -1,156 +1,21 @@
 import { styled } from "styled-components";
-import Button from "../../contents/Button/Button";
-import { useState } from "react";
-
-const data = [
-    {
-        id: 11351513,
-        album_id : 13153153,
-        user_id: 'barking_dog',
-        mention : 'asjfkl',
-        created_at: '2023-07-22T09:12:34Z',
-        comment : 'oh good!',
-        reply_num : 2,
-        reply: [ 
-              {
-              id: 11351513,
-              album_id : 13153153,
-              user_id: 'humor1234',
-              mention : 'asjfkl',
-              created_at: '2023-07-22T09:12:34Z',
-              comment : 'LOL',
-              reply_num : 2,
-              },
-              ]
-        },
-        {
-            id: 11351513,
-            album_id : 13153153,
-            user_id: 'cat_lover',
-            mention : 'asjfkl',
-            created_at: '2023-07-22T09:12:34Z',
-            comment : 'awesome!',
-            reply_num : 2,
-            reply: [ 
-                  {
-                  id: 11351513,
-                  album_id : 13153153,
-                  user_id: 'exuser1',
-                  mention : 'asjfkl',
-                  created_at: '2023-07-22T09:12:34Z',
-                  comment : '잘 보고 갑니다!',
-                  reply_num : 2,
-                  },
-                  ]
-            },
-            {
-                id: 11351513,
-                album_id : 13153153,
-                user_id: 'sneaker33',
-                mention : 'asjfkl',
-                created_at: '2023-07-22T09:12:34Z',
-                comment : 'nice feed.',
-                reply_num : 2,
-                reply: [ 
-                      {
-                      id: 11351513,
-                      album_id : 13153153,
-                      user_id: 'exuser3',
-                      mention : 'asjfkl',
-                      created_at: '2023-07-22T09:12:34Z',
-                      comment : 'thank you',
-                      reply_num : 2,
-                      },
-                      ]
-                },
-        {
-            id: 11351513,
-            album_id : 13153153,
-            user_id: 'exuser',
-            mention : 'asjfkl',
-            created_at: '2023-07-22T09:12:34Z',
-            comment : 'awesome!',
-            reply_num : 2,
-            reply: [ 
-                  {
-                  id: 11351513,
-                  album_id : 13153153,
-                  user_id: 'exuser',
-                  mention : 'asjfkl',
-                  created_at: '2023-07-22T09:12:34Z',
-                  comment : '잘 보고 갑니다!',
-                  reply_num : 2,
-                  },
-                  ]
-            },
-            {
-                id: 11351513,
-                album_id : 13153153,
-                user_id: 'exuser',
-                mention : 'asjfkl',
-                created_at: '2023-07-22T09:12:34Z',
-                comment : 'hellow',
-                reply_num : 2,
-                reply: [ 
-                      {
-                      id: 11351513,
-                      album_id : 13153153,
-                      user_id: 'exuser',
-                      mention : 'asjfkl',
-                      created_at: '2023-07-22T09:12:34Z',
-                      comment : 'hellow',
-                      reply_num : 2,
-                      },
-                      ]
-                },
-                
-        {
-            id: 11351513,
-            album_id : 13153153,
-            user_id: 'exuser',
-            mention : 'asjfkl',
-            created_at: '2023-07-22T09:12:34Z',
-            comment : 'awesome!',
-            reply_num : 2,
-            reply: [ 
-                  {
-                  id: 11351513,
-                  album_id : 13153153,
-                  user_id: 'exuser',
-                  mention : 'asjfkl',
-                  created_at: '2023-07-22T09:12:34Z',
-                  comment : '잘 보고 갑니다!',
-                  reply_num : 2,
-                  },
-                  ]
-            },
-            {
-                id: 11351513,
-                album_id : 13153153,
-                user_id: 'exuser',
-                mention : 'asjfkl',
-                created_at: '2023-07-22T09:12:34Z',
-                comment : 'hellow',
-                reply_num : 2,
-                reply: [ 
-                      {
-                      id: 11351513,
-                      album_id : 13153153,
-                      user_id: 'exuser',
-                      mention : 'asjfkl',
-                      created_at: '2023-07-22T09:12:34Z',
-                      comment : 'hellow',
-                      reply_num : 2,
-                      },
-                      ]
-                },
-];
+import Button from "../../contents/Button/CustomButton";
+import { useEffect, useState } from "react";
 
 function Comment(){
     const [ment, setMent] = useState('');
+    const [data, setData] = useState<any>();
+
+    const getComment = async () => {
+    }
+
     const onMentionClick = (user_id: string) => {
         setMent((prev: string) => `${user_id} ${prev}`);
-    }
+    };
+
+    useEffect(() => {
+        getComment();
+    },[]);
     return(
         <S.Container>
             <S.Navbar>
@@ -158,7 +23,7 @@ function Comment(){
             </S.Navbar>
             <S.CommentContainer>
 
-            {data.map((comment) => (
+            {data?.map((comment: any) => (
                 <S.CommentDiv>
                     <S.OriginalComment>
                         <S.UserProfile/>
@@ -176,7 +41,7 @@ function Comment(){
                         </S.UserInfo>
                     </S.OriginalComment>
                     {comment?.reply.length ? 
-                        comment.reply.map((item) => (
+                        comment.reply.map((item: any) => (
                         <S.ReplyDiv>
                             <S.UserProfile/>
                             <S.UserInfo>

@@ -1,5 +1,9 @@
 import { IAlbum } from "../pages/HomeModal/HomeModal";
 
+
+const id = localStorage.getItem('id');
+const token = localStorage.getItem('token');
+
 interface IUserInfo{
   id: string;
   password: string;
@@ -100,7 +104,30 @@ export const registAlbum = async (content: any, album: IAlbum) => {
     }
 };
 
-export const getAlbum = async (id: string, token: string) => {
+export const regist = async (fileInfo: any, id: string, token: string) => {
+  try{
+    await fetch(`${process.env.REACT_APP_SERVER}api/albums/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: token
+      },
+      body: JSON.stringify({
+        is_private: fileInfo?.is_private,
+        num: fileInfo.num,
+        user_id: fileInfo.user_id,
+        title: fileInfo?.title,
+        preface: fileInfo?.preface,
+        data: fileInfo.data
+      })
+    }).then((response) => response.json()).then(res => console.log(res));
+  }
+  catch (error:any) {
+    alert(error.message);
+  }
+}
+
+export const getAlbum = async () => {
   try{
     const result = await fetch(`${process.env.REACT_APP_SERVER}api/albums/?target=${id}&num=4`, {
       method: 'GET',
@@ -191,7 +218,7 @@ export const logout = async () => {
   }
 };
 
-export const changeInfo = async () => {
+export const changeInfo = async (editData: any) => {
   const id = localStorage.getItem('id');
   const token:any = localStorage.getItem('token');
   try{
@@ -201,12 +228,7 @@ export const changeInfo = async () => {
         'Content-Type': 'application/json',
         Authorization: token
       },
-      body: JSON.stringify({
-        id: 'change0202',
-        name: 'jun',
-        email: 'asd@asfd',
-        info: '12341234'
-      })
+      body: JSON.stringify(editData)
     }).then((result) => result.json()).then((data) => console.log(data));
   }
   catch(error:any){
@@ -216,25 +238,28 @@ export const changeInfo = async () => {
 
 
 export const getComments = async (AlbumId: string) => {
-  const id = localStorage.getItem('id');
   try{
-    const response = await fetch(`${process.env.REACT_APP_SERVER}api/comments/?album_id=${AlbumId}/`,{
+    const response = await fetch(`${process.env.REACT_APP_SERVER}api/comments/?album_id=${AlbumId}`,{
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token as string
+      }
     }).then((result) => result.json());
-    console.log(response.result);
-    return response.message === "ok" && response.result.length ? response.result : [];
+    return response.message === "ok" && response.result.length ? response : [];
+    console.log(response);
   }
   catch(error:any){
     alert(error);
   }
 };
 
-export const setComments = async (AlbumId: number, content: string) => {
+export const setComments = async (AlbumId: any, content: string) => {
   const id = localStorage.getItem('id');
   const token = localStorage.getItem('token');
-
+  
   try{
-    const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/${id}`,{
+    const response = await fetch(`${process.env.REACT_APP_SERVER}api/comments/`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -247,12 +272,27 @@ export const setComments = async (AlbumId: number, content: string) => {
         mentioned_user_id: null,
         parent_comment_id: null
       })
-    }).then((result) => result.json()).then((data) => console.log(data));
+    }).then((result) => result.json());
     console.log(response);
+    return response;
   }
   catch(error:any){
     alert(error);
   }
-  
-
 };
+
+export const getUserList = async () => {
+  const token = localStorage.getItem('token');
+  try{
+    const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token as string
+      },
+    }).then((res) => res.json());
+    return response ? response : [];
+  }catch(error: any){
+    alert(error);
+  }
+}

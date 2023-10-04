@@ -9,8 +9,9 @@ function Navbar() {
     const setTheme = useSetRecoilState(themeState);
 
     const titleClick = () => {
-    };
         setTheme((prev:boolean) => !prev);
+    };
+    
     return(
         <HeaderContainer>
             <HeaderItem title={true} active={false} onClick={titleClick}>BOTTLES</HeaderItem>

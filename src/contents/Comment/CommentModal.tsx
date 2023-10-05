@@ -2,9 +2,27 @@ import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import Button from "../Button/CustomButton";
 import { getComments, setComments } from "../../services/API";
+import { Card } from "./Comment";
+
+
+
+export interface IComment{
+    made_by: string;
+    content: string;
+    commentId: string | null;
+    mentioned_user_id: string | null;
+    parent_comment_id: string | null;
+}
 
 function CommentModal({AlbumId}: {AlbumId: string}){
-    const [ment, setMent] = useState('');
+    const [ment, setMent] = useState<IComment>({
+        made_by: '',
+        content: '',
+        commentId: '' ,
+        mentioned_user_id: '',
+        parent_comment_id: ''
+    });
+
     const [data, setData] = useState<any>();
 
     const getComment = async () => {
@@ -12,59 +30,63 @@ function CommentModal({AlbumId}: {AlbumId: string}){
         setData(result.result);
     };
 
-    const onMentionClick = (user_id: string) => {
-        setMent((prev: string) => `${user_id} ${prev}`);
+    const onMentionClick = (user_id: string, commentId: string) => {
+        setMent({...ment, content: `@${user_id} ` + ment.content, mentioned_user_id: user_id});
+    };
+
+    const onReplyClick = (user_id: string, commentId: string) => {
+        setMent({...ment, content: `@${user_id} ` + ment.content, mentioned_user_id: user_id, commentId});
     };
 
     const onSubmit = async (e: any) => {
         e.preventDefault();
         const result = await setComments(AlbumId,ment);
         getComment();
-        setMent('');
-    }
+        setMent({...ment, content: '', mentioned_user_id: null, commentId: null});
+    };
+    
 
     useEffect(() => {
         getComment();
     },[]);
+
     return(
         <S.Container>
             <S.Navbar>
                 comments
             </S.Navbar>
             <S.CommentContainer>
-
             {data?.map((comment: any) => (
                 <S.CommentDiv>
-                    <S.OriginalComment>
-                        <S.UserProfile/>
-                        <S.UserInfo>
-                            <S.UserTitle>
-                                {comment.user_id}
-                                <Button name='reply'/>
-                                <Button name='mention'
-                                onClick={() => onMentionClick(comment.user_id)}/>
-                            </S.UserTitle>
-                            {comment.comment}
-                            <S.CommentTime>
-                                {comment.created_at}
-                            </S.CommentTime>
-                        </S.UserInfo>
-                    </S.OriginalComment>
+                    <Card>
+                        <Card.UserProfile src={null}/>
+                        <Card.UserId>{comment.user_id}</Card.UserId>
+                        <Button name='reply'
+                        onClick={() => onReplyClick(comment.user_id, comment.id)}/>
+                        <Button name='mention'
+                        onClick={() => onMentionClick(comment.user_id, comment.id)}/>
+                        <Card.UserComment>
+                           {comment.comment} 
+                        </Card.UserComment>
+                        <Card.CreatedTime>
+                            {comment.created_at}
+                        </Card.CreatedTime>
+                    </Card>
                     {comment?.reply.length ? 
-                        comment?.reply.map((item: any) => (
+                        comment?.reply.map((reply: any) => (
                         <S.ReplyDiv>
-                            <S.UserProfile/>
-                            <S.UserInfo>
-                                <S.UserTitle>
-                                    {item?.user_id}
-                                    <Button name='mention'
-                                    onClick={() => onMentionClick(item.user_id)}/>
-                                </S.UserTitle>
-                                {item.comment}
-                                <S.CommentTime>
-                                    {comment.created_at}
-                                </S.CommentTime>
-                            </S.UserInfo>
+                            <Card>
+                                <Card.UserProfile src={null}/>
+                                <Card.UserId>{reply.user_id}</Card.UserId>
+                                <Button name='mention'
+                                onClick={() => onMentionClick(reply.user_id, reply.id)}/>
+                                <Card.UserComment>
+                                {reply.comment} 
+                                </Card.UserComment>
+                                <Card.CreatedTime>
+                                    {reply.created_at}
+                                </Card.CreatedTime>
+                            </Card>
                         </S.ReplyDiv>
                         ))
                     : 
@@ -74,9 +96,9 @@ function CommentModal({AlbumId}: {AlbumId: string}){
             ))}
             </S.CommentContainer>
                 <S.Form onSubmit={onSubmit}>
-                    <S.Input value={ment} 
+                    <S.Input value={ment.content} 
                     placeholder="댓글 달기..."
-                    onChange={(e) => setMent(e.target.value)}/>
+                    onChange={(e) => setMent({...ment, content: e.target.value})}/>
                     <S.SendButton>
                         <Button name='send'/>
                     </S.SendButton>
@@ -123,42 +145,12 @@ const S = {
         flex-direction: column;
         width: 100%;
     `,
-    OriginalComment: styled.div`
-        display:flex;
-        align-items: center;
-        width: 100%;
-        height: 90px;
-        padding-left: 1rem;
-    `,
     ReplyDiv: styled.div`
         display: flex;
         align-items: center;
-        width: 70%;
+        width: 100%;
         height: 90px;
         padding-left: 4rem;
-    `,
-    UserProfile: styled.div`
-        width: 55px;
-        height: 55px;
-        border-radius: 3rem;
-        background-color: #D9D9D9;
-    `,
-    UserInfo: styled.div`
-        display: flex;
-        padding-left: 1rem;
-        flex-direction: column;
-        color: black;
-        font-size: 1rem;
-        font-weight: 700;
-    `,
-    CommentTime: styled.div`
-        display: flex;
-        color: gray;
-        font-size: 0.8rem;
-    `,
-    UserTitle: styled.div`
-        color: ${(props) => props.theme.color.fontColor};
-        font-size: 1.2rem;
     `,
     Input: styled.input`
         width: 80%;
@@ -182,7 +174,6 @@ const S = {
         width: 100%;
         height: 10%;
         border-top: 1px solid ${(props) => props.theme.color.navBorder};
-    
     `,
 }
 

@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
 import { styled } from "styled-components";
 import { useState } from "react";
-import MemberCard from "../../components/MemberCard/MemberCard";
+import { Card } from "../../contents/Comment/Comment";
 
 const data = [
   {
@@ -42,8 +42,19 @@ const MessagePage = () => {
     <S.Container>
       <SideBar>
         <S.ItemContainer>
-          {data.map((item, index) => 
-            <MemberCard info={item} onClick={() => onClickRoom(index)}/>
+          {data.map((info, index) => 
+            <S.Item key={index}>
+              <Card onClick={() => setChatPerson(data[index])}>
+                <Card.UserProfile src={null}/>
+                <Card.UserId>
+                  {info.name}
+                </Card.UserId>
+                <Card.UserDescribe>
+                  {info.info}
+                </Card.UserDescribe>
+                <Card.MessageImg/>
+              </Card>
+            </S.Item>
           )}
         </S.ItemContainer>
       </SideBar>
@@ -116,6 +127,18 @@ const S = {
     align-items: center;
     width: 100%;
     height: 160px;
+  `,
+
+  Item: styled.div`
+    display: flex;
+    align-items: center;
+    width: 370px;
+    height: 100px;
+    border: 2px solid #D9D9D9;
+    border-radius: 2rem;
+    justify-content: space-between;
+    padding: 0 20px;
+    cursor: pointer;
   `,
 };
 

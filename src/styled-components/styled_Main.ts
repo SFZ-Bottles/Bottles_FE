@@ -3,32 +3,35 @@ import styled from 'styled-components';
 export const HeaderContainer = styled.div`
   position: fixed;
   display: flex;
+  align-items: center;
   background-color: ${(props) => props.theme.color.bgColor};
-  height: 90px;
+  height: 6rem;
   top: 0;
   left: 0;
   width: 100%;  
   padding: 10px;
+  gap: 3rem;
   border-bottom: 3px solid #D9D9D9;
   border-color: ${props => props.theme.color.navBorder};
 `;
 
-export const HeaderItem = styled.div<{ title: boolean, active: boolean }>`
+export const HeaderItem = styled.div<{ $active: boolean }>`
   display: flex;
   justify-content: center;
+  padding-top: 15px;
   align-items: center;
-  font-size: ${({ title }) => (title ? '40px' : '20px')};
-  padding-top: ${({ title }) => (title ? '0px' : '10px')};
-  padding-right: 30px;
-  
-  letter-spacing: ${({ title }) => (title ? '7px' : '0px')};
+  font-size: 20px;
   cursor: pointer;
-  margin-top:10px;
-  margin-left:${({ title }) => (title ? '60px' : '10px')};
+  font-weight: ${(props) => props.$active ? 'bold' : '400'};
+  
+`;
 
-  ${({ title }) => (title ? 'font-weight: bold;' : '')}
-
-  ${({ active }) => active && 'font-weight: bold;'}
+export const Logo = styled.div`
+  font-size: 40px;
+  letter-spacing: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  padding-left: 1rem;
 `;
 
 export const LogoutItem = styled.div`

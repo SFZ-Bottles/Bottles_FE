@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import SearchBar from "../../contents/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
 import { getUserList } from "../../services/API";
-import MemberCard from "../../components/MemberCard/MemberCard";
+import { Card } from "../../contents/Comment/Comment";
 
 const SearchPage = () => {
   const [name, setName] = useState("");
@@ -13,14 +13,25 @@ const SearchPage = () => {
 
   useEffect(() => {
     getUsers();
-  },[name]);
+  },[]);
+
   return (
     <S.Container>
       <SearchBar input={name} setInput={setName}/>
       <S.ItemContainer>
         {name ?
         userList.filter((value: any) => value.name.includes(name))?.map((info: any) => (
-          <MemberCard info={info} onClick={() => {}}/>
+          <S.Item>
+            <Card>
+              <Card.UserProfile src={null}/>
+              <Card.UserId>
+                {info.name} 
+              </Card.UserId>
+              <Card.UserDescribe>
+                {info.info}
+              </Card.UserDescribe>
+            </Card>
+          </S.Item>
         ))
       :
       null}
@@ -47,6 +58,18 @@ const S = {
   height: 100%;
   overflow: auto;
 `,
+
+  Item: styled.div`
+  display: flex;
+  align-items: center;
+  width: 300px;
+  height: 100px;
+  border: 2px solid #D9D9D9;
+  border-radius: 2rem;
+  justify-content: space-between;
+  padding: 0 20px;
+  cursor: pointer;
+  `,
 
 }
 

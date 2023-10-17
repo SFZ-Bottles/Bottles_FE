@@ -4,30 +4,23 @@ import { styled } from "styled-components";
 import Comment from "../../contents/Comment/CommentModal";
 import Modal2 from "../../contents/Modal/Modal2";
 import CommentImage from "../../contents/Comment/CommentImage";
+import { useQuery } from "react-query";
 
 function FeedPage(){
+    const id: string | null= localStorage.getItem('id');
     const [modal, setModal] = useState(false);
-    const [result, setResult] = useState<any>();
     const [AlbumId, setAlbumId] = useState<string>();
-    const initialFeed = async () => { 
-        const result = await getAlbum();
-        setResult(result);
-        console.log(result);
-    };
+    const {isLoading, data} = useQuery(["feedAlbum",id], getAlbum);
     
     const onImgClick = (id: string) => {
         setModal(true);
         setAlbumId(id);
     };
 
-    useEffect(() => {
-        initialFeed();
-    },[]);
-
     return(
         <S.Container>
             <S.AlbumContainer>
-                {result?.map((album: any, index: number) => (
+                {data?.map((album: any, index: number) => (
                 <S.ImgDiv 
                 key={index}
                 onClick={() => onImgClick(album.id)} 

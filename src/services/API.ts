@@ -185,7 +185,7 @@ export const getMyFollowing = async () => {
     const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/${id}/follow/`,{
       method: 'GET',
     }).then((result) => result.json());
-    console.log(response);
+    return response ? response : false;
   }
   catch(error:any){
     alert(error);
@@ -198,7 +198,8 @@ export const getMyFollower = async () => {
     const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/${id}/follower/`,{
       method: 'GET',
     }).then((result) => result.json());
-    console.log(response);
+    return response ? response : false;
+    
   }
   catch(error:any){
     alert(error);

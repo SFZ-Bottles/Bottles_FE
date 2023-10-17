@@ -1,3 +1,4 @@
+import { IComment } from "../contents/Comment/CommentModal";
 import { IAlbum } from "../pages/HomeModal/ModalContent";
 
 const id = localStorage.getItem('id');
@@ -154,7 +155,7 @@ export const getDetailAlbum = async (AlbumId: string) => {
       },
     }).then(res => res.json());
     console.log("detail",result);
-    return result?.message === "ok" ? result?.result : [];
+    return result?.message === "ok" ? result : null;
   }
   catch (error:any) {
     alert(error.message);
@@ -229,6 +230,7 @@ export const changeInfo = async (editData: any) => {
       },
       body: JSON.stringify(editData)
     }).then((result) => result.json()).then((data) => console.log(data));
+    console.log(response);
   }
   catch(error:any){
     alert(error);
@@ -253,7 +255,7 @@ export const getComments = async (AlbumId: string) => {
   }
 };
 
-export const setComments = async (AlbumId: any, content: string) => {
+export const setComments = async (AlbumId: any, content: IComment) => {
   const id = localStorage.getItem('id');
   const token = localStorage.getItem('token');
   
@@ -267,9 +269,9 @@ export const setComments = async (AlbumId: any, content: string) => {
       body: JSON.stringify({
         album_id: AlbumId,
         made_by: id,
-        content: content,
-        mentioned_user_id: null,
-        parent_comment_id: null
+        content: content.content,
+        mentioned_user_id: content.mentioned_user_id,
+        parent_comment_id: content.commentId
       })
     }).then((result) => result.json());
     console.log(response);
@@ -294,4 +296,36 @@ export const getUserList = async () => {
   }catch(error: any){
     alert(error);
   }
-}
+};
+
+export const getSearchedUsers = async (id: string) => {
+  const token = localStorage.getItem('token');
+  try{
+    const response = await fetch(`${process.env.REACT_APP_SERVER}api/search/user/?q=${id}&num=5`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token as string
+      },
+    }).then((res) => res.json());
+    return response ? response : [];
+  }catch(error: any){
+    alert(error);
+  }
+};
+
+export const getChatList = (id: string) => {
+  const token = localStorage.getItem('token');
+  try{
+    const response = fetch(`${process.env.REACT_APP_SERVER}/api/chatrooms/?target=${id}&num=0`,{
+      method: 'GET',
+      headers:{
+        'Content-Type': 'application/json',
+        Authorization: token as string
+      }
+    }).then((res) => res.json());
+    console.log(response);
+  }catch(error: any){
+    alert(error);
+  }
+};

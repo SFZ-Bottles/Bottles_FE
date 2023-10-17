@@ -11,7 +11,7 @@ import HomeModal from './pages/HomeModal/HomeModal';
 import FeedPage from './pages/FeedPage/FeedPage';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from './styled-components/theme';
-import { themeState } from './atom/atom';
+import { themeState } from './Atom/atom';
 
 
 function App() {

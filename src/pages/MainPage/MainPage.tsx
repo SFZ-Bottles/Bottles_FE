@@ -4,7 +4,6 @@ import Navbar from '../../contents/Navbar/Navbar';
 import { styled } from 'styled-components';
 
 const MainPage = () => {
-  const location = useLocation();
   return (
     <S.MainContainer>
       <Navbar/>

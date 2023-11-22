@@ -59,7 +59,7 @@ function CommentModal({AlbumId}: {AlbumId: string}){
             {data?.map((comment: any) => (
                 <S.CommentDiv>
                     <Card>
-                        <Card.UserProfile src={null}/>
+                        <Card.UserProfile src={comment.avatar}/>
                         <Card.UserId>{comment.user_id}</Card.UserId>
                         <Button name='reply'
                         onClick={() => onReplyClick(comment.user_id, comment.id)}/>
@@ -76,7 +76,7 @@ function CommentModal({AlbumId}: {AlbumId: string}){
                         comment?.reply.map((reply: any) => (
                         <S.ReplyDiv>
                             <Card>
-                                <Card.UserProfile src={null}/>
+                                <Card.UserProfile src={reply.avatar}/>
                                 <Card.UserId>{reply.user_id}</Card.UserId>
                                 <Button name='mention'
                                 onClick={() => onMentionClick(reply.user_id, reply.id)}/>

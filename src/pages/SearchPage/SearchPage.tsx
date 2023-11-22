@@ -1,24 +1,26 @@
 import { styled } from "styled-components";
 import SearchBar from "../../contents/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
-import { getUserList } from "../../services/API";
 import { Card } from "../../contents/Comment/Comment";
 import { useQuery } from "react-query";
+import { getSearchedUsers } from "../../services/API";
+import { getTokenId } from "../../hook/hook";
+import { useNavigate } from "react-router-dom";
 
 interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  info: string;
+  message: string;
+  num: number;
+  result: string[];
 }
 
 const SearchPage = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
-  const { isLoading, data, refetch } = useQuery<IUser[]>(
+  const { isLoading, data, refetch } = useQuery<IUser>(
     ["searchUsers", name],
-    () => getUserList(),
+    () => getSearchedUsers(name),
     {
-      enabled: false, 
+      enabled: false,
     }
   );
 
@@ -37,11 +39,11 @@ const SearchPage = () => {
       <SearchBar input={name} setInput={setName} />
       <S.ItemContainer>
         {name
-          ? data?.map((info: any) => (
-              <S.Item>
+          ? data?.result?.map((info: any) => (
+              <S.Item onClick={() => navigate(`/home/album/${info.id}`)}>
                 <Card>
-                  <Card.UserProfile src={null} />
-                  <Card.UserId>{info.name}</Card.UserId>
+                  <Card.UserProfile src={info.avatar} />
+                  <Card.UserId>{info.id}</Card.UserId>
                   <Card.UserDescribe>{info.info}</Card.UserDescribe>
                 </Card>
               </S.Item>
@@ -76,7 +78,7 @@ const S = {
     align-items: center;
     width: 300px;
     height: 100px;
-    border: 2px solid #D9D9D9;
+    border: 2px solid #d9d9d9;
     border-radius: 2rem;
     justify-content: space-between;
     padding: 0 20px;

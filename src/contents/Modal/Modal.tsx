@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -40,8 +40,7 @@ const S = {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.3);
     z-index: 4;
-`
+  `,
 };
-
 
 export default Modal;

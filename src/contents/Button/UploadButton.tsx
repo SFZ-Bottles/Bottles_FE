@@ -1,17 +1,15 @@
 import { useRef } from "react";
-import { CustomButton } from "../../styled-components/styled_Modal";
+function UploadButton({ label, onChange }: any) {
+  const ref: any = useRef(null);
 
-function UploadButton({label, onChange}: any){
-    const ref: any = useRef(null);
-    
-    const onClick = () => {
-        ref.current?.click();
-        console.log("click!");
-    };
-    return(
-        <CustomButton onClick={onClick}>
-        {label}
-        <input
+  const onClick = () => {
+    ref.current?.click();
+    console.log("click!");
+  };
+  return (
+    <div onClick={onClick}>
+      {label}
+      <input
         hidden
         type="file"
         accept="image/jpg,image/png,image/jpeg"
@@ -19,9 +17,9 @@ function UploadButton({label, onChange}: any){
         onChange={onChange}
         ref={ref}
         multiple
-    />
-    </CustomButton>
-    )
+      />
+    </div>
+  );
 }
 
 export default UploadButton;

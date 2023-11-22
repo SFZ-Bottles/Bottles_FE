@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import { getAlbum } from "../../services/API";
 import { styled } from "styled-components";
 import Comment from "../../contents/Comment/CommentModal";
 import Modal2 from "../../contents/Modal/Modal2";
 import CommentImage from "../../contents/Comment/CommentImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import AlbumApi from "../../services/albumApi";
 
 function FeedPage() {
   const params = useParams();
-  const { id } = params;
+  const target = params.id || "follow";
   const [modal, setModal] = useState(false);
   const [AlbumId, setAlbumId] = useState<string>();
-  const { isLoading, data } = useQuery(["feedAlbum", id ?? "follow"], () =>
-    getAlbum(id ?? "follow")
+  const { isLoading, data: albums } = useQuery(["feedAlbum", target], () =>
+    AlbumApi.get(target)
   );
 
   const onImgClick = (id: string) => {
@@ -24,7 +24,7 @@ function FeedPage() {
   return (
     <S.Container>
       <S.AlbumContainer>
-        {data?.map((album: any, index: number) => (
+        {albums?.data.result.map((album: any, index: number) => (
           <S.ImgDiv
             key={index}
             onClick={() => onImgClick(album.id)}

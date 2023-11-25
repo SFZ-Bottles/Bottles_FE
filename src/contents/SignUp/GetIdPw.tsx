@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { SignupState, signupPage } from "../../Atom/atom";
 import {
-  AvailableBox,
   C_FlexBox,
   CheckId,
-  FlexBox,
   Form,
   IdLength,
   Input,
@@ -14,45 +12,36 @@ import {
   LoginInfo,
   SemiTitle,
   Span,
-  Title,
   NextButton,
 } from "../../styled-components/styled_LogIn";
 import { useRecoilState } from "recoil";
 import LoginApi from "../../services/loginApi";
+import useForm from "../../hook/useForm";
+import userValidation from "../../utils/userValidation";
 
 function GetIdPw() {
-  const [signup, setSignup] = useRecoilState(SignupState);
   const [pageNum, setPageNum] = useRecoilState(signupPage);
-  const [checkId, setCheckId] = useState({
-    check: false,
-    available: false,
-    mention: "",
+  const { values, errors, handleChange, handleSubmit } = useForm({
+    initialValues: { id: "", pw: "" },
+    onSubmit: () => setPageNum(pageNum + 1),
+    validate: userValidation,
   });
-
-  const clickIdCheck = async () => {
-    try {
-      const result = await LoginApi.checkIdDuplicated(signup.id);
-      if (result.data) {
-        // check -> User가 아이디 중복 체크를 하였냐? available: true면 중복검사 통과
-        setCheckId({ check: true, available: true, mention: "available!" });
+  const [idErrorMessage, setIdErrorMessage] = useState("");
+  const checkIdClicked = async () => {
+    if (!errors.id) {
+      try {
+        await LoginApi.checkIdDuplicated(values.id ?? "");
+        setIdErrorMessage("Available!");
+      } catch (error: any) {
+        setIdErrorMessage("유효하지 않은 아이디입니다.");
       }
-    } catch (error) {
-      setCheckId({ check: true, available: false, mention: "not available!" });
-    }
-  };
-
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    if (checkId.check && checkId.available) {
-      // 조건 충족시 페이지 전환
-      setPageNum(pageNum + 1);
     }
   };
 
   return (
     <SignInDiv>
       <SemiTitle>Welcome to Bottles!</SemiTitle>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit}>
         <InputDiv>
           <Span>
             ID
@@ -62,22 +51,17 @@ function GetIdPw() {
             <Input
               type="text"
               placeholder="ID"
-              value={signup.id}
-              onChange={(e: any) =>
-                setSignup({ ...signup, id: e.target.value })
-              }
+              name="id"
+              value={values.id || ""}
+              onChange={handleChange}
               required
             />
-            <CheckId onClick={clickIdCheck}>check id</CheckId>
+            <CheckId onClick={checkIdClicked}>check id</CheckId>
           </C_FlexBox>
-          <IdLength len={signup?.id.length}>{signup?.id.length} / 30</IdLength>
-          {checkId?.check ? (
-            <AvailableBox available={checkId.available}>
-              {checkId.mention}
-            </AvailableBox>
-          ) : (
-            <React.Fragment />
+          {values.id && (
+            <IdLength len={values.id.length}>{values.id.length} / 30</IdLength>
           )}
+          {idErrorMessage && <p>{idErrorMessage}</p>}
         </InputDiv>
         <InputDiv>
           <Span>
@@ -87,17 +71,19 @@ function GetIdPw() {
           <Input
             type="password"
             placeholder="Password"
-            value={signup.password}
-            onChange={(e: any) =>
-              setSignup({ ...signup, password: e.target.value })
-            }
+            name="pw"
+            value={values.pw || ""}
+            onChange={handleChange}
             required
           />
-          <PasswordLength len={signup?.password.length}>
-            {signup?.password.length} / 30
-          </PasswordLength>
+          {errors.pw && <p>{errors.pw}</p>}
+          {values.pw && (
+            <PasswordLength len={values?.pw.length}>
+              {values?.pw.length} / 30
+            </PasswordLength>
+          )}
         </InputDiv>
-        <NextButton onClick={onSubmit}>1 / 3 다음단계로</NextButton>
+        <NextButton onClick={handleSubmit}>1 / 3 다음단계로</NextButton>
       </Form>
     </SignInDiv>
   );

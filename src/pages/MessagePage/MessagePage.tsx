@@ -1,91 +1,69 @@
-import { useLocation } from "react-router-dom";
 import SideBar from "../../components/SideBar/SideBar";
 import { styled } from "styled-components";
-import { useState } from "react";
-import { Card } from "../../contents/Comment/Comment";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import { getAvatar, getChatList } from "../../services/API";
+import UserCard from "./UserCard";
+import MessageBox from "./MessageBox";
 
-const data = [
-  {
-    name: "dddcat",
-    info: "I\'m a catttt"
-  },
-  {
-    name: "ddd_Kang",
-    info: "ma fxxking life"
-  },
-  {
-    name: "ddd:)bbb",
-    info: "."
-  },
-  {
-    name: "dddoooggg",
-    info: "mungmung"
-  },
-  {
-    name: "example1",
-    info: "..!"
-  },
-  {
-    name: "example2",
-    info: ".!"
-  },
-]
+export interface DataProps {
+  num: number;
+  result: ProfileProps[];
+}
+
+export interface ProfileProps {
+  created_at: string;
+  id: string;
+  name: string;
+  members: string[];
+  image?: string;
+}
 
 const MessagePage = () => {
-  const [chatPerson, setChatPerson] = useState(data[0]);
+  const id = localStorage.getItem("id");
+  const [userInfo, setUserInfo] = useState<ProfileProps[] | undefined>();
+  const [clickIndex, setClickIndex] = useState(0);
+  const { data } = useQuery<DataProps | undefined>(
+    ["message", id as string],
+    () => getChatList(id as string)
+  );
 
-  const onClickRoom = (idx: number) => {
-    setChatPerson(data[idx]);
+  const getProfile = async () => {
+    if (data && data.result) {
+      const updatedResults = await Promise.all(
+        data.result.map(async (user) => {
+          const avatarUrl = await getAvatar(user.members[1]);
+          return { ...user, image: avatarUrl };
+        })
+      );
+      setUserInfo(updatedResults);
+    }
   };
-  
+
+  useEffect(() => {
+    getProfile();
+  }, [data]);
+
   return (
     <S.Container>
       <SideBar>
-        <S.ItemContainer>
-          {data.map((info, index) => 
-            <S.Item key={index}>
-              <Card onClick={() => setChatPerson(data[index])}>
-                <Card.UserProfile src={null}/>
-                <Card.UserId>
-                  {info.name}
-                </Card.UserId>
-                <Card.UserDescribe>
-                  {info.info}
-                </Card.UserDescribe>
-                <Card.MessageImg/>
-              </Card>
-            </S.Item>
-          )}
-        </S.ItemContainer>
+        {data?.result && (
+          <UserCard data={userInfo} setClickIndex={setClickIndex} />
+        )}
       </SideBar>
-      <S.ContentContainer>
-        <S.ChatProfileDiv>
-          <S.Profile/>
-          <S.UserName>
-            {chatPerson.name}
-          </S.UserName>
-        </S.ChatProfileDiv>
-      </S.ContentContainer>
+      <div style={{ paddingLeft: "470px" }}>
+        <S.ContentContainer>
+          <MessageBox userInfo={userInfo} clickIndex={clickIndex} />
+        </S.ContentContainer>
+      </div>
     </S.Container>
   );
 };
 
 const S = {
   Container: styled.div`
-    display: flex;
     width: 100%;
-    height: 100%;  
-  `,
-
-  ItemContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    width: 450px;
     height: 100%;
-    overflow: auto;
   `,
 
   UserContainer: styled.div`
@@ -94,51 +72,11 @@ const S = {
 
   ContentContainer: styled.div`
     display: flex;
+    flex-direction: column;
     width: 100%;
     padding-top: 20px;
-    padding-left: 460px;
-    border-bottom: 2px solid #D9D9D9;
-    border-color: ${props => props.theme.color.chatBorder}
-  `,
-
-  UserDiv: styled.div`
-    display: flex;
-    padding: 10px;
-    flex-direction: column;
-  `,
-
-  UserName: styled.div`
-    font-size: 1.5rem;
-    font-weight: 700;
-  `,
-
-  Profile: styled.img`
-    width: 70px;
-    height: 70px;
-    border: 2px solid #D9D9D9;
-    border-radius: 40px;
-    background-color: #9e9d9d;
-  `,
-
-  ChatProfileDiv: styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 160px;
-  `,
-
-  Item: styled.div`
-    display: flex;
-    align-items: center;
-    width: 370px;
-    height: 100px;
-    border: 2px solid #D9D9D9;
-    border-radius: 2rem;
-    justify-content: space-between;
-    padding: 0 20px;
-    cursor: pointer;
+    border-bottom: 2px solid #d9d9d9;
+    border-color: ${(props) => props.theme.color.chatBorder};
   `,
 };
 

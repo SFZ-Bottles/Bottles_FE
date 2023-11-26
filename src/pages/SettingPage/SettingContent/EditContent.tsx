@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { changeInfo, getUserInfo } from "../../../services/API";
 import EditModal from "../../../contents/Modal/EditModal";
 import CustomButton from "../../../contents/Button/CustomButton";
-import { onFileReaderChange } from "../../../utils/utils";
+import { onFileReaderChange } from "../../../utils/imageUpload";
 import Modal from "../../../contents/Modal/Modal";
 import UploadButton from "../../../contents/Button/UploadButton";
 

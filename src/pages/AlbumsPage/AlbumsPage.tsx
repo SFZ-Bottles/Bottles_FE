@@ -8,6 +8,7 @@ import {
 } from "../../services/API";
 import { useParams } from "react-router-dom";
 import FeedPage from "../FeedPage/FeedPage";
+import TokenService from "../../utils/tokenService";
 
 export interface IEdit {
   message: string;
@@ -34,21 +35,20 @@ const AlbumPage = () => {
   const { id } = params;
   const myId = localStorage.getItem("id");
   const [isMyAlbum, setIsMyAlbum] = useState(id === myId);
-  const [userData, setUserData] = useState<IEdit>();
-  const [userData2, setUserData2] = useState<IEdit2>();
-  const [userData3, setUserData3] = useState<IEdit3>();
+  const [userFollower, setUserFollower] = useState<IEdit>();
+  const [userBasicInfo, setUserBasicInfo] = useState<IEdit2>();
+  const [userFollowing, setUserFollowing] = useState<IEdit3>();
 
   const fetchData = async () => {
-    const token = localStorage.getItem("token");
-    if (id && token) {
-      const result = await getMyFollowing();
-      const result2 = await getUserInfo(id, token);
-      const result3 = await getMyFollower();
+    if (!id) return;
+    const token = TokenService.getToken() ?? "";
+    const follower = await getMyFollowing(id);
+    const userInfo = await getUserInfo(id, token);
+    const following = await getMyFollower(id);
+    setUserFollower(follower);
 
-      setUserData({ ...result });
-      setUserData2({ ...result2 });
-      setUserData3({ ...result3 });
-    }
+    setUserBasicInfo(userInfo);
+    setUserFollowing(following);
   };
 
   const followClick = async () => {
@@ -58,7 +58,7 @@ const AlbumPage = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -66,14 +66,16 @@ const AlbumPage = () => {
         {!isMyAlbum && (
           <S.FollowButton onClick={followClick}>팔로우</S.FollowButton>
         )}
-        {userData2 && <S.UserProfile src={userData2.avatar} />}
-        <S.UserText>{userData2?.name}</S.UserText>
+        {userBasicInfo && <S.UserProfile src={userBasicInfo.avatar} />}
+        <S.UserText>{userBasicInfo?.name}</S.UserText>
         <S.UserText>
-          팔로잉 {userData?.num} 팔로워 {userData3?.num}
+          <div>팔로잉 {userFollowing?.num}</div>
+          <div>팔로워 {userFollower?.num}</div>
         </S.UserText>
-        <S.Introduction>{userData2?.info}</S.Introduction>
+        <S.Introduction>{userBasicInfo?.info}</S.Introduction>
         <FeedPage />
       </S.Container>
+      {}
     </>
   );
 };
@@ -89,13 +91,18 @@ const S = {
     gap: 20px;
   `,
   UserText: styled.span`
+    display: flex;
+    gap: 1rem;
     font-size: 35px;
     font-weight: bold;
     color: black;
+    & div {
+      cursor: pointer;
+    }
   `,
   UserProfile: styled.div<{ src: string }>`
-    width: 100px;
-    height: 100px;
+    width: 20rem;
+    height: 20rem;
     background-size: cover;
     border-radius: 3rem;
     background-image: url(${(props) => props.src});

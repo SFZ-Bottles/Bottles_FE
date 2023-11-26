@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import { getDetailAlbum } from "../../services/API";
+import AlbumApi from "../../services/albumApi";
 function CommentImage({ AlbumId }: { AlbumId: string }) {
   const [result, setResult] = useState<any>();
 
   const getDetail = async () => {
     if (!AlbumId) return;
-    const result = await getDetailAlbum(AlbumId);
-    setResult(result);
+    const result = await AlbumApi.getDetail(AlbumId);
     console.log(result);
+    setResult(result);
   };
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function CommentImage({ AlbumId }: { AlbumId: string }) {
   return (
     <S.Container>
       <S.ImageContainer>
-        {result?.result?.map((album: any) =>
+        {result?.data?.result?.map((album: any) =>
           album.species === "image" || album.species === "cover" ? (
             <S.ImageDiv address={album?.data}>
               <S.ImageTitle>

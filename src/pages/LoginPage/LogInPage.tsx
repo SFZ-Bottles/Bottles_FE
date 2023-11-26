@@ -10,22 +10,29 @@ import {
   C_ColFlexBox,
 } from "../../styled-components/styled_LogIn";
 import { useEffect, useState } from "react";
-import { signIn } from "../../services/API";
+import LoginApi from "../../services/loginApi";
+import TokenService from "../../utils/tokenService";
+import UserService from "../../utils/userService";
+
+interface ILogin {
+  id: string;
+  password: string;
+}
 
 function LogInPage() {
   const navigate = useNavigate();
   const [identity, setIdentity] = useState(false);
-  const [form, setForm] = useState({
-    ID: "",
+  const [form, setForm] = useState<ILogin>({
+    id: "",
     password: "",
   });
-  console.log(form);
+
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const result = await signIn(form.ID, form.password);
-    if (result) {
-      localStorage.setItem("token", result);
-      localStorage.setItem("id", form.ID);
+    const result = await LoginApi.login(form.id, form.password);
+    if (result.data) {
+      TokenService.setToken(result.data);
+      UserService.setUserId(form.id);
       navigate("/home/feed");
     } else {
       setIdentity(true);
@@ -43,8 +50,8 @@ function LogInPage() {
         <Input
           type="text"
           placeholder="ID"
-          value={form.ID}
-          onChange={(e: any) => setForm({ ...form, ID: e.target.value })}
+          value={form.id}
+          onChange={(e: any) => setForm({ ...form, id: e.target.value })}
           required
         ></Input>
         <Input
@@ -55,7 +62,7 @@ function LogInPage() {
           required
         ></Input>
         <C_ColFlexBox>
-          {identity ? <InvalidBox>잘못된 회원정보입니다.</InvalidBox> : null}
+          {identity && <InvalidBox>잘못된 회원정보입니다.</InvalidBox>}
           <LogInButton>Login</LogInButton>
           <UnderLine onClick={() => navigate("/signup")}>sign-up</UnderLine>
         </C_ColFlexBox>

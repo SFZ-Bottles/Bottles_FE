@@ -27,7 +27,6 @@ const MessagePage = () => {
   const { data } = useQuery<DataProps>(["message", id as string], () =>
     getChatList(id as string)
   );
-
   const getProfile = async () => {
     if (data && data.result) {
       const updatedResults = await Promise.all(
@@ -55,7 +54,7 @@ const MessagePage = () => {
         <S.ContentContainer>
           <MessageBox userInfo={userInfo ?? []} clickIndex={clickIndex} />
         </S.ContentContainer>
-        <ChatBox chatList={userInfo ?? []} />
+        <ChatBox chatList={userInfo ?? []} index={clickIndex} />
       </div>
     </S.Container>
   );

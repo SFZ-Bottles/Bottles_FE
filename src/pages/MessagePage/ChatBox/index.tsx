@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ChatApi from "../../../services/chatApi";
 import { ProfileProps } from "../MessagePage";
 import TokenService from "../../../utils/tokenService";
+import ChatBubble from "./Bubble";
+import { styled } from "styled-components";
+import { WidthLimitCSS } from "../../../styled-components/commonStyle";
 
 export interface Chat {
   message: string;
@@ -9,38 +12,46 @@ export interface Chat {
   result: Content[];
 }
 
-interface Content {
-  id: number;
+export interface Content {
+  id?: number;
   user_id: number;
   content: string;
   timestamp: string;
 }
 
-function ChatBox({ chatList }: { chatList: ProfileProps[] }) {
+function ChatBox({
+  chatList,
+  index,
+}: {
+  chatList: ProfileProps[];
+  index: number;
+}) {
   const token = TokenService.getToken();
   const id = localStorage.getItem("id") ?? "";
-  const [allChat, setAllChat] = useState<Chat[]>();
-  const [messages, setMessages] = useState<any>([]);
-  const [newMessage, setNewMessage] = useState<any>("");
-  const [ws, setWs] = useState<any>(null);
+  const [messages, setMessages] = useState<Content[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [ws, setWs] = useState<WebSocket | null>(null);
+  const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const getRoomHistory = async () => {
-    const history = await ChatApi.RoomHistory(chatList[0].id);
+    const history = await ChatApi.RoomHistory(chatList[index].id);
     if (history) {
-      console.log(history);
+      setMessages(history.data.result);
+      console.log(history.data.result);
     }
   };
 
-  const sendMessage = () => {
+  const onSubmit = (e: any) => {
+    e.preventDefault();
     if (ws && newMessage) {
       ws.send(
         JSON.stringify({
-          user: id,
-          message: newMessage,
-          created_at: new Date().toISOString(),
+          user_id: id,
+          content: newMessage,
+          timestamp: new Date().toISOString(),
         })
       );
-      setNewMessage(""); // 메시지 전송 후 입력 필드 초기화
+      setNewMessage("");
     }
   };
 
@@ -50,11 +61,12 @@ function ChatBox({ chatList }: { chatList: ProfileProps[] }) {
   };
 
   useEffect(() => {
-    // WebSocket 연결 설정
-    if (!chatList[0]?.id) return;
+    if (!chatList[index]?.id) return;
+
+    getRoomHistory();
 
     const webSocket = new WebSocket(
-      `ws://14.4.145.80:8000/ws/chat/${chatList[0].id}/?token=${token}`
+      `ws://14.4.145.80:8000/ws/chat/${chatList[index].id}/?token=${token}`
     );
 
     // 서버로부터 메시지 수신
@@ -69,13 +81,13 @@ function ChatBox({ chatList }: { chatList: ProfileProps[] }) {
     };
 
     // 연결이 끊어졌을 때 재연결 로직
-    webSocket.onclose = () => {
-      console.log("WebSocket Disconnected. Attempting to Reconnect...");
-      setTimeout(() => {
-        console.log("re");
-        setWs(null);
-      }, 3000); // 3초 후 재연결 시도
-    };
+    // webSocket.onclose = () => {
+    //   console.log("WebSocket Disconnected. Attempting to Reconnect...");
+    //   setTimeout(() => {
+    //     console.log("re");
+    //     setWs(null);
+    //   }, 3000); // 3초 후 재연결
+    // };
 
     setWs(webSocket);
 
@@ -83,20 +95,59 @@ function ChatBox({ chatList }: { chatList: ProfileProps[] }) {
     return () => {
       webSocket.close();
     };
-  }, [chatList, token]);
+  }, [chatList, index]);
+
+  // 초기 스크롤 위치를 맨 밑으로 이동 하기 위한 useEffect
+  useEffect(() => {
+    if (messageContainerRef.current) {
+      const scrollHeight = messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop = scrollHeight;
+    }
+  }, [messages]);
 
   return (
-    <>
-      <button onClick={getRoomHistory}>Load History</button>
-      <input
-        type="text"
-        placeholder="메세지"
-        value={newMessage}
-        onChange={handleMessageChange}
-      />
-      <button onClick={sendMessage}>Send</button> {/* 전송 버튼 */}
-    </>
+    <S.Container>
+      <S.MessageContainer ref={messageContainerRef}>
+        {messages.map((item: any, index: number) => (
+          <ChatBubble
+            key={index}
+            content={item}
+            isOwnContent={id === item.user_id}
+          ></ChatBubble>
+        ))}
+      </S.MessageContainer>
+
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="메세지"
+          value={newMessage}
+          onChange={handleMessageChange}
+        />
+      </form>
+    </S.Container>
   );
 }
+
+const S = {
+  Container: styled.div`
+    ${WidthLimitCSS}
+  `,
+
+  MessageContainer: styled.div`
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    overflow: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 0.7rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 2px;
+      background: ${(props) => props.theme.color.barColor};
+    }
+  `,
+};
 
 export default ChatBox;

@@ -5,6 +5,7 @@ import { useQuery } from "react-query";
 import { getAvatar, getChatList } from "../../services/API";
 import UserCard from "./UserCard";
 import MessageBox from "./MessageBox";
+import ChatBox from "./ChatBox";
 
 export interface DataProps {
   num: number;
@@ -21,11 +22,10 @@ export interface ProfileProps {
 
 const MessagePage = () => {
   const id = localStorage.getItem("id");
-  const [userInfo, setUserInfo] = useState<ProfileProps[] | undefined>();
+  const [userInfo, setUserInfo] = useState<ProfileProps[]>();
   const [clickIndex, setClickIndex] = useState(0);
-  const { data } = useQuery<DataProps | undefined>(
-    ["message", id as string],
-    () => getChatList(id as string)
+  const { data } = useQuery<DataProps>(["message", id as string], () =>
+    getChatList(id as string)
   );
 
   const getProfile = async () => {
@@ -48,13 +48,14 @@ const MessagePage = () => {
     <S.Container>
       <SideBar>
         {data?.result && (
-          <UserCard data={userInfo} setClickIndex={setClickIndex} />
+          <UserCard data={userInfo ?? []} setClickIndex={setClickIndex} />
         )}
       </SideBar>
       <div style={{ paddingLeft: "470px" }}>
         <S.ContentContainer>
-          <MessageBox userInfo={userInfo} clickIndex={clickIndex} />
+          <MessageBox userInfo={userInfo ?? []} clickIndex={clickIndex} />
         </S.ContentContainer>
+        <ChatBox chatList={userInfo ?? []} />
       </div>
     </S.Container>
   );

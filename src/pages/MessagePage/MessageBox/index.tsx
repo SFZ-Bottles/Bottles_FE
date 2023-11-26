@@ -2,15 +2,15 @@ import { styled } from "styled-components";
 import { ProfileProps } from "../MessagePage";
 
 interface MessageBoxProps {
-  userInfo: ProfileProps[] | undefined;
+  userInfo: ProfileProps[];
   clickIndex: number;
 }
 
 function MessageBox({ userInfo, clickIndex }: MessageBoxProps) {
   return (
     <S.ChatProfileDiv>
-      {userInfo && <S.Profile src={userInfo[clickIndex].image || ""} />}
-      {userInfo && <S.UserName>{userInfo[clickIndex].members[1]}</S.UserName>}
+      <S.Profile src={userInfo[clickIndex]?.image || ""} />
+      <S.UserName>{userInfo[clickIndex]?.members[1]}</S.UserName>
     </S.ChatProfileDiv>
   );
 }

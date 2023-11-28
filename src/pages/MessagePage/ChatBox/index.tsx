@@ -4,7 +4,12 @@ import { ProfileProps } from "../MessagePage";
 import TokenService from "../../../utils/tokenService";
 import ChatBubble from "./Bubble";
 import { styled } from "styled-components";
-import { WidthLimitCSS } from "../../../styled-components/commonStyle";
+import {
+  FlexCenterCSS,
+  FlexColumnCenterCss,
+  WidthLimitCSS,
+} from "../../../styled-components/commonStyle";
+import CommonInput from "../../../contents/Input/Input";
 
 export interface Chat {
   message: string;
@@ -55,7 +60,6 @@ function ChatBox({
     }
   };
 
-  // 메시지 입력 핸들러
   const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewMessage(e.target.value);
   };
@@ -118,11 +122,16 @@ function ChatBox({
       </S.MessageContainer>
 
       <form onSubmit={onSubmit}>
-        <input
+        <CommonInput
           type="text"
+          name="message"
           placeholder="메세지"
           value={newMessage}
           onChange={handleMessageChange}
+          customStyle={{
+            width: "50rem",
+            height: "3rem",
+          }}
         />
       </form>
     </S.Container>
@@ -131,7 +140,15 @@ function ChatBox({
 
 const S = {
   Container: styled.div`
-    ${WidthLimitCSS}
+    width: 100%;
+    ${FlexColumnCenterCss}
+    & > div {
+      width: 100%;
+    }
+    & > form {
+      width: 100%;
+      ${FlexCenterCSS}
+    }
   `,
 
   MessageContainer: styled.div`

@@ -31,8 +31,9 @@ const S = {
     border-radius: 18px;
     background-color: ${(props) =>
       props.isOwnContent ? "#E8E8E8" : "#FFFFFF"};
-    border: ${(props) => (props.isOwnContent ? "none" : "3px solid black")};
+    border: ${(props) => (props.isOwnContent ? "none" : "2px solid black")};
     color: ${(props) => (props.isOwnContent ? "#000" : "#000")};
+    font-weight: bold;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
     margin: 0 10px;
     border-top-${(props) => (props.isOwnContent ? "right" : "left")}-radius: 0;

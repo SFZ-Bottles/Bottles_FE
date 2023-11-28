@@ -31,7 +31,7 @@ function LogInPage() {
     e.preventDefault();
     const result = await LoginApi.login(form.id, form.password);
     if (result.data) {
-      TokenService.setToken(result.data);
+      TokenService.setToken(result.data.token);
       UserService.setUserId(form.id);
       navigate("/home/feed");
     } else {

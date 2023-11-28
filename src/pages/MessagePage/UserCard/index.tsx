@@ -4,18 +4,17 @@ import { ProfileProps } from "../MessagePage";
 import { useEffect } from "react";
 
 interface UserCardProps {
-  data: ProfileProps[] | undefined;
+  data: ProfileProps[];
   setClickIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function UserCard({ data, setClickIndex }: UserCardProps) {
-  console.log(data);
   return (
     <S.ItemContainer>
       {data?.map((info: ProfileProps, index: number) => (
         <S.Item key={index}>
           <Card onClick={() => setClickIndex(index)}>
-            {info.image && <Card.UserProfile src={info.image} />}
+            {info.image && <Card.UserProfile src={info.image || ""} />}
             <Card.UserId>{info?.members[1]}</Card.UserId>
             <Card.UserDescribe>{info.name}</Card.UserDescribe>
             <Card.MessageImg />

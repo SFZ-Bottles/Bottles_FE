@@ -6,6 +6,7 @@ import { getAvatar, getChatList } from "../../services/API";
 import UserCard from "./UserCard";
 import MessageBox from "./MessageBox";
 import ChatBox from "./ChatBox";
+import { getParticipation } from "../../utils/messageUtils";
 
 export interface DataProps {
   num: number;
@@ -21,18 +22,21 @@ export interface ProfileProps {
 }
 
 const MessagePage = () => {
-  const id = localStorage.getItem("id");
+  const id = localStorage.getItem("id") ?? "";
   const [userInfo, setUserInfo] = useState<ProfileProps[]>();
   const [clickIndex, setClickIndex] = useState(0);
   const { data } = useQuery<DataProps>(["message", id as string], () =>
     getChatList(id as string)
   );
+
+  console.log(data);
   const getProfile = async () => {
     if (data && data.result) {
       const updatedResults = await Promise.all(
         data.result.map(async (user) => {
-          const avatarUrl = await getAvatar(user.members[1]);
-          return { ...user, image: avatarUrl };
+          const otherUser = getParticipation(id, user.members);
+          const avatarUrl = await getAvatar(otherUser[0]);
+          return { ...user, members: otherUser, image: avatarUrl };
         })
       );
       setUserInfo(updatedResults);

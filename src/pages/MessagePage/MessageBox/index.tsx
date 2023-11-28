@@ -10,7 +10,7 @@ function MessageBox({ userInfo, clickIndex }: MessageBoxProps) {
   return (
     <S.ChatProfileDiv>
       <S.Profile src={userInfo[clickIndex]?.image || ""} />
-      <S.UserName>{userInfo[clickIndex]?.members[1]}</S.UserName>
+      <S.UserName>{userInfo[clickIndex]?.members[0]}</S.UserName>
     </S.ChatProfileDiv>
   );
 }

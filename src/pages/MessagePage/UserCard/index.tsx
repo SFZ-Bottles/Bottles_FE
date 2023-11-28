@@ -15,7 +15,7 @@ function UserCard({ data, setClickIndex }: UserCardProps) {
         <S.Item key={index}>
           <Card onClick={() => setClickIndex(index)}>
             {info.image && <Card.UserProfile src={info.image || ""} />}
-            <Card.UserId>{info?.members[1]}</Card.UserId>
+            <Card.UserId>{info?.members[0]}</Card.UserId>
             <Card.UserDescribe>{info.name}</Card.UserDescribe>
             <Card.MessageImg />
           </Card>

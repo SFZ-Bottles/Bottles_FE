@@ -103,6 +103,10 @@ export const InputDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+
+  & > p {
+    font-size: 1.5rem;
+  }
 `;
 
 export const LoginInfo = styled.div`

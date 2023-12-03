@@ -1,13 +1,6 @@
+import { UserValueProps } from "./../hook/useForm";
 import axios from "axios";
 import axiosInstance from "./core";
-
-interface IUserInfo {
-  id: string;
-  pw: string;
-  name: string;
-  email: string;
-  info: string;
-}
 
 const LoginApi = {
   login(id: string, pw: string) {
@@ -17,13 +10,13 @@ const LoginApi = {
     });
   },
 
-  signUp({ id, pw, name, email, info }: IUserInfo) {
+  signUp({ id, pw, name, email, intro }: UserValueProps) {
     return axiosInstance.post("/api/users/", {
       id,
       pw,
       name,
       email,
-      info,
+      intro,
     });
   },
 

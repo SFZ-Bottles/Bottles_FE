@@ -1,16 +1,17 @@
 import React from "react";
 import styled, { CSSProp, css } from "styled-components";
+import { FlexCenterCSS } from "../../styled-components/commonStyle";
 
-// Styled Components 정의
 const InputWrapper = styled.div`
-  /* 여기에 InputWrapper 스타일 정의 */
+  width: 100%;
+  ${FlexCenterCSS}
 `;
 
 const StyledInput = styled.input<{ customStyle?: CSSProp }>`
   border-radius: 2rem;
   font-size: 1rem;
-  padding-left: 2rem;
   width: 40rem;
+  padding-left: 2rem;
   height: 2.5rem;
 
   &.error {

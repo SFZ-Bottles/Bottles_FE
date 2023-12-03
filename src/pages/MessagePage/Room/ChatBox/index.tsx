@@ -6,7 +6,7 @@ import ChatBubble from "./Bubble";
 import { styled } from "styled-components";
 import {
   FlexCenterCSS,
-  FlexColumnCenterCss,
+  FlexColumnCenterCSS,
 } from "../../../../styled-components/commonStyle";
 import CommonInput from "../../../../contents/Input/Input";
 
@@ -134,7 +134,7 @@ function ChatBox({ roomId }: { roomId: string }) {
 const S = {
   Container: styled.div`
     width: 100%;
-    ${FlexColumnCenterCss}
+    ${FlexColumnCenterCSS}
     & > div {
       width: 100%;
     }

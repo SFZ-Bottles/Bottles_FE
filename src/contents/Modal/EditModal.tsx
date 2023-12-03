@@ -3,7 +3,7 @@ import { changeInfo } from "../../services/API";
 import { useState } from "react";
 import {
   FlexCenterCSS,
-  FlexColumnCenterCss,
+  FlexColumnCenterCSS,
 } from "../../styled-components/commonStyle";
 import CommonInput from "../Input/Input";
 
@@ -44,7 +44,7 @@ function EditModal({ editData, userData, setUserData, onClose }: any) {
 
 const S = {
   Container: styled.div`
-    ${FlexColumnCenterCss}
+    ${FlexColumnCenterCSS}
     width: 30rem;
     height: 15rem;
     gap: 10%;

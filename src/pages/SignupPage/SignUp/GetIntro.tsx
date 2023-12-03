@@ -1,38 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { SignupState, signupPage } from "../../../Atom/atom";
 import {
-  AvailableBox,
   C_FlexBox,
-  CheckId,
-  FlexBox,
   Form,
-  IdLength,
-  Input,
   InputDiv,
   IntroLegnth,
   SignInDiv,
   LoginInfo,
   SemiTitle,
   Span,
-  Title,
   NextButton,
   BigInput,
 } from "../../../styled-components/styled_LogIn";
-import { useRecoilState } from "recoil";
-import { checkDuplicate, signUp } from "../../../services/API";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../../contents/Modal/Modal";
-import { isValidInput } from "../../../context/function";
+import LoginApi from "../../../services/loginApi";
+import { useForm } from "react-hook-form";
+import { useRecoilState } from "recoil";
+import { SignupState } from "../../../Atom/atom";
 
 function GetIntro() {
   const navigate = useNavigate();
   const [signup, setSignup] = useRecoilState(SignupState);
-  const [modal, setModal] = useState(false);
+  console.log(signup);
+  const {
+    handleSubmit,
+    formState: { errors },
+    watch,
+    register,
+  } = useForm({
+    defaultValues: {
+      intro: "",
+    },
+  });
+  const introValue = watch("intro");
 
-  const signupClick = async () => {
-    if (isValidInput(signup.intro.length, 150)) {
-      const result = await signUp(signup);
-      console.log(result);
+  const onSubmit = async () => {
+    if (!errors.intro) {
+      console.log({ ...signup, intro: introValue });
+      await LoginApi.signUp({ ...signup, info: introValue });
       navigate("/");
     }
   };
@@ -40,7 +43,7 @@ function GetIntro() {
   return (
     <SignInDiv>
       <SemiTitle>Welcome to Bottles!</SemiTitle>
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <InputDiv>
           <Span>
             About you
@@ -51,24 +54,21 @@ function GetIntro() {
           </Span>
           <C_FlexBox>
             <BigInput
-              value={signup.intro}
-              onChange={(e: any) =>
-                setSignup({ ...signup, intro: e.target.value })
-              }
-              required
+              placeholder="소개 입력"
+              {...register("intro", {
+                required: true,
+                minLength: 1,
+                maxLength: 150,
+              })}
             />
+            {errors.intro && <p>최대 150자 까지입니다.</p>}
           </C_FlexBox>
-          <IntroLegnth len={signup?.intro.length}>
-            {signup?.intro.length} / 150
+          <IntroLegnth len={introValue.length}>
+            {introValue.length} / 150
           </IntroLegnth>
         </InputDiv>
+        <NextButton>Join Us</NextButton>
       </Form>
-      <NextButton onClick={signupClick}>Join Us</NextButton>
-      {modal ? (
-        <Modal>
-          <h1>안녕하세요</h1>
-        </Modal>
-      ) : null}
     </SignInDiv>
   );
 }

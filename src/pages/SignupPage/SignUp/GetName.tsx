@@ -1,12 +1,6 @@
-import React, { useState } from "react";
 import { SignupState, signupPage } from "../../../Atom/atom";
 import {
-  AvailableBox,
-  C_FlexBox,
-  CheckId,
-  FlexBox,
   Form,
-  IdLength,
   Input,
   InputDiv,
   PasswordLength,
@@ -14,30 +8,39 @@ import {
   LoginInfo,
   SemiTitle,
   Span,
-  Title,
   NextButton,
 } from "../../../styled-components/styled_LogIn";
-import { useRecoilState } from "recoil";
-import { checkDuplicate } from "../../../services/API";
-import { useNavigate } from "react-router-dom";
-import { isValidInput } from "../../../context/function";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useForm } from "react-hook-form";
 
 function GetName() {
+  const setPageNum = useSetRecoilState(signupPage);
   const [signup, setSignup] = useRecoilState(SignupState);
-  const [pageNum, setPageNum] = useRecoilState(signupPage);
-
-  const onSubmit = async () => {
-    if (
-      isValidInput(signup.name.length, 30) &&
-      isValidInput(signup.email.length, 30)
-    ) {
-      setPageNum((prev) => prev + 1);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+    },
+  });
+  const nameValue = watch("name");
+  const emailValue = watch("email");
+  console.log(signup);
+  const onSubmit = (data: any) => {
+    if (!Object.keys(errors).length) {
+      setSignup({ ...signup, name: nameValue, email: emailValue });
+      setPageNum(3);
     }
   };
+
   return (
     <SignInDiv>
       <SemiTitle>Welcome to Bottles!</SemiTitle>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <InputDiv>
           <Span>
             Name
@@ -46,19 +49,18 @@ function GetName() {
               있습니다.
             </LoginInfo>
           </Span>
-          <C_FlexBox>
-            <Input
-              type="text"
-              placeholder="Name"
-              value={signup.name}
-              onChange={(e: any) =>
-                setSignup({ ...signup, name: e.target.value })
-              }
-              required
-            />
-          </C_FlexBox>
-          <PasswordLength len={signup?.name.length}>
-            {signup?.name.length} / 30
+          <Input
+            type="text"
+            placeholder="Name"
+            {...register("name", {
+              required: true,
+              maxLength: 30,
+              minLength: 2,
+            })}
+          />
+          {errors.name && <p>이름은 2글자 이상, 30글자 이하입니다.</p>}
+          <PasswordLength len={nameValue.length || 0}>
+            {nameValue.length || 0} / 30
           </PasswordLength>
         </InputDiv>
         <InputDiv>
@@ -72,17 +74,18 @@ function GetName() {
           <Input
             type="text"
             placeholder="E-mail"
-            value={signup.email}
-            onChange={(e: any) =>
-              setSignup({ ...signup, email: e.target.value })
-            }
-            required
+            {...register("email", {
+              required: true,
+              maxLength: 30,
+              minLength: 2,
+            })}
           />
-          <PasswordLength len={signup?.email.length}>
-            {signup?.email.length} / 30
+          {errors.email && <p>정확한 형식에 맞춰주세요</p>}
+          <PasswordLength len={emailValue.length || 0}>
+            {emailValue.length || 0} / 30
           </PasswordLength>
         </InputDiv>
-        <NextButton>({pageNum} / 3) 다음단계로</NextButton>
+        <NextButton>(2 / 3) 다음단계로</NextButton>
       </Form>
     </SignInDiv>
   );

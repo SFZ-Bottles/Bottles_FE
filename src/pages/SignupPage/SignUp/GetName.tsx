@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SignupState, signupPage } from "../../Atom/atom";
+import { SignupState, signupPage } from "../../../Atom/atom";
 import {
   AvailableBox,
   C_FlexBox,
@@ -16,11 +16,11 @@ import {
   Span,
   Title,
   NextButton,
-} from "../../styled-components/styled_LogIn";
+} from "../../../styled-components/styled_LogIn";
 import { useRecoilState } from "recoil";
-import { checkDuplicate } from "../../services/API";
+import { checkDuplicate } from "../../../services/API";
 import { useNavigate } from "react-router-dom";
-import { isValidInput } from "../../context/function";
+import { isValidInput } from "../../../context/function";
 
 function GetName() {
   const [signup, setSignup] = useRecoilState(SignupState);

@@ -5,8 +5,9 @@ import {
   getUserInfo,
   getMyFollower,
   userFollow,
+  makeChatRoom,
 } from "../../services/API";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import FeedPage from "../FeedPage/FeedPage";
 import TokenService from "../../utils/tokenService";
 
@@ -32,8 +33,9 @@ export interface IEdit3 {
 
 const AlbumPage = () => {
   const params = useParams();
-  const { id } = params;
-  const myId = localStorage.getItem("id");
+  const id = params.id ?? "";
+  const myId = localStorage.getItem("id") ?? "";
+  const navigate = useNavigate();
   const [isMyAlbum, setIsMyAlbum] = useState(id === myId);
   const [userFollower, setUserFollower] = useState<IEdit>();
   const [userBasicInfo, setUserBasicInfo] = useState<IEdit2>();
@@ -56,6 +58,11 @@ const AlbumPage = () => {
     setIsMyAlbum(false);
   };
 
+  const messageClick = async () => {
+    await makeChatRoom(myId, id);
+    navigate("/home/message");
+  };
+
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -64,7 +71,10 @@ const AlbumPage = () => {
     <>
       <S.Container>
         {!isMyAlbum && (
-          <S.FollowButton onClick={followClick}>팔로우</S.FollowButton>
+          <>
+            <S.AlbumButton onClick={followClick}>팔로우</S.AlbumButton>
+            <S.AlbumButton onClick={messageClick}>메세지</S.AlbumButton>
+          </>
         )}
         {userBasicInfo && <S.UserProfile src={userBasicInfo.avatar} />}
         <S.UserText>{userBasicInfo?.name}</S.UserText>
@@ -112,7 +122,7 @@ const S = {
     font-weight: bold;
     color: lightgray;
   `,
-  FollowButton: styled.span`
+  AlbumButton: styled.span`
     font-size: 1.5rem;
     cursor: pointer;
     font-weight: 700;

@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getAvatar, getChatList } from "../../services/API";
 import UserCard from "./UserCard";
-import MessageBox from "./MessageBox";
-import ChatBox from "./ChatBox";
+import { getParticipation } from "../../utils/messageUtils";
+import { useParams } from "react-router-dom";
+import Room from "./Room";
 
 export interface DataProps {
   num: number;
@@ -21,21 +22,24 @@ export interface ProfileProps {
 }
 
 const MessagePage = () => {
-  const id = localStorage.getItem("id");
-  const [userInfo, setUserInfo] = useState<ProfileProps[]>();
-  const [clickIndex, setClickIndex] = useState(0);
-  const { data } = useQuery<DataProps>(["message", id as string], () =>
-    getChatList(id as string)
+  const myId = localStorage.getItem("id") ?? "";
+  const { targetId } = useParams();
+  const [chatList, setChatList] = useState<ProfileProps[]>();
+  const { data } = useQuery<DataProps>(["message", myId as string], () =>
+    getChatList(myId as string)
   );
+
+  console.log(data?.result);
   const getProfile = async () => {
     if (data && data.result) {
       const updatedResults = await Promise.all(
         data.result.map(async (user) => {
-          const avatarUrl = await getAvatar(user.members[1]);
-          return { ...user, image: avatarUrl };
+          const otherUser = getParticipation(myId, user.members);
+          const avatarUrl = await getAvatar(otherUser[0]);
+          return { ...user, members: otherUser, image: avatarUrl };
         })
       );
-      setUserInfo(updatedResults);
+      setChatList(updatedResults);
     }
   };
 
@@ -45,17 +49,10 @@ const MessagePage = () => {
 
   return (
     <S.Container>
-      <SideBar>
-        {data?.result && (
-          <UserCard data={userInfo ?? []} setClickIndex={setClickIndex} />
-        )}
-      </SideBar>
-      <div style={{ paddingLeft: "470px" }}>
-        <S.ContentContainer>
-          <MessageBox userInfo={userInfo ?? []} clickIndex={clickIndex} />
-        </S.ContentContainer>
-        <ChatBox chatList={userInfo ?? []} index={clickIndex} />
-      </div>
+      <SideBar>{chatList && <UserCard data={chatList} />}</SideBar>
+      {targetId && chatList ? (
+        <Room roomList={chatList ?? []} targetId={targetId} />
+      ) : null}
     </S.Container>
   );
 };
@@ -64,19 +61,6 @@ const S = {
   Container: styled.div`
     width: 100%;
     height: 100%;
-  `,
-
-  UserContainer: styled.div`
-    display: flex;
-  `,
-
-  ContentContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-top: 20px;
-    border-bottom: 2px solid #d9d9d9;
-    border-color: ${(props) => props.theme.color.chatBorder};
   `,
 };
 

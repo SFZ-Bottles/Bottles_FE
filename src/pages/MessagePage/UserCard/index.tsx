@@ -2,20 +2,26 @@ import { styled } from "styled-components";
 import { Card } from "../../../contents/Comment/Comment";
 import { ProfileProps } from "../MessagePage";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface UserCardProps {
   data: ProfileProps[];
-  setClickIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function UserCard({ data, setClickIndex }: UserCardProps) {
+function UserCard({ data }: UserCardProps) {
+  const navigate = useNavigate();
+
+  const cardClick = (index: number) => {
+    navigate(`/home/message/${data[index].members[0]}`);
+  };
+
   return (
     <S.ItemContainer>
       {data?.map((info: ProfileProps, index: number) => (
         <S.Item key={index}>
-          <Card onClick={() => setClickIndex(index)}>
+          <Card onClick={() => cardClick(index)}>
             {info.image && <Card.UserProfile src={info.image || ""} />}
-            <Card.UserId>{info?.members[1]}</Card.UserId>
+            <Card.UserId>{info?.members[0]}</Card.UserId>
             <Card.UserDescribe>{info.name}</Card.UserDescribe>
             <Card.MessageImg />
           </Card>

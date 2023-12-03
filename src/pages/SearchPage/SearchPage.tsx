@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Card } from "../../contents/Comment/Comment";
 import { useQuery } from "react-query";
 import { getSearchedUsers } from "../../services/API";
-import { getTokenId } from "../../hook/hook";
 import { useNavigate } from "react-router-dom";
 
 interface IUser {
@@ -16,7 +15,7 @@ interface IUser {
 const SearchPage = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
-  const { isLoading, data, refetch } = useQuery<IUser>(
+  const { data, refetch } = useQuery<IUser>(
     ["searchUsers", name],
     () => getSearchedUsers(name),
     {
@@ -36,7 +35,7 @@ const SearchPage = () => {
 
   return (
     <S.Container>
-      <SearchBar input={name} setInput={setName} />
+      <SearchBar value={name} onChange={(e) => setName(e.target.value)} />
       <S.ItemContainer>
         {name
           ? data?.result?.map((info: any) => (

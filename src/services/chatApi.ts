@@ -1,4 +1,3 @@
-import { Chat } from "../pages/MessagePage/ChatBox";
 import TokenService from "../utils/tokenService";
 import axiosInstance from "./core";
 
@@ -9,9 +8,12 @@ const ChatApi = {
     const headers = {
       Authorization: token,
     };
-    return axiosInstance.get(`/api/chatrooms/${roomId}/messages/`, {
-      headers,
-    });
+    return axiosInstance.get(
+      `/api/chatrooms/${roomId}/messages/?order=timestamp&num=30&count=1`,
+      {
+        headers,
+      }
+    );
   },
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { SignupState, signupPage } from "../../Atom/atom";
+import { SignupState, signupPage } from "../../../Atom/atom";
 import {
   C_FlexBox,
   CheckId,
@@ -13,11 +13,11 @@ import {
   SemiTitle,
   Span,
   NextButton,
-} from "../../styled-components/styled_LogIn";
+} from "../../../styled-components/styled_LogIn";
 import { useRecoilState } from "recoil";
-import LoginApi from "../../services/loginApi";
-import useForm from "../../hook/useForm";
-import userValidation from "../../utils/userValidation";
+import LoginApi from "../../../services/loginApi";
+import useForm from "../../../hook/useForm";
+import userValidation from "../../../utils/userValidation";
 
 function GetIdPw() {
   const [pageNum, setPageNum] = useRecoilState(signupPage);

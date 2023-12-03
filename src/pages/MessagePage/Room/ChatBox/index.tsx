@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import ChatApi from "../../../services/chatApi";
-import { ProfileProps } from "../MessagePage";
-import TokenService from "../../../utils/tokenService";
+import ChatApi from "../../../../services/chatApi";
+import { ProfileProps } from "../../MessagePage";
+import TokenService from "../../../../utils/tokenService";
 import ChatBubble from "./Bubble";
 import { styled } from "styled-components";
 import {
   FlexCenterCSS,
   FlexColumnCenterCss,
-  WidthLimitCSS,
-} from "../../../styled-components/commonStyle";
-import CommonInput from "../../../contents/Input/Input";
+} from "../../../../styled-components/commonStyle";
+import CommonInput from "../../../../contents/Input/Input";
 
 export interface Chat {
   message: string;
@@ -24,13 +23,7 @@ export interface Content {
   timestamp: string;
 }
 
-function ChatBox({
-  chatList,
-  index,
-}: {
-  chatList: ProfileProps[];
-  index: number;
-}) {
+function ChatBox({ roomId }: { roomId: string }) {
   const token = TokenService.getToken();
   const id = localStorage.getItem("id") ?? "";
   const [messages, setMessages] = useState<Content[]>([]);
@@ -39,7 +32,7 @@ function ChatBox({
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const getRoomHistory = async () => {
-    const history = await ChatApi.RoomHistory(chatList[index].id);
+    const history = await ChatApi.RoomHistory(roomId);
     if (history) {
       setMessages(history.data.result);
       console.log(history.data.result);
@@ -65,12 +58,12 @@ function ChatBox({
   };
 
   useEffect(() => {
-    if (!chatList[index]?.id) return;
+    if (!roomId) return;
 
     getRoomHistory();
 
     const webSocket = new WebSocket(
-      `ws://14.4.145.80:8000/ws/chat/${chatList[index].id}/?token=${token}`
+      `ws://14.4.145.80:8000/ws/chat/${roomId}/?token=${token}`
     );
 
     // 서버로부터 메시지 수신
@@ -99,7 +92,7 @@ function ChatBox({
     return () => {
       webSocket.close();
     };
-  }, [chatList, index]);
+  }, [roomId]);
 
   // 초기 스크롤 위치를 맨 밑으로 이동 하기 위한 useEffect
   useEffect(() => {
@@ -129,7 +122,7 @@ function ChatBox({
           value={newMessage}
           onChange={handleMessageChange}
           customStyle={{
-            width: "50rem",
+            width: "80%",
             height: "3rem",
           }}
         />
@@ -147,7 +140,9 @@ const S = {
     }
     & > form {
       width: 100%;
+      height: 100%;
       ${FlexCenterCSS}
+      padding-top: 1rem;
     }
   `,
 
@@ -157,6 +152,7 @@ const S = {
     height: 60vh;
     overflow: auto;
     overflow-x: hidden;
+    border-bottom: 2px solid #d9d9d9;
     &::-webkit-scrollbar {
       width: 0.7rem;
     }

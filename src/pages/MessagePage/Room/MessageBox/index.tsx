@@ -1,16 +1,11 @@
 import { styled } from "styled-components";
-import { ProfileProps } from "../MessagePage";
+import { ProfileProps } from "../../MessagePage";
 
-interface MessageBoxProps {
-  userInfo: ProfileProps[];
-  clickIndex: number;
-}
-
-function MessageBox({ userInfo, clickIndex }: MessageBoxProps) {
+function MessageBox({ chatInfo }: { chatInfo: ProfileProps }) {
   return (
     <S.ChatProfileDiv>
-      <S.Profile src={userInfo[clickIndex]?.image || ""} />
-      <S.UserName>{userInfo[clickIndex]?.members[0]}</S.UserName>
+      <S.Profile src={chatInfo?.image || ""} />
+      <S.UserName>{chatInfo?.members[0]}</S.UserName>
     </S.ChatProfileDiv>
   );
 }

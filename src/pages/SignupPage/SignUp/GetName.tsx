@@ -12,6 +12,11 @@ import {
 } from "../../../styled-components/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
+import { styled } from "styled-components";
+import {
+  FlexCenterCSS,
+  FlexColumnCenterCSS,
+} from "../../../styled-components/commonStyle";
 
 function GetName() {
   const setPageNum = useSetRecoilState(signupPage);
@@ -29,7 +34,7 @@ function GetName() {
   });
   const nameValue = watch("name");
   const emailValue = watch("email");
-  console.log(signup);
+
   const onSubmit = (data: any) => {
     if (!Object.keys(errors).length) {
       setSignup({ ...signup, name: nameValue, email: emailValue });
@@ -38,19 +43,20 @@ function GetName() {
   };
 
   return (
-    <SignInDiv>
-      <SemiTitle>Welcome to Bottles!</SemiTitle>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <InputDiv>
-          <Span>
+    <S.Container>
+      <span>Welcome to Bottles!</span>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <S.InputContainer>
+          <span>
             Name
-            <LoginInfo>
+            <div>
               이름 정보는 프로필 상단에 표시되며 이를 통해 친구와 연결될 수
               있습니다.
-            </LoginInfo>
-          </Span>
+            </div>
+          </span>
           <Input
             type="text"
+            color={nameValue.length > 30 || errors.name ? "red" : "default"}
             placeholder="Name"
             {...register("name", {
               required: true,
@@ -62,17 +68,18 @@ function GetName() {
           <PasswordLength len={nameValue.length || 0}>
             {nameValue.length || 0} / 30
           </PasswordLength>
-        </InputDiv>
-        <InputDiv>
-          <Span>
+        </S.InputContainer>
+        <S.InputContainer>
+          <span>
             E-mail
-            <LoginInfo>
+            <div>
               이메일 정보는 계정정보 분실시 이용됩니다. 정확한 주소를 입력해
               주세요.
-            </LoginInfo>
-          </Span>
+            </div>
+          </span>
           <Input
             type="text"
+            color={emailValue.length > 30 || errors.email ? "red" : "default"}
             placeholder="E-mail"
             {...register("email", {
               required: true,
@@ -80,15 +87,73 @@ function GetName() {
               minLength: 2,
             })}
           />
-          {errors.email && <p>정확한 형식에 맞춰주세요</p>}
           <PasswordLength len={emailValue.length || 0}>
             {emailValue.length || 0} / 30
           </PasswordLength>
-        </InputDiv>
-        <NextButton>(2 / 3) 다음단계로</NextButton>
-      </Form>
-    </SignInDiv>
+          {errors.email && <p>정확한 형식에 맞춰주세요</p>}
+        </S.InputContainer>
+      </form>
+      <S.ButtonDiv>
+        <button type="submit">(2 / 3) 다음단계로</button>
+      </S.ButtonDiv>
+    </S.Container>
   );
 }
+
+const S = {
+  Container: styled.div`
+    ${FlexColumnCenterCSS}
+
+    p {
+      color: red;
+      font-size: 2rem;
+    }
+
+    & > :first-child {
+      font-size: 6rem;
+      font-weight: 700;
+    }
+
+    & > form {
+      gap: 3rem;
+    }
+  `,
+
+  ButtonDiv: styled.div`
+    ${FlexCenterCSS}
+    width: 100%;
+    & > button {
+      height: 4rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 2rem;
+      margin-top: 5rem;
+      margin-right: 5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  `,
+
+  InputContainer: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    & > p {
+      font-size: 1.5rem;
+    }
+
+    & > span {
+      font-size: 4rem;
+      font-weight: 700;
+      padding: 1rem 1rem;
+      & > :first-child {
+        font-size: 1.5rem;
+        color: #888888;
+      }
+    }
+  `,
+};
 
 export default GetName;

@@ -29,12 +29,12 @@ function LogInPage() {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const result = await LoginApi.login(form.id, form.password);
-    if (result.data) {
+    try {
+      const result = await LoginApi.login(form.id, form.password);
       TokenService.setToken(result.data.token);
       UserService.setUserId(form.id);
       navigate("/home/feed");
-    } else {
+    } catch (error) {
       setIdentity(true);
     }
   };
@@ -48,6 +48,7 @@ function LogInPage() {
       <Title>Bottles</Title>
       <Form onSubmit={onSubmit}>
         <Input
+          color="default"
           type="text"
           placeholder="ID"
           value={form.id}
@@ -55,6 +56,7 @@ function LogInPage() {
           required
         ></Input>
         <Input
+          color="default"
           type="password"
           placeholder="Pasword"
           value={form.password}

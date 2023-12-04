@@ -15,6 +15,11 @@ import LoginApi from "../../../services/loginApi";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { SignupState } from "../../../Atom/atom";
+import { styled } from "styled-components";
+import {
+  FlexCenterCSS,
+  FlexColumnCenterCSS,
+} from "../../../styled-components/commonStyle";
 
 function GetIntro() {
   const navigate = useNavigate();
@@ -41,18 +46,18 @@ function GetIntro() {
   };
 
   return (
-    <SignInDiv>
-      <SemiTitle>Welcome to Bottles!</SemiTitle>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <InputDiv>
-          <Span>
+    <S.Container>
+      <span>Welcome to Bottles!</span>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <S.InputContainer>
+          <span>
             About you
-            <LoginInfo>
+            <div>
               '서론'은 프로필에 표시되는 자신에 대한 소개입니다. 자유롭게
               표현해보세요!
-            </LoginInfo>
-          </Span>
-          <C_FlexBox>
+            </div>
+          </span>
+          <S.InputDiv>
             <BigInput
               placeholder="소개 입력"
               {...register("intro", {
@@ -60,17 +65,74 @@ function GetIntro() {
                 minLength: 1,
                 maxLength: 150,
               })}
-            />
-            {errors.intro && <p>최대 150자 까지입니다.</p>}
-          </C_FlexBox>
-          <IntroLegnth len={introValue.length}>
-            {introValue.length} / 150
-          </IntroLegnth>
-        </InputDiv>
-        <NextButton>Join Us</NextButton>
-      </Form>
-    </SignInDiv>
+            >
+              <IntroLegnth len={introValue.length}>
+                {introValue.length} / 150
+              </IntroLegnth>
+            </BigInput>
+          </S.InputDiv>
+          {errors.intro && <p>최대 150자 까지입니다.</p>}
+        </S.InputContainer>
+        <button type="submit">Join Us</button>
+      </form>
+    </S.Container>
   );
 }
+
+const S = {
+  Container: styled.div`
+    ${FlexColumnCenterCSS}
+
+    p {
+      color: red;
+      font-size: 2rem;
+    }
+
+    & > :first-child {
+      font-size: 6rem;
+      font-weight: 700;
+    }
+
+    & > form {
+      gap: 3rem;
+
+      & > button {
+        height: 4rem;
+        width: 10rem;
+        border: none;
+        border-radius: 2rem;
+        margin-top: 6rem;
+        margin-right: 5rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+  `,
+
+  InputContainer: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    & > p {
+      font-size: 1.5rem;
+    }
+
+    & > span {
+      font-size: 4rem;
+      font-weight: 700;
+      padding: 1rem 1rem;
+      & > :first-child {
+        font-size: 1.5rem;
+        color: #888888;
+      }
+    }
+  `,
+
+  InputDiv: styled.div`
+    ${FlexCenterCSS};
+  `,
+};
 
 export default GetIntro;

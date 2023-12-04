@@ -13,8 +13,8 @@ import styled from "styled-components";
 import {
   FlexCenterCSS,
   FlexColumnCenterCSS,
-  WidthLimitCSS,
 } from "../../../styled-components/commonStyle";
+import React from "react";
 
 function GetIdPw() {
   const setPageNum = useSetRecoilState(signupPage);
@@ -65,6 +65,7 @@ function GetIdPw() {
     }
     return true;
   };
+  console.log(errors);
 
   const onSubmit = (data: any) => {
     if (!Object.keys(errors).length && idStatusMessage) {
@@ -75,7 +76,7 @@ function GetIdPw() {
 
   return (
     <S.Container>
-      <h1>Welcome to Bottles!</h1>
+      <span>Welcome to Bottles!</span>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.InputContainer>
           <span>
@@ -86,6 +87,7 @@ function GetIdPw() {
             <Input
               type="text"
               placeholder="ID"
+              color={idValue.length > 30 || errors.id ? "red" : "default"}
               {...register("id", {
                 required: true,
                 maxLength: 30,
@@ -97,8 +99,12 @@ function GetIdPw() {
           <IdLength len={idValue?.length || 0}>
             {idValue?.length || 0} / 30
           </IdLength>
-          {errors.id && <p>{errors.id.message}</p>}
-          {idStatusMessage}
+          {errors.id ? (
+            <p>{errors.id.message || "ID를 입력해주세요."}</p>
+          ) : (
+            <React.Fragment />
+          )}
+          {<p style={{ color: "blue" }}>{idStatusMessage}</p>}
         </S.InputContainer>
         <S.InputContainer>
           <span>
@@ -108,6 +114,7 @@ function GetIdPw() {
           <Input
             type="password"
             placeholder="Password"
+            color={pwValue.length > 30 || errors.pw ? "red" : "default"}
             {...register("pw", {
               required: true,
               minLength: 8,
@@ -117,9 +124,16 @@ function GetIdPw() {
           <PasswordLength len={pwValue?.length || 0}>
             {pwValue?.length || 0} / 30
           </PasswordLength>
-          {errors.pw && <p>비밀번호는 8자이상, 30자 이하여야 합니다.</p>}
+          {errors.pw ? (
+            <p>비밀번호는 8자이상, 30자 이하여야 합니다.</p>
+          ) : (
+            <React.Fragment />
+          )}
         </S.InputContainer>
-        <button type="submit">1 / 3 다음단계로</button>
+
+        <S.ButtonDiv>
+          <button type="submit">1 / 3 다음단계로</button>
+        </S.ButtonDiv>
       </form>
     </S.Container>
   );
@@ -128,25 +142,33 @@ function GetIdPw() {
 const S = {
   Container: styled.div`
     ${FlexColumnCenterCSS}
-
-    & > h1 {
+    p {
+      color: red;
+      font-size: 2rem;
+    }
+    & > :first-child {
       font-size: 6rem;
+      font-weight: 700;
     }
 
     & > form {
       gap: 3rem;
+    }
+  `,
 
-      & > button {
-        height: 4rem;
-        width: 10rem;
-        border: none;
-        border-radius: 2rem;
-        margin-top: 6rem;
-        margin-right: 5rem;
-        font-size: 1.5rem;
-        font-weight: 700;
-        cursor: pointer;
-      }
+  ButtonDiv: styled.div`
+    ${FlexCenterCSS}
+    width: 100%;
+    & > button {
+      height: 4rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 2rem;
+      margin-top: 6rem;
+      margin-right: 5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
     }
   `,
 

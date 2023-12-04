@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+<div align=center>
+  <h3>익명 고민상담 SNS</h3>
+  <img width="177" alt="image" src="https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/4bd4fc44-98f0-435d-862f-8fcf34406c28">
+  <h2>Bottles</h2>
+</div>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🍶 프로젝트 소개
+  - Bottles는 익명으로 일상과 고민을 공유할 수 있는 SNS입니다.
+  - 온라인 상에서 아는 사람과의 연결과 더불어 '랜덤한 연결'을 추구합니다.
+  - 사회의 나와 익명성이 부여된 나를 분리하는 삶을 체험 할 수 있습니다.
+  - 일반적인 관계 속에서는 말 못할 고민을 익명성을 이용해 발언하고 공유할 수 있습니다.
+  - 비익명 모드로도 일반적인 SNS와 같은 기능을 사용하실 수 있습니다.
 
-## Available Scripts
 
-In the project directory, you can run:
+## 📚주요 기능 소개
 
-### `npm start`
+### 1. 게시물을 공유할 그룹을 관리할 수 있습니다.
+<img width="889" alt="image" src="https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/14173db3-3983-4416-acf4-cba9a1ea4517">
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2. 게시물이 하나의 bottle에 담겨 그룹 내 랜덤한 익명에게 보내집니다.
+<img width="880" alt="image" src="https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/8f81fd81-b3e6-4e71-80fc-7b5f2c95dbc0">
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## ⚒️ 기술 스택
+### FE
+<img width="504" alt="image" src="https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/cdd05e7f-acb6-47b3-919d-b267bf0b03d4">
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🤼 팀원 소개
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/GoByeonghu"><img src="https://avatars.githubusercontent.com/u/92240138?v=4" width="100px;" alt=""/><br /><sub><b>BE: 고병후</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/Codelicious100"><img src="https://avatars.githubusercontent.com/u/129709159?v=4" width="100px;" alt=""/><br /><sub><b>BE: Alice</b></sub></a><br /></td>
+      <td align="center"><a href=https://github.com/hyo6004"><img src="https://avatars.githubusercontent.com/u/109258334?v=4" width="100px;" alt=""/><br /><sub><b>Android: 김효중 </b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/jungjunhyung99"><img src="https://avatars.githubusercontent.com/u/55770796?v=4" width="100px;" alt=""/><br /><sub><b>FE: 정준형</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/WangJongwook"><img src="https://avatars.githubusercontent.com/u/79205667?v=4" width="100px;" alt=""/><br /><sub><b>FE: 왕종욱</b></sub></a><br /></td>
+    </tr>
+  </tbody>
+</table>

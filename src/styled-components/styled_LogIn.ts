@@ -42,7 +42,6 @@ export const Input = styled.input<{ color: string }>`
 `;
 
 export const BigInput = styled.textarea`
-  position: relative;
   width: 50rem;
   height: 25rem;
   border-radius: 2rem;

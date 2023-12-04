@@ -1,14 +1,13 @@
-
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import Navbar from '../../contents/Navbar/Navbar';
-import { styled } from 'styled-components';
+import { Outlet } from "react-router-dom";
+import Navbar from "../../contents/Navbar/Navbar";
+import { styled } from "styled-components";
 
 const MainPage = () => {
   return (
     <S.MainContainer>
-      <Navbar/>
+      <Navbar />
       <S.OutletConatiner>
-        <Outlet/>
+        <Outlet />
       </S.OutletConatiner>
     </S.MainContainer>
   );
@@ -21,12 +20,12 @@ const S = {
     width: 100%;
     height: 100%;
     min-height: 100vh;
-    background-color: ${props => props.theme.color.bgColor};
-    color: ${props => props.theme.color.fontColor};
+    background-color: ${(props) => props.theme.color.bgColor};
+    color: ${(props) => props.theme.color.fontColor};
   `,
   OutletConatiner: styled.div`
-    padding-top: 100px;
-  `
-}
+    padding-top: 5rem;
+  `,
+};
 
 export default MainPage;

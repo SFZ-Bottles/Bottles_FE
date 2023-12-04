@@ -1,15 +1,5 @@
 import { SignupState, signupPage } from "../../../Atom/atom";
-import {
-  Form,
-  Input,
-  InputDiv,
-  PasswordLength,
-  SignInDiv,
-  LoginInfo,
-  SemiTitle,
-  Span,
-  NextButton,
-} from "../../../styled-components/styled_LogIn";
+import { Input, PasswordLength } from "../../../styled-components/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
@@ -36,6 +26,7 @@ function GetName() {
   const emailValue = watch("email");
 
   const onSubmit = (data: any) => {
+    console.log(data);
     if (!Object.keys(errors).length) {
       setSignup({ ...signup, name: nameValue, email: emailValue });
       setPageNum(3);
@@ -92,10 +83,10 @@ function GetName() {
           </PasswordLength>
           {errors.email && <p>정확한 형식에 맞춰주세요</p>}
         </S.InputContainer>
+        <S.ButtonDiv>
+          <button type="submit">(2 / 3) 다음단계로</button>
+        </S.ButtonDiv>
       </form>
-      <S.ButtonDiv>
-        <button type="submit">(2 / 3) 다음단계로</button>
-      </S.ButtonDiv>
     </S.Container>
   );
 }
@@ -103,15 +94,16 @@ function GetName() {
 const S = {
   Container: styled.div`
     ${FlexColumnCenterCSS}
+    & > :first-child {
+      margin: 2rem 0;
+      font-size: 6rem;
+      font-weight: 700;
+    }
 
     p {
       color: red;
       font-size: 2rem;
-    }
-
-    & > :first-child {
-      font-size: 6rem;
-      font-weight: 700;
+      padding-left: 1rem;
     }
 
     & > form {
@@ -139,6 +131,7 @@ const S = {
     position: relative;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
     & > p {
       font-size: 1.5rem;
@@ -149,6 +142,7 @@ const S = {
       font-weight: 700;
       padding: 1rem 1rem;
       & > :first-child {
+        margin-top: 1rem;
         font-size: 1.5rem;
         color: #888888;
       }

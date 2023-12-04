@@ -65,15 +65,16 @@ function GetIntro() {
                 minLength: 1,
                 maxLength: 150,
               })}
-            >
-              <IntroLegnth len={introValue.length}>
-                {introValue.length} / 150
-              </IntroLegnth>
-            </BigInput>
+            ></BigInput>
           </S.InputDiv>
-          {errors.intro && <p>최대 150자 까지입니다.</p>}
+          {errors.intro && <p>최소 1자, 최대 150자 까지입니다.</p>}
+          <IntroLegnth len={introValue.length}>
+            {introValue.length} / 150
+          </IntroLegnth>
         </S.InputContainer>
-        <button type="submit">Join Us</button>
+        <S.ButtonDiv>
+          <button type="submit">Join Us</button>
+        </S.ButtonDiv>
       </form>
     </S.Container>
   );
@@ -91,22 +92,27 @@ const S = {
     & > :first-child {
       font-size: 6rem;
       font-weight: 700;
+      margin: 2rem 0;
     }
 
     & > form {
       gap: 3rem;
+    }
+  `,
 
-      & > button {
-        height: 4rem;
-        width: 10rem;
-        border: none;
-        border-radius: 2rem;
-        margin-top: 6rem;
-        margin-right: 5rem;
-        font-size: 1.5rem;
-        font-weight: 700;
-        cursor: pointer;
-      }
+  ButtonDiv: styled.div`
+    ${FlexCenterCSS}
+    width: 100%;
+    & > button {
+      height: 4rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 2rem;
+      margin-top: 6rem;
+      margin-right: 5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
     }
   `,
 
@@ -114,6 +120,7 @@ const S = {
     position: relative;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
     & > p {
       font-size: 1.5rem;
@@ -124,6 +131,7 @@ const S = {
       font-weight: 700;
       padding: 1rem 1rem;
       & > :first-child {
+        margin-top: 1rem;
         font-size: 1.5rem;
         color: #888888;
       }
@@ -131,7 +139,8 @@ const S = {
   `,
 
   InputDiv: styled.div`
-    ${FlexCenterCSS};
+    display: flex;
+    justify-content: start;
   `,
 };
 

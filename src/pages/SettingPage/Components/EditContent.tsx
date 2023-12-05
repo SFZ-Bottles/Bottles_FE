@@ -6,6 +6,9 @@ import CustomButton from "../../../contents/Button/CustomButton";
 import { onFileReaderChange } from "../../../utils/imageUpload";
 import Modal from "../../../contents/Modal/Modal";
 import UploadButton from "../../../contents/Button/UploadButton";
+import AuthService from "../../../utils/authService";
+import InfoApi from "../../../services/infoApi";
+import basicCSS from "../../../styled-components/basicStyle";
 
 export interface IEdit {
   id: string;
@@ -18,22 +21,28 @@ export interface IEdit {
 function EditContent() {
   const [userData, setUserData] = useState<IEdit>();
   const [editData, setEditData] = useState<null | string>(null);
+  console.log(userData);
 
   const fetchData = async () => {
-    const token = localStorage.getItem("token");
-    const id = localStorage.getItem("id");
-    if (id && token) {
-      const result = await getUserInfo(id, token);
-      console.log(result);
-      if (result) {
-        setUserData({ ...result });
+    const [token, id] = AuthService.getTokenAndId();
+
+    if (token && id) {
+      try {
+        const { data } = await InfoApi.getInfo(id, token);
+        setUserData(data);
+      } catch (error: any) {
+        alert(error.message);
       }
     }
   };
 
   const profileEditClick = async (e: any) => {
-    const data = await onFileReaderChange(e);
-    await changeInfo({ ...userData, avatar: data });
+    try {
+      const image = await onFileReaderChange(e);
+      await changeInfo({ ...userData, avatar: image });
+    } catch (error) {
+      alert(error);
+    }
   };
 
   useEffect(() => {
@@ -43,7 +52,7 @@ function EditContent() {
   return (
     <S.Container>
       <S.ContentContainer>
-        <S.Title>Profile Image</S.Title>
+        <span>Profile Image</span>
         <S.ProfileDiv>
           {userData && <S.ImageDiv src={userData?.avatar} />}
           <S.ProfileInput>
@@ -54,7 +63,7 @@ function EditContent() {
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <S.Title>ID</S.Title>
+        <span>ID</span>
         <S.InfoDiv>
           {userData?.id}
           <CustomButton name="Edit" onClick={() => setEditData("id")} />
@@ -62,14 +71,14 @@ function EditContent() {
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <S.Title>Password</S.Title>
+        <span>Password</span>
         <S.InfoDiv>
           <CustomButton name="Edit" onClick={() => setEditData("password")} />
         </S.InfoDiv>
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <S.Title>E-mail</S.Title>
+        <span>E-mail</span>
         <S.InfoDiv>
           {userData?.email}
           <CustomButton name="Edit" onClick={() => setEditData("email")} />
@@ -77,7 +86,7 @@ function EditContent() {
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <S.Title>Name</S.Title>
+        <span>Name</span>
         <S.InfoDiv>
           {userData?.name}
           <CustomButton name="Edit" onClick={() => setEditData("name")} />
@@ -85,7 +94,7 @@ function EditContent() {
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <S.Title>Info</S.Title>
+        <span>Info</span>
         <S.ButtonDiv>
           <S.InfoDiv>
             {userData?.info}
@@ -115,14 +124,15 @@ const S = {
     width: 100%;
     gap: 2rem;
   `,
-  Title: styled.div`
-    font-size: 2rem;
-    font-weight: 800;
-  `,
   ContentContainer: styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    & > span {
+      font-size: ${basicCSS.FONT_SIZE.medium};
+      font-weight: ${basicCSS.FONT_WEIGHT.bold};
+    }
   `,
   ProfileDiv: styled.div`
     display: flex;
@@ -130,7 +140,7 @@ const S = {
   `,
   InfoDiv: styled.div`
     display: flex;
-    gap: 10px;
+    gap: 1rem;
   `,
   ImageDiv: styled.div<{ src: string }>`
     width: 100px;

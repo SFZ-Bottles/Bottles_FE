@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import ChatApi from "../../../../services/chatApi";
-import { ProfileProps } from "../../MessagePage";
-import TokenService from "../../../../utils/tokenService";
 import ChatBubble from "./Bubble";
 import { styled } from "styled-components";
+import TokenService from "../../../../../utils/tokenService";
+import CommonInput from "../../../../../contents/Input/Input";
+import ChatApi from "../../../../../services/chatApi";
 import {
   FlexCenterCSS,
   FlexColumnCenterCSS,
-} from "../../../../styled-components/commonStyle";
-import CommonInput from "../../../../contents/Input/Input";
+} from "../../../../../styled-components/commonStyle";
 
 export interface Chat {
   message: string;

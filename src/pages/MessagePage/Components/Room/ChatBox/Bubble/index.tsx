@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Content } from "..";
+import { Content } from "../ChatBox";
 
 interface Bubble {
   content: Content;

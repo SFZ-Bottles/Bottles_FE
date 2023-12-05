@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { ProfileProps } from "../../MessagePage";
+import { ProfileProps } from "../../..";
 
 function MessageBox({ chatInfo }: { chatInfo: ProfileProps }) {
   return (

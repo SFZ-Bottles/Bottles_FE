@@ -3,11 +3,10 @@ import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { getAvatar, getChatList } from "../../services/API";
-import UserCard from "./UserCard";
+import UserCard from "./Components/UserCard/UserCard";
 import { getParticipation } from "../../utils/messageUtils";
 import { useParams } from "react-router-dom";
-import Room from "./Room";
-
+import Room from "./Components/Room/Room";
 export interface DataProps {
   num: number;
   result: ProfileProps[];

@@ -1,9 +1,9 @@
-import { ProfileProps } from "../MessagePage";
+import { ProfileProps } from "../..";
 import { useEffect, useState } from "react";
-import { filterChatList } from "../../../utils/messageUtils";
+import { filterChatList } from "../../../../utils/messageUtils";
 import { styled } from "styled-components";
-import MessageBox from "./MessageBox";
-import ChatBox from "./ChatBox";
+import MessageBox from "./MessageBox/MessageBox";
+import ChatBox from "./ChatBox/ChatBox";
 
 interface RoomProps {
   roomList: ProfileProps[];

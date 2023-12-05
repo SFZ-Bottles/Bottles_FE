@@ -1,8 +1,8 @@
 import { styled } from "styled-components";
-import { Card } from "../../../contents/Comment/Comment";
-import { ProfileProps } from "../MessagePage";
-import { useEffect } from "react";
+import { Card } from "../../../../contents/Comment/Comment";
+import { ProfileProps } from "../..";
 import { useNavigate } from "react-router-dom";
+import { FlexColumnCenterCSS } from "../../../../styled-components/commonStyle";
 
 interface UserCardProps {
   data: ProfileProps[];
@@ -33,9 +33,7 @@ function UserCard({ data }: UserCardProps) {
 
 const S = {
   ItemContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    ${FlexColumnCenterCSS}
     align-items: center;
     gap: 20px;
     width: 450px;

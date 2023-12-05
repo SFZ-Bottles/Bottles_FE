@@ -1,7 +1,7 @@
 import axios from "axios";
 import axiosInstance from "./core";
 
-interface IUserInfo {
+export interface UserValueProps {
   id: string;
   pw: string;
   name: string;
@@ -17,7 +17,7 @@ const LoginApi = {
     });
   },
 
-  signUp({ id, pw, name, email, info }: IUserInfo) {
+  signUp({ id, pw, name, email, info }: UserValueProps) {
     return axiosInstance.post("/api/users/", {
       id,
       pw,

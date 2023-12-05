@@ -1,91 +1,153 @@
-import React, { useState } from "react";
 import { SignupState, signupPage } from "../../../Atom/atom";
+import { Input, PasswordLength } from "../../../styled-components/styled_LogIn";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { useForm } from "react-hook-form";
+import { styled } from "styled-components";
 import {
-  AvailableBox,
-  C_FlexBox,
-  CheckId,
-  FlexBox,
-  Form,
-  IdLength,
-  Input,
-  InputDiv,
-  PasswordLength,
-  SignInDiv,
-  LoginInfo,
-  SemiTitle,
-  Span,
-  Title,
-  NextButton,
-} from "../../../styled-components/styled_LogIn";
-import { useRecoilState } from "recoil";
-import { checkDuplicate } from "../../../services/API";
-import { useNavigate } from "react-router-dom";
-import { isValidInput } from "../../../context/function";
+  FlexCenterCSS,
+  FlexColumnCenterCSS,
+} from "../../../styled-components/commonStyle";
 
 function GetName() {
+  const setPageNum = useSetRecoilState(signupPage);
   const [signup, setSignup] = useRecoilState(SignupState);
-  const [pageNum, setPageNum] = useRecoilState(signupPage);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+    },
+  });
+  const nameValue = watch("name");
+  const emailValue = watch("email");
 
-  const onSubmit = async () => {
-    if (
-      isValidInput(signup.name.length, 30) &&
-      isValidInput(signup.email.length, 30)
-    ) {
-      setPageNum((prev) => prev + 1);
+  const onSubmit = (data: any) => {
+    console.log(data);
+    if (!Object.keys(errors).length) {
+      setSignup({ ...signup, name: nameValue, email: emailValue });
+      setPageNum(3);
     }
   };
+
   return (
-    <SignInDiv>
-      <SemiTitle>Welcome to Bottles!</SemiTitle>
-      <Form onSubmit={onSubmit}>
-        <InputDiv>
-          <Span>
+    <S.Container>
+      <span>Welcome to Bottles!</span>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <S.InputContainer>
+          <span>
             Name
-            <LoginInfo>
+            <div>
               이름 정보는 프로필 상단에 표시되며 이를 통해 친구와 연결될 수
               있습니다.
-            </LoginInfo>
-          </Span>
-          <C_FlexBox>
-            <Input
-              type="text"
-              placeholder="Name"
-              value={signup.name}
-              onChange={(e: any) =>
-                setSignup({ ...signup, name: e.target.value })
-              }
-              required
-            />
-          </C_FlexBox>
-          <PasswordLength len={signup?.name.length}>
-            {signup?.name.length} / 30
-          </PasswordLength>
-        </InputDiv>
-        <InputDiv>
-          <Span>
-            E-mail
-            <LoginInfo>
-              이메일 정보는 계정정보 분실시 이용됩니다. 정확한 주소를 입력해
-              주세요.
-            </LoginInfo>
-          </Span>
+            </div>
+          </span>
           <Input
             type="text"
-            placeholder="E-mail"
-            value={signup.email}
-            onChange={(e: any) =>
-              setSignup({ ...signup, email: e.target.value })
-            }
-            required
+            color={nameValue.length > 30 || errors.name ? "red" : "default"}
+            placeholder="Name"
+            {...register("name", {
+              required: true,
+              maxLength: 30,
+              minLength: 2,
+            })}
           />
-          <PasswordLength len={signup?.email.length}>
-            {signup?.email.length} / 30
+          {errors.name && <p>이름은 2글자 이상, 30글자 이하입니다.</p>}
+          <PasswordLength len={nameValue.length || 0}>
+            {nameValue.length || 0} / 30
           </PasswordLength>
-        </InputDiv>
-        <NextButton>({pageNum} / 3) 다음단계로</NextButton>
-      </Form>
-    </SignInDiv>
+        </S.InputContainer>
+        <S.InputContainer>
+          <span>
+            E-mail
+            <div>
+              이메일 정보는 계정정보 분실시 이용됩니다. 정확한 주소를 입력해
+              주세요.
+            </div>
+          </span>
+          <Input
+            type="text"
+            color={emailValue.length > 30 || errors.email ? "red" : "default"}
+            placeholder="E-mail"
+            {...register("email", {
+              required: true,
+              maxLength: 30,
+              minLength: 2,
+            })}
+          />
+          <PasswordLength len={emailValue.length || 0}>
+            {emailValue.length || 0} / 30
+          </PasswordLength>
+          {errors.email && <p>정확한 형식에 맞춰주세요</p>}
+        </S.InputContainer>
+        <S.ButtonDiv>
+          <button type="submit">(2 / 3) 다음단계로</button>
+        </S.ButtonDiv>
+      </form>
+    </S.Container>
   );
 }
+
+const S = {
+  Container: styled.div`
+    ${FlexColumnCenterCSS}
+    & > :first-child {
+      margin: 2rem 0;
+      font-size: 6rem;
+      font-weight: 700;
+    }
+
+    p {
+      color: red;
+      font-size: 2rem;
+      padding-left: 1rem;
+    }
+
+    & > form {
+      gap: 3rem;
+    }
+  `,
+
+  ButtonDiv: styled.div`
+    ${FlexCenterCSS}
+    width: 100%;
+    & > button {
+      height: 4rem;
+      padding: 1rem;
+      border: none;
+      border-radius: 2rem;
+      margin-top: 5rem;
+      margin-right: 5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  `,
+
+  InputContainer: styled.div`
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    & > p {
+      font-size: 1.5rem;
+    }
+
+    & > span {
+      font-size: 4rem;
+      font-weight: 700;
+      padding: 1rem 1rem;
+      & > :first-child {
+        margin-top: 1rem;
+        font-size: 1.5rem;
+        color: #888888;
+      }
+    }
+  `,
+};
 
 export default GetName;

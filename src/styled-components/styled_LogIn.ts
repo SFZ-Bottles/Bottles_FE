@@ -32,12 +32,13 @@ export const SemiTitle = styled(Title)`
   font-weight: 600;
 `;
 
-export const Input = styled.input`
+export const Input = styled.input<{ color: string }>`
   width: 800px;
   height: 4rem;
   border-radius: 2rem;
   font-size: 1.5rem;
   padding-left: 2rem;
+  border-color: ${(props) => props.color || "black"};
 `;
 
 export const BigInput = styled.textarea`
@@ -103,6 +104,10 @@ export const InputDiv = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+
+  & > p {
+    font-size: 1.5rem;
+  }
 `;
 
 export const LoginInfo = styled.div`

@@ -1,4 +1,4 @@
-import { ProfileProps } from "../pages/MessagePage/MessagePage";
+import { ProfileProps } from "../pages/MessagePage";
 
 export const getParticipation = (myId: string, members: string[]) => {
   return members.filter((member) => myId !== member);

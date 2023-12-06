@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
-import SearchBar from "../../contents/SearchBar/SearchBar";
+import SearchBar from "../../components/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
-import { Card } from "../../contents/Comment/Comment";
+import { Card } from "../../components/Comment/Comment";
 import { useQuery } from "react-query";
 import { getSearchedUsers } from "../../services/API";
 import { useNavigate } from "react-router-dom";

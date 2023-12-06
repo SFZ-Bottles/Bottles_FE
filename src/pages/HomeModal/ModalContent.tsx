@@ -1,7 +1,7 @@
 import { useRecoilState } from "recoil";
 import { albumState, contentState, templateState } from "../../atom/atom";
-import FileInput from "../../contents/Modal/FileInput";
-import UploadButton from "../../contents/Button/UploadButton";
+import FileInput from "../../components/Modal/FileInput";
+import UploadButton from "../../components/Button/UploadButton";
 import { useState } from "react";
 import { ButtonDiv, CustomButton } from "../../styled-components/styled_Modal";
 import {

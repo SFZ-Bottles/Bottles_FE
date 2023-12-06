@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ChatBubble from "./Bubble";
 import { styled } from "styled-components";
 import TokenService from "../../../../../utils/tokenService";
-import CommonInput from "../../../../../contents/Input/Input";
+import CommonInput from "../../../../../components/Input/Input";
 import ChatApi from "../../../../../services/chatApi";
 import {
   FlexCenterCSS,

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
-import Comment from "../../contents/Comment/CommentModal";
-import FeedModal from "../../contents/Modal/FeedModal";
-import CommentImage from "../../contents/Comment/CommentImage";
+import Comment from "../../components/Comment/CommentModal";
+import FeedModal from "../../components/Modal/FeedModal";
+import CommentImage from "../../components/Comment/CommentImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import AlbumApi from "../../services/albumApi";

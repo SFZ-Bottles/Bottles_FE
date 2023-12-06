@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { Card } from "../../../../contents/Comment/Comment";
+import { Card } from "../../../../components/Comment/Comment";
 import { ProfileProps } from "../..";
 import { useNavigate } from "react-router-dom";
 import { FlexColumnCenterCSS } from "../../../../styled-components/commonStyle";

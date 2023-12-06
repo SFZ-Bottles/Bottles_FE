@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import FeedPage from "../FeedPage";
 import TokenService from "../../utils/tokenService";
 import HomePage from "../HomeModal/HomeModal";
-import Modal from "../../contents/Modal/Modal";
+import Modal from "../../components/Modal/Modal";
 import FollowList from "./Components/FollowList";
 
 export interface MyInfoProps {

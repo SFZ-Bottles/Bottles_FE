@@ -1,11 +1,11 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import { changeInfo, getUserInfo } from "../../../services/API";
-import EditModal from "../../../contents/Modal/EditModal";
-import CustomButton from "../../../contents/Button/CustomButton";
+import EditModal from "../../../components/Modal/EditModal";
+import CustomButton from "../../../components/Button/CustomButton";
 import { onFileReaderChange } from "../../../utils/imageUpload";
-import Modal from "../../../contents/Modal/Modal";
-import UploadButton from "../../../contents/Button/UploadButton";
+import Modal from "../../../components/Modal/Modal";
+import UploadButton from "../../../components/Button/UploadButton";
 import AuthService from "../../../utils/authService";
 import InfoApi from "../../../services/infoApi";
 import basicCSS from "../../../styled-components/basicStyle";

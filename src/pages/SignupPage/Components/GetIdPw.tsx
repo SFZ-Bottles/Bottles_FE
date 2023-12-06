@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
-import { SignupState, signupPage } from "../../../Atom/atom";
+import { SignupState, signupPage } from "../../../atom/atom";
 import LoginApi from "../../../services/loginApi";
 import {
   CheckId,

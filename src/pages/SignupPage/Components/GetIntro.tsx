@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 import LoginApi from "../../../services/loginApi";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
-import { SignupState } from "../../../Atom/atom";
+import { SignupState } from "../../../atom/atom";
 import { styled } from "styled-components";
 import {
   FlexCenterCSS,

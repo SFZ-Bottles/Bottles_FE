@@ -48,6 +48,12 @@ const S = {
   ButtonDiv: styled.div`
     ${FlexCenterCSS}
     gap: 3rem;
+
+    & > button {
+      cursor: pointer;
+      font-size: 2rem;
+      font-weight: 700;
+    }
   `,
 };
 

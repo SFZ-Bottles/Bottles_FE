@@ -23,12 +23,11 @@ export interface ProfileProps {
 const MessagePage = () => {
   const myId = localStorage.getItem("id") ?? "";
   const { targetId } = useParams();
-  const [chatList, setChatList] = useState<ProfileProps[]>();
+  const [chatList, setChatList] = useState<ProfileProps[]>([]);
   const { data } = useQuery<DataProps>(["message", myId as string], () =>
     getChatList(myId as string)
   );
 
-  console.log(data?.result);
   const getProfile = async () => {
     if (data && data.result) {
       const updatedResults = await Promise.all(
@@ -50,7 +49,7 @@ const MessagePage = () => {
     <S.Container>
       <SideBar>{chatList && <UserCard data={chatList} />}</SideBar>
       {targetId && chatList ? (
-        <Room roomList={chatList ?? []} targetId={targetId} />
+        <Room roomList={chatList} targetId={targetId} />
       ) : null}
     </S.Container>
   );

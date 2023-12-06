@@ -5,7 +5,7 @@ import PrivateRouter from "./PrivateRouter";
 import FeedPage from "../pages/FeedPage";
 import SearchPage from "../pages/SearchPage";
 import MessagePage from "../pages/MessagePage";
-import AlbumPage from "../pages/AlbumsPage/AlbumsPage";
+import AlbumPage from "../pages/AlbumsPage";
 import SettingPage from "../pages/SettingPage";
 import Pinpage from "../pages/PinPage";
 import MainPage from "../pages/MainPage";

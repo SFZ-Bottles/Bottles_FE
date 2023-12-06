@@ -1,4 +1,4 @@
-import { SignupState, signupPage } from "../../../Atom/atom";
+import { SignupState, signupPage } from "../../../atom/atom";
 import { Input, PasswordLength } from "../../../styled-components/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";

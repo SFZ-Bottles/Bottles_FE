@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
-import { themeState } from "../../Atom/atom";
+import { themeState } from "../../atom/atom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonInput from "../../contents/Input/Input";

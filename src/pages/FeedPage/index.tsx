@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import Comment from "../../contents/Comment/CommentModal";
-import Modal2 from "../../contents/Modal/Modal2";
+import FeedModal from "../../contents/Modal/FeedModal";
 import CommentImage from "../../contents/Comment/CommentImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,7 @@ function FeedPage() {
   const target = params.id || "follow";
   const [modal, setModal] = useState(false);
   const [AlbumId, setAlbumId] = useState<string>();
-  const { isLoading, data: albums } = useQuery(["feedAlbum", target], () =>
+  const { data: albums } = useQuery(["feedAlbum", target], () =>
     AlbumApi.get(target)
   );
 
@@ -34,12 +34,12 @@ function FeedPage() {
       </S.AlbumContainer>
       {modal && AlbumId ? (
         <div style={{ display: "flex", position: "absolute" }}>
-          <Modal2 onClose={() => setModal(false)}>
+          <FeedModal onClose={() => setModal(false)}>
             {{
               left: <CommentImage AlbumId={AlbumId} />,
               right: <Comment AlbumId={AlbumId} />,
             }}
-          </Modal2>
+          </FeedModal>
         </div>
       ) : null}
     </S.Container>

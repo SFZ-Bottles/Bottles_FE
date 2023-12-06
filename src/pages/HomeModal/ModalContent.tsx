@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { albumState, contentState, templateState } from "../../Atom/atom";
+import { albumState, contentState, templateState } from "../../atom/atom";
 import FileInput from "../../contents/Modal/FileInput";
 import UploadButton from "../../contents/Button/UploadButton";
 import { useState } from "react";
@@ -108,7 +108,7 @@ function ModalContent({
             />
           ) : null}
           <CustomButton>
-            <UploadButton label="파일 선택" onChange={onFileReaderChange}/>
+            <UploadButton label="파일 선택" onChange={onFileReaderChange} />
           </CustomButton>
           <ModalImgDiv>
             {fileReader ? (

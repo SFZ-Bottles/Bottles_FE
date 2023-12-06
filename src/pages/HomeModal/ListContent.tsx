@@ -1,5 +1,5 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { albumState, contentState, templateState } from "../../Atom/atom";
+import { albumState, contentState, templateState } from "../../atom/atom";
 import {
   AddButton,
   Box,

@@ -1,4 +1,4 @@
-import { signupPage } from "../../Atom/atom";
+import { signupPage } from "../../atom/atom";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
 import GetIdPw from "./Components/GetIdPw";

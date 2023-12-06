@@ -7,7 +7,7 @@ import {
   TemplateContainer,
 } from "../../styled-components/styled_Home";
 import { useRecoilState } from "recoil";
-import { albumState, templateState } from "../../Atom/atom";
+import { albumState, templateState } from "../../atom/atom";
 import ModalContent from "./ModalContent";
 import ListContent from "./ListContent";
 import { C_FlexBox } from "../../styled-components/styled_LogIn";

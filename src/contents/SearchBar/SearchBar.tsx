@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { styled } from "styled-components";
 import CommonInput from "../Input/Input";
 
@@ -18,6 +17,9 @@ const SearchBar = ({ value, onChange, ...rest }: IProps) => {
             name={value}
             onChange={onChange}
             {...rest}
+            customStyle={{
+              paddingLeft: "2.5rem",
+            }}
           />
           <S.SearchIcon />
         </S.SearchDiv>
@@ -46,9 +48,9 @@ const S = {
   SearchIcon: styled.div`
     display: flex;
     position: absolute;
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
+    width: 1rem;
+    height: 1rem;
+    left: 2rem;
     background-size: cover;
     background-image: url("/img/search.svg");
   `,

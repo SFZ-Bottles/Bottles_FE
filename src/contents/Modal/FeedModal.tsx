@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Modal2 = ({ onClose, children }: any) => {
+const FeedModal = ({ onClose, children }: any) => {
   const [right, setRight] = useState(false);
   const arrowClick = (e: any) => {
     setRight((prev) => !prev);
@@ -90,4 +90,4 @@ const S = {
   `,
 };
 
-export default Modal2;
+export default FeedModal;

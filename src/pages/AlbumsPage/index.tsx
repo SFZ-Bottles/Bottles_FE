@@ -8,16 +8,13 @@ import {
   makeChatRoom,
 } from "../../services/API";
 import { useNavigate, useParams } from "react-router-dom";
-import FeedPage from "../FeedPage/FeedPage";
+import FeedPage from "../FeedPage";
 import TokenService from "../../utils/tokenService";
+import HomePage from "../HomeModal/HomeModal";
+import Modal from "../../contents/Modal/Modal";
+import FollowList from "./Components/FollowList";
 
-export interface IEdit {
-  message: string;
-  num: number;
-  followList: any;
-}
-
-export interface IEdit2 {
+export interface MyInfoProps {
   id: string;
   info: string;
   email: string;
@@ -25,10 +22,14 @@ export interface IEdit2 {
   avatar: string;
 }
 
-export interface IEdit3 {
+export interface FollowProps {
   message: string;
   num: number;
-  followList: any;
+  result: FollowId[];
+}
+
+export interface FollowId {
+  id: string;
 }
 
 const AlbumPage = () => {
@@ -37,9 +38,16 @@ const AlbumPage = () => {
   const myId = localStorage.getItem("id") ?? "";
   const navigate = useNavigate();
   const [isMyAlbum, setIsMyAlbum] = useState(id === myId);
-  const [userFollower, setUserFollower] = useState<IEdit>();
-  const [userBasicInfo, setUserBasicInfo] = useState<IEdit2>();
-  const [userFollowing, setUserFollowing] = useState<IEdit3>();
+  const [userBasicInfo, setUserBasicInfo] = useState<MyInfoProps>();
+  const [userFollower, setUserFollower] = useState<FollowProps>();
+  const [userFollowing, setUserFollowing] = useState<FollowProps>();
+  const [albummodalAcivity, setAlbumModalActivity] = useState(false);
+  const [followModal, setFollowModal] = useState({
+    open: false,
+    content: [] as FollowId[],
+  });
+
+  console.log(userFollowing);
 
   const fetchData = async () => {
     if (!id) return;
@@ -63,6 +71,11 @@ const AlbumPage = () => {
     navigate("/home/message");
   };
 
+  const followListClick = (list: FollowId[]) => {
+    console.log(list, "처음 리스트");
+    setFollowModal({ open: true, content: list });
+  };
+
   useEffect(() => {
     fetchData();
   }, [id]);
@@ -70,22 +83,37 @@ const AlbumPage = () => {
   return (
     <>
       <S.Container>
-        {!isMyAlbum && (
+        {isMyAlbum ? (
           <>
-            <S.AlbumButton onClick={followClick}>팔로우</S.AlbumButton>
-            <S.AlbumButton onClick={messageClick}>메세지</S.AlbumButton>
+            <button onClick={() => setAlbumModalActivity(true)}>
+              new Album
+            </button>
+          </>
+        ) : (
+          <>
+            <button onClick={followClick}>팔로우</button>
+            <button onClick={messageClick}>메세지</button>
           </>
         )}
         {userBasicInfo && <S.UserProfile src={userBasicInfo.avatar} />}
         <S.UserText>{userBasicInfo?.name}</S.UserText>
         <S.UserText>
-          <div>팔로잉 {userFollowing?.num}</div>
-          <div>팔로워 {userFollower?.num}</div>
+          <div onClick={() => followListClick(userFollowing?.result ?? [])}>
+            팔로잉 {userFollowing?.num}
+          </div>
+          <div onClick={() => followListClick(userFollower?.result ?? [])}>
+            팔로워 {userFollower?.num}
+          </div>
         </S.UserText>
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
         <FeedPage />
       </S.Container>
-      {}
+      {albummodalAcivity && <HomePage />}
+      {followModal.open && (
+        <Modal onClose={() => setFollowModal({ ...followModal, open: false })}>
+          <FollowList list={followModal.content} />
+        </Modal>
+      )}
     </>
   );
 };
@@ -99,6 +127,12 @@ const S = {
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+
+    button {
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
   `,
   UserText: styled.span`
     display: flex;
@@ -121,11 +155,6 @@ const S = {
     font-size: 35px;
     font-weight: bold;
     color: lightgray;
-  `,
-  AlbumButton: styled.span`
-    font-size: 1.5rem;
-    cursor: pointer;
-    font-weight: 700;
   `,
 };
 

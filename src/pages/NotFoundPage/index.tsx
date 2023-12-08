@@ -1,8 +1,5 @@
 import styled from "styled-components";
-import {
-  FlexCenterCSS,
-  FlexColumnCenterCSS,
-} from "../../styled-components/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import { useNavigate } from "react-router-dom";
 
 const floatAnimation = `

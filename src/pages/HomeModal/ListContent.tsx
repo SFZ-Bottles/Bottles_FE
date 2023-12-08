@@ -7,7 +7,7 @@ import {
   DeleteButton,
   ListContainer,
   UploadButton,
-} from "../../styled-components/styled_Modal";
+} from "../../style/styled_Modal";
 import { regist, registAlbum } from "../../services/API";
 import { IAlbum } from "./ModalContent";
 import AlbumApi from "../../services/albumApi";

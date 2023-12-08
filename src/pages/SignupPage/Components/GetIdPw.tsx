@@ -8,12 +8,9 @@ import {
   IdLength,
   Input,
   PasswordLength,
-} from "../../../styled-components/styled_LogIn";
+} from "../../../style/styled_LogIn";
 import styled from "styled-components";
-import {
-  FlexCenterCSS,
-  FlexColumnCenterCSS,
-} from "../../../styled-components/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
 import React from "react";
 
 function GetIdPw() {

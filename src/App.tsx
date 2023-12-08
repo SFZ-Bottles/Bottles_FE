@@ -1,9 +1,9 @@
 import { RouterProvider } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { ThemeProvider } from "styled-components";
-import { darkTheme, lightTheme } from "./styled-components/theme";
+import { darkTheme, lightTheme } from "./style/theme";
 import { themeState } from "./atom/atom";
-import GlobalStyle from "./styled-components/global";
+import GlobalStyle from "./style/global";
 import { router } from "./router/router";
 
 function App() {

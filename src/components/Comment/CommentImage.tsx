@@ -1,59 +1,46 @@
-import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import AlbumApi from "../../services/albumApi";
+import { useQuery } from "react-query";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
+
 function CommentImage({ AlbumId }: { AlbumId: string }) {
-  const [result, setResult] = useState<any>();
-
-  const getDetail = async () => {
-    if (!AlbumId) return;
-    const result = await AlbumApi.getDetail(AlbumId);
-    console.log(result);
-    setResult(result);
-  };
-
-  useEffect(() => {
-    getDetail();
-  }, []);
+  const { data: album } = useQuery(["detail", AlbumId], () =>
+    AlbumApi.getDetail(AlbumId)
+  );
 
   return (
-    <S.Container>
-      <S.ImageContainer>
-        {result?.data?.result?.map((album: any) =>
-          album.species === "image" || album.species === "cover" ? (
-            <S.ImageDiv address={album?.data}>
-              <S.ImageTitle>
-                <span>{result?.title}</span>
-                <span>{result?.preface}</span>
-              </S.ImageTitle>
-            </S.ImageDiv>
-          ) : (
-            <S.TextDiv>{album?.data}</S.TextDiv>
-          )
-        )}
-      </S.ImageContainer>
-    </S.Container>
+    <S.ImageContainer>
+      {album?.data?.result?.map((content: any, index: number) =>
+        content.species === "image" || content.species === "cover" ? (
+          <S.ImageDiv>
+            <img
+              style={{ width: "100%", height: "100%" }}
+              src={content?.data}
+              alt="이미지"
+            />
+            <S.ImageTitle>
+              {content.species === "cover" && (
+                <>
+                  <span>{album?.data?.title}</span>
+                  <span>{album?.data?.preface}</span>
+                </>
+              )}
+            </S.ImageTitle>
+          </S.ImageDiv>
+        ) : (
+          <S.TextDiv key={index}>{content?.data}</S.TextDiv>
+        )
+      )}
+    </S.ImageContainer>
   );
 }
 
 const S = {
-  Container: styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-  `,
-  ImageDiv: styled.div<{ address: string }>`
-    display: flex;
+  ImageDiv: styled.div`
+    ${FlexColumnCenterCSS}
     position: relative;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
     width: 100%;
     height: 80%;
-    background-size: cover;
-    background-image: url(${(props) => props.address});
   `,
   ImageContainer: styled.div`
     width: 100%;
@@ -65,23 +52,20 @@ const S = {
     }
   `,
   ImageTitle: styled.span`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    ${FlexColumnCenterCSS}
     position: absolute;
     font-size: 2.5rem;
     font-weight: 800;
     bottom: 20%;
-    :last-child {
+    & > span {
       padding-top: 2rem;
       font-size: 1.5rem;
     }
+    color: "black";
   `,
   TextDiv: styled.div`
-    display: flex;
+    ${FlexCenterCSS}
     position: relative;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
     font-size: 2rem;
     width: 100%;

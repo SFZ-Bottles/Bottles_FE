@@ -8,7 +8,7 @@ import {
   UnderLine,
   InvalidBox,
   C_ColFlexBox,
-} from "../../styled-components/styled_LogIn";
+} from "../../style/styled_LogIn";
 import { useEffect, useState } from "react";
 import LoginApi from "../../services/loginApi";
 import TokenService from "../../utils/tokenService";

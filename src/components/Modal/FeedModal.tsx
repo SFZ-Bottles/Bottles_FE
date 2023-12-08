@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
+import { media } from "../../style/theme";
 
 const FeedModal = ({ onClose, children }: any) => {
   const [right, setRight] = useState(false);
@@ -12,12 +13,10 @@ const FeedModal = ({ onClose, children }: any) => {
       <S.LeftModalContent onClick={(e) => e.stopPropagation()}>
         {children.left}
       </S.LeftModalContent>
-      {children.right && right ? (
+      {children.right && right && (
         <S.RightModalContent onClick={(e) => e.stopPropagation()}>
           {children.right}
         </S.RightModalContent>
-      ) : (
-        <React.Fragment />
       )}
       <S.ArrowButton
         src="/img/Arrow.svg"
@@ -46,23 +45,34 @@ const S = {
     left: 30%;
     height: 80%;
     width: 35vw;
+    min-width: 35vw;
     transform: translate(-25%, -50%);
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 3;
+
+    @media screen and (max-width: ${media.tablet}) {
+      width: 70vw;
+      height: 90vw;
+    }
   `,
 
   RightModalContent: styled.div`
     position: fixed;
     top: 50%;
     right: 30%;
-    width: 25vw;
+    min-width: 25vw;
     height: 80%;
     transform: translate(50%, -50%);
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 3;
+
+    @media screen and (max-width: ${media.tablet}) {
+      height: 60vw;
+      display: none;
+    }
   `,
 
   Xbutton: styled.div`
@@ -87,6 +97,10 @@ const S = {
     height: 5rem;
     cursor: pointer;
     fill: ${(props) => props.theme.color.fontColor};
+
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
   `,
 };
 

@@ -4,7 +4,7 @@ import {
   HeaderItem,
   Logo,
   LogoutItem,
-} from "../../styled-components/styled_Main";
+} from "../../style/styled_Main";
 import { themeState } from "../../atom/atom";
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";

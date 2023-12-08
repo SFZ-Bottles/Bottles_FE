@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
-import Button from "../Button/CustomButton";
+import CustomButton from "../Button/CustomButton";
 import { getComments, setComments } from "../../services/API";
 import { Card } from "./Comment";
 
@@ -47,7 +47,7 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
 
   const onSubmit = async (e: any) => {
     e.preventDefault();
-    const result = await setComments(AlbumId, ment);
+    await setComments(AlbumId, ment);
     getComment();
     setMent({ ...ment, content: "", mentioned_user_id: null, commentId: null });
   };
@@ -65,11 +65,11 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
             <Card>
               <Card.UserProfile src={comment.avatar} />
               <Card.UserId>{comment.user_id}</Card.UserId>
-              <Button
+              <CustomButton
                 name="reply"
                 onClick={() => onReplyClick(comment.user_id, comment.id)}
               />
-              <Button
+              <CustomButton
                 name="mention"
                 onClick={() => onMentionClick(comment.user_id, comment.id)}
               />
@@ -82,7 +82,7 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
                     <Card>
                       <Card.UserProfile src={reply.avatar} />
                       <Card.UserId>{reply.user_id}</Card.UserId>
-                      <Button
+                      <CustomButton
                         name="mention"
                         onClick={() => onMentionClick(reply.user_id, reply.id)}
                       />
@@ -101,9 +101,7 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
           placeholder="댓글 달기..."
           onChange={(e) => setMent({ ...ment, content: e.target.value })}
         />
-        <S.SendButton>
-          <Button name="send" />
-        </S.SendButton>
+        <CustomButton name="send" />
       </S.Form>
     </S.Container>
   );
@@ -117,6 +115,10 @@ const S = {
     background-color: ${(props) => props.theme.color.bgColor};
     font-size: 2rem;
     flex-direction: column;
+
+    button {
+      font-size: 1rem;
+    }
   `,
   CommentContainer: styled.div`
     display: flex;
@@ -161,11 +163,6 @@ const S = {
     border-radius: 2rem;
     background-color: ${(props) => props.theme.color.bgColor};
   `,
-  SendButton: styled.div`
-    position: absolute;
-    right: 13%;
-    padding-bottom: 3%;
-  `,
   Form: styled.form`
     position: relative;
     display: flex;
@@ -175,6 +172,12 @@ const S = {
     width: 100%;
     height: 10%;
     border-top: 1px solid ${(props) => props.theme.color.navBorder};
+
+    & > button {
+      position: absolute;
+      right: 13%;
+      padding-bottom: 5%;
+    }
   `,
 };
 

@@ -1,4 +1,4 @@
-import { ModalInput } from "../../styled-components/styled_Modal";
+import { ModalInput } from "../../style/styled_Modal";
 
 function FileInput({ setText, children }: any) {
   return (

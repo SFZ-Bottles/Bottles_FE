@@ -4,7 +4,7 @@ import { themeState } from "../../atom/atom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CommonInput from "../../components/Input/Input";
-import { FlexColumnCenterCSS } from "../../styled-components/commonStyle";
+import { FlexColumnCenterCSS } from "../../style/commonStyle";
 
 function Pinpage() {
   const [password, setPassword] = useState("");

@@ -1,10 +1,7 @@
 import { styled } from "styled-components";
 import { changeInfo } from "../../services/API";
 import { useState } from "react";
-import {
-  FlexCenterCSS,
-  FlexColumnCenterCSS,
-} from "../../styled-components/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import CommonInput from "../Input/Input";
 
 export interface IEdit {

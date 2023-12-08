@@ -7,7 +7,7 @@ import ChatApi from "../../../../../services/chatApi";
 import {
   FlexCenterCSS,
   FlexColumnCenterCSS,
-} from "../../../../../styled-components/commonStyle";
+} from "../../../../../style/commonStyle";
 
 export interface Chat {
   message: string;

@@ -1,12 +1,9 @@
 import { SignupState, signupPage } from "../../../atom/atom";
-import { Input, PasswordLength } from "../../../styled-components/styled_LogIn";
+import { Input, PasswordLength } from "../../../style/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
-import {
-  FlexCenterCSS,
-  FlexColumnCenterCSS,
-} from "../../../styled-components/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
 
 function GetName() {
   const setPageNum = useSetRecoilState(signupPage);

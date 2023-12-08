@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { CSSProp, css } from "styled-components";
-import { FlexCenterCSS } from "../../styled-components/commonStyle";
+import { FlexCenterCSS } from "../../style/commonStyle";
 
 const InputWrapper = styled.div`
   width: 100%;

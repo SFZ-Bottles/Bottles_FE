@@ -5,13 +5,13 @@ import {
   Phrase,
   Template,
   TemplateContainer,
-} from "../../styled-components/styled_Home";
+} from "../../style/styled_Home";
 import { useRecoilState } from "recoil";
 import { albumState, templateState } from "../../atom/atom";
 import ModalContent from "./ModalContent";
 import ListContent from "./ListContent";
-import { C_FlexBox } from "../../styled-components/styled_LogIn";
-import { AddButton } from "../../styled-components/styled_Modal";
+import { C_FlexBox } from "../../style/styled_LogIn";
+import { AddButton } from "../../style/styled_Modal";
 import { createContext } from "vm";
 
 function HomePage() {

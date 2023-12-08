@@ -3,11 +3,8 @@ import { albumState, contentState, templateState } from "../../atom/atom";
 import FileInput from "../../components/Modal/FileInput";
 import UploadButton from "../../components/Button/UploadButton";
 import { useState } from "react";
-import { ButtonDiv, CustomButton } from "../../styled-components/styled_Modal";
-import {
-  ModalContainer,
-  ModalImgDiv,
-} from "../../styled-components/styled_Home";
+import { ButtonDiv, CustomButton } from "../../style/styled_Modal";
+import { ModalContainer, ModalImgDiv } from "../../style/styled_Home";
 import ModalInput from "./ModalInput";
 
 export interface ITemplate {

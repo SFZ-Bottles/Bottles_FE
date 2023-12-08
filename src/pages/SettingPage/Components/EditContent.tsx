@@ -8,7 +8,7 @@ import Modal from "../../../components/Modal/Modal";
 import UploadButton from "../../../components/Button/UploadButton";
 import AuthService from "../../../utils/authService";
 import InfoApi from "../../../services/infoApi";
-import basicCSS from "../../../styled-components/basicStyle";
+import basicCSS from "../../../style/basicStyle";
 
 export interface IEdit {
   id: string;

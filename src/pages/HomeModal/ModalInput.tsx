@@ -5,7 +5,7 @@ import {
   Input,
   InputDiv,
   Span,
-} from "../../styled-components/styled_LogIn";
+} from "../../style/styled_LogIn";
 
 function ModalInput({ P, inputInfo }: any) {
   return (

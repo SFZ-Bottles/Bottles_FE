@@ -21,6 +21,8 @@ function FeedPage() {
     setAlbumId(id);
   };
 
+  console.log(albums);
+
   return (
     <S.Container>
       <S.AlbumContainer>
@@ -28,8 +30,8 @@ function FeedPage() {
           <S.ImgDiv
             key={index}
             onClick={() => onImgClick(album.id)}
-            address={album.cover_image_url}
-          ></S.ImgDiv>
+            src={album.cover_image_url}
+          />
         ))}
       </S.AlbumContainer>
       {modal && AlbumId ? (
@@ -61,11 +63,9 @@ const S = {
     gap: 10px;
     height: 100%;
   `,
-  ImgDiv: styled.div<{ address: string }>`
-    background-image: url(${(props) => props.address});
+  ImgDiv: styled.img`
     width: 400px;
     height: 400px;
-    background-size: cover;
   `,
 };
 

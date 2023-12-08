@@ -9,17 +9,14 @@ import {
   Span,
   NextButton,
   BigInput,
-} from "../../../styled-components/styled_LogIn";
+} from "../../../style/styled_LogIn";
 import { useNavigate } from "react-router-dom";
 import LoginApi from "../../../services/loginApi";
 import { useForm } from "react-hook-form";
 import { useRecoilState } from "recoil";
 import { SignupState } from "../../../atom/atom";
 import { styled } from "styled-components";
-import {
-  FlexCenterCSS,
-  FlexColumnCenterCSS,
-} from "../../../styled-components/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
 
 function GetIntro() {
   const navigate = useNavigate();

@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { FlexColumnCenterCSS } from "../../../styled-components/commonStyle";
+import { FlexColumnCenterCSS } from "../../../style/commonStyle";
 import { Card } from "../../../components/Comment/Comment";
 import { FollowId } from "..";
 import { useNavigate } from "react-router-dom";

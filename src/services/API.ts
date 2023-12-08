@@ -1,4 +1,4 @@
-import { IComment } from "../contents/Comment/CommentModal";
+import { IComment } from "../components/Comment/CommentModal";
 import { IAlbum } from "../pages/HomeModal/ModalContent";
 import axiosInstance from "./core";
 

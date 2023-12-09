@@ -8,6 +8,7 @@ import {
 import { themeState } from "../../atom/atom";
 import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
+import { logout } from "../../services/API";
 
 function Navbar() {
   const location = useLocation();
@@ -36,7 +37,7 @@ function Navbar() {
       <HeaderItem $active={location.pathname === "/home/setting"}>
         <S.StyledLink to="/home/setting">Setting</S.StyledLink>
       </HeaderItem>
-      <LogoutItem>Logout</LogoutItem>
+      <LogoutItem onClick={logout}><S.StyledLink to="/">Logout</S.StyledLink></LogoutItem>
     </HeaderContainer>
   );
 }

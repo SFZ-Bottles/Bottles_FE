@@ -227,18 +227,19 @@ export const getMyFollower = async (userId: string) => {
 };
 
 export const logout = async () => {
-  const id = localStorage.getItem("id");
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER}api/users/${id}/followers/`,
-      {
-        method: "GET",
-      }
-    ).then((result) => result.json());
-    console.log(response);
-  } catch (error: any) {
-    alert(error);
-  }
+  const id = localStorage.getItem('id');
+  const token = localStorage.getItem('token');
+  try{
+      localStorage.removeItem('token');
+      
+      const response = await fetch(`${process.env.REACT_APP_SERVER}api/auth/logout/`,{
+        method: 'POST',
+      }).then((result) => result.json());
+      console.log(response);
+    }
+    catch(error:any){
+      alert(error);
+    }
 };
 
 export const changeInfo = async (editData: any) => {

@@ -2,7 +2,7 @@ import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import CustomButton from "../Button/CustomButton";
 import { getComments, setComments } from "../../services/API";
-import { Card } from "./Comment";
+import { Card } from "../Card/Card";
 
 export interface IComment {
   made_by: string;

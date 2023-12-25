@@ -55,10 +55,16 @@ function EditContent() {
         <span>Profile Image</span>
         <S.ProfileDiv>
           {userData && <S.ImageDiv src={userData?.avatar} />}
-          <S.ProfileInput>
-            <UploadButton label="Edit" onChange={profileEditClick} />
-          </S.ProfileInput>
-          <CustomButton name="Delete" />
+          <div>
+            <S.ProfileInput>
+              <UploadButton
+                label="Edit"
+                type="image"
+                onChange={profileEditClick}
+              />
+            </S.ProfileInput>
+            <CustomButton name="Delete" />
+          </div>
         </S.ProfileDiv>
       </S.ContentContainer>
 
@@ -137,6 +143,11 @@ const S = {
   ProfileDiv: styled.div`
     display: flex;
     align-items: end;
+
+    & > div {
+      display: flex;
+      gap: 1rem;
+    }
   `,
   InfoDiv: styled.div`
     display: flex;

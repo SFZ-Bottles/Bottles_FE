@@ -7,6 +7,7 @@ import UserCard from "./Components/UserCard/UserCard";
 import { getParticipation } from "../../utils/messageUtils";
 import { useParams } from "react-router-dom";
 import Room from "./Components/Room/Room";
+import AuthService from "../../utils/authService";
 export interface DataProps {
   num: number;
   result: ProfileProps[];
@@ -21,7 +22,7 @@ export interface ProfileProps {
 }
 
 const MessagePage = () => {
-  const myId = localStorage.getItem("id") ?? "";
+  const [, myId] = AuthService.getTokenAndId();
   const { targetId } = useParams();
   const [chatList, setChatList] = useState<ProfileProps[]>([]);
   const { data } = useQuery<DataProps>(["message", myId as string], () =>

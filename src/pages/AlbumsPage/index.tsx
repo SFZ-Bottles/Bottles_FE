@@ -9,10 +9,10 @@ import {
 } from "../../services/API";
 import { useNavigate, useParams } from "react-router-dom";
 import FeedPage from "../FeedPage";
-import TokenService from "../../utils/tokenService";
 import HomePage from "../HomeModal/HomeModal";
 import Modal from "../../components/Modal/Modal";
 import FollowList from "./Components/FollowList";
+import AuthService from "../../utils/authService";
 
 export interface MyInfoProps {
   id: string;
@@ -35,7 +35,7 @@ export interface FollowId {
 const AlbumPage = () => {
   const params = useParams();
   const id = params.id ?? "";
-  const myId = localStorage.getItem("id") ?? "";
+  const [, myId] = AuthService.getTokenAndId();
   const navigate = useNavigate();
   const [isMyAlbum, setIsMyAlbum] = useState(id === myId);
   const [userBasicInfo, setUserBasicInfo] = useState<MyInfoProps>();
@@ -51,9 +51,8 @@ const AlbumPage = () => {
 
   const fetchData = async () => {
     if (!id) return;
-    const token = TokenService.getToken() ?? "";
     const follower = await getMyFollowing(id);
-    const userInfo = await getUserInfo(id, token);
+    const userInfo = await getUserInfo(id);
     const following = await getMyFollower(id);
     setUserFollower(follower);
 

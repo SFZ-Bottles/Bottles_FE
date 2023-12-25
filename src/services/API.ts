@@ -1,83 +1,10 @@
 import { IComment } from "../components/Comment/CommentModal";
 import { IAlbum } from "../pages/HomeModal/ModalContent";
-import axiosInstance from "./core";
+import AuthService from "../utils/authService";
 
-const id = localStorage.getItem("id");
-const token = localStorage.getItem("token");
-
-interface IUserInfo {
-  id: string;
-  password: string;
-  name: string;
-  email: string;
-  intro: string;
-}
-
-export const signIn = async (ID: string, Password: string) => {
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER}api/auth/login/`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          id: ID,
-          pw: Password,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      }
-    ).then((result) => result.json());
-    return response.token;
-  } catch (error: any) {
-    console.log(error.message);
-  }
-};
-
-export const signUp = async (userInfo: IUserInfo) => {
-  try {
-    console.log(userInfo);
-    const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: userInfo.id,
-        pw: userInfo.password,
-        name: userInfo.name,
-        email: userInfo.email,
-        info: userInfo.intro,
-      }),
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    });
-    return response.status === 200 ? true : false;
-  } catch (error: any) {
-    alert(error.message);
-  }
-};
-
-export const checkDuplicate = async (ID: string) => {
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER}api/users/check-duplicate-id/${ID}/`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-      }
-    );
-    console.log(response);
-    return response.status === 200 ? true : false;
-  } catch (error: any) {
-    alert(error.message);
-  }
-};
+const [token, id] = AuthService.getTokenAndId();
 
 export const registAlbum = async (content: any, album: IAlbum) => {
-  const token: any = localStorage.getItem("token");
-  const id: any = localStorage.getItem("id");
   try {
     const formData = new FormData();
     console.log(content);
@@ -116,7 +43,7 @@ export const registAlbum = async (content: any, album: IAlbum) => {
   }
 };
 
-export const regist = async (fileInfo: any, id: string, token: string) => {
+export const regist = async (fileInfo: any) => {
   try {
     await fetch(`${process.env.REACT_APP_SERVER}api/albums/`, {
       method: "POST",
@@ -159,8 +86,6 @@ export const getAlbum = async (id: string | undefined) => {
 };
 
 export const getDetailAlbum = async (AlbumId: string) => {
-  const token: string | null = localStorage.getItem("token");
-
   try {
     const result = await fetch(
       `${process.env.REACT_APP_SERVER}api/albums/${AlbumId}/`,
@@ -179,10 +104,10 @@ export const getDetailAlbum = async (AlbumId: string) => {
   }
 };
 
-export const getUserInfo = async (id: string, token: string) => {
+export const getUserInfo = async (userId: string) => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_SERVER}api/users/${id}`,
+      `${process.env.REACT_APP_SERVER}api/users/${userId}`,
       {
         method: "GET",
         headers: {
@@ -227,24 +152,22 @@ export const getMyFollower = async (userId: string) => {
 };
 
 export const logout = async () => {
-  const id = localStorage.getItem('id');
-  const token = localStorage.getItem('token');
-  try{
-      localStorage.removeItem('token');
-      
-      const response = await fetch(`${process.env.REACT_APP_SERVER}api/auth/logout/`,{
-        method: 'POST',
-      }).then((result) => result.json());
-      console.log(response);
-    }
-    catch(error:any){
-      alert(error);
-    }
+  try {
+    localStorage.removeItem("token");
+
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER}api/auth/logout/`,
+      {
+        method: "POST",
+      }
+    ).then((result) => result.json());
+    console.log(response);
+  } catch (error: any) {
+    alert(error);
+  }
 };
 
 export const changeInfo = async (editData: any) => {
-  const id = localStorage.getItem("id");
-  const token: any = localStorage.getItem("token");
   try {
     const formData = new FormData();
     const boundary = "----WebKitFormBoundary";
@@ -320,8 +243,31 @@ export const setComments = async (AlbumId: any, content: IComment) => {
   }
 };
 
-export const getUserList = async () => {
+export const loginSecretMode = async (pw: string) => {
   const token = localStorage.getItem("token");
+
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_SERVER}api/secret_mode/auth/login/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token as string,
+        },
+        body: JSON.stringify({
+          pw,
+        }),
+      }
+    ).then((result) => result.json());
+    console.log(response);
+    return response;
+  } catch (error: any) {
+    alert(error);
+  }
+};
+
+export const getUserList = async () => {
   try {
     const response = await fetch(`${process.env.REACT_APP_SERVER}api/users/`, {
       method: "GET",
@@ -337,7 +283,7 @@ export const getUserList = async () => {
 };
 
 export const getSearchedUsers = async (id: string) => {
-  const token = localStorage.getItem("token");
+  console.log("token", token);
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/search/user/?q=${id}&num=5`,
@@ -349,6 +295,7 @@ export const getSearchedUsers = async (id: string) => {
         },
       }
     ).then((res) => res.json());
+    console.log(response);
     return response ? response : [];
   } catch (error: any) {
     alert(error);
@@ -356,7 +303,6 @@ export const getSearchedUsers = async (id: string) => {
 };
 
 export const getChatList = async (id: string) => {
-  const token = localStorage.getItem("token");
   try {
     const response = fetch(
       `${process.env.REACT_APP_SERVER}api/chatrooms/?target=${id}&num=0`,
@@ -375,7 +321,6 @@ export const getChatList = async (id: string) => {
 };
 
 export const getAvatar = async (user_id: string) => {
-  const token = localStorage.getItem("token");
   try {
     const response = fetch(
       `${process.env.REACT_APP_SERVER}api/image/avatar/${user_id}/?resizing=True&width=124&height=124`,
@@ -396,8 +341,6 @@ export const getAvatar = async (user_id: string) => {
 };
 
 export const makeChatRoom = async (myId: string, targetId: string) => {
-  const token = localStorage.getItem("token");
-
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/chatrooms/`,

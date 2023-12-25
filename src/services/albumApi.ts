@@ -1,13 +1,12 @@
 import { IAlbum } from "../pages/HomeModal/ModalContent";
+import AuthService from "../utils/authService";
 import TokenService from "../utils/tokenService";
 import axiosInstance from "./core";
 
-const token = TokenService.getToken();
+const [token, id] = AuthService.getTokenAndId();
 
 const AlbumApi = {
   regist(content: any, album: IAlbum) {
-    const id = localStorage.getItem("id") ?? "";
-    const token = localStorage.getItem("token");
     const formData = new FormData();
     const boundary = "----WebKitFormBoundary";
     formData.append("is_private", "FALSE");

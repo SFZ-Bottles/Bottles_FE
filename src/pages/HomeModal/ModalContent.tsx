@@ -92,7 +92,8 @@ function ModalContent({
       {modalType}
       {modalType !== "text" ? (
         <>
-          {modalType === "cover" ? (
+          {/* 커버 일때 */}
+          {modalType === "cover" && (
             <ModalInput
               P={{
                 value: board,
@@ -103,9 +104,13 @@ function ModalContent({
                 preface: "Preface",
               }}
             />
-          ) : null}
+          )}
           <CustomButton>
-            <UploadButton label="파일 선택" onChange={onFileReaderChange} />
+            <UploadButton
+              label="파일 선택"
+              type={modalType === "image" ? "image" : "video"}
+              onChange={onFileReaderChange}
+            />
           </CustomButton>
           <ModalImgDiv>
             {fileReader ? (

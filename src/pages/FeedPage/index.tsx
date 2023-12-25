@@ -6,22 +6,31 @@ import CommentImage from "../../components/Comment/CommentImage";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import AlbumApi from "../../services/albumApi";
+import { media } from "../../style/theme";
+import AuthService from "../../utils/authService";
+import { useRecoilValue } from "recoil";
+import { themeState } from "../../atom/atom";
 
 function FeedPage() {
   const params = useParams();
+  const theme = useRecoilValue(themeState);
   const target = params.id || "follow";
+  const [, id] = AuthService.getTokenAndId();
   const [modal, setModal] = useState(false);
   const [AlbumId, setAlbumId] = useState<string>();
-  const { data: albums } = useQuery(["feedAlbum", target], () =>
+
+  const { data: albums } = useQuery(["feedAlbum", target, id], () =>
     AlbumApi.get(target)
   );
+
+  useEffect(() => {
+    // window.location.reload();
+  }, [theme]);
 
   const onImgClick = (id: string) => {
     setModal(true);
     setAlbumId(id);
   };
-
-  console.log(albums);
 
   return (
     <S.Container>
@@ -59,13 +68,17 @@ const S = {
     display: grid;
     padding-top: 40px;
     grid-template-columns: repeat(2, 1fr);
-    width: 800px;
     gap: 10px;
     height: 100%;
   `,
   ImgDiv: styled.img`
-    width: 400px;
-    height: 400px;
+    width: 25vw;
+    height: 25vw;
+
+    @media screen and (max-width: ${media.tablet}) {
+      width: 40vw;
+      height: 40vw;
+    }
   `,
 };
 

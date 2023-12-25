@@ -1,6 +1,8 @@
 import axios from "axios";
 import axiosInstance from "./core";
 
+const token = localStorage.getItem("token");
+
 export interface UserValueProps {
   id: string;
   pw: string;
@@ -28,8 +30,21 @@ const LoginApi = {
   },
 
   checkIdDuplicated(id: string) {
-    console.log(id);
     return axiosInstance.get(`/api/users/check-duplicate-id/${id}/`);
+  },
+
+  loginSecretMode(pw: string) {
+    const headers = {
+      Authorization: token,
+    };
+
+    return axiosInstance.post(
+      `/api/secret_mode/auth/login/`,
+      {
+        pw,
+      },
+      { headers }
+    );
   },
 };
 

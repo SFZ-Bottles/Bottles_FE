@@ -10,6 +10,7 @@ import SettingPage from "../pages/SettingPage";
 import Pinpage from "../pages/PinPage";
 import MainPage from "../pages/MainPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import PrivateRouterAnonymous from "./PrivateRouterAnonymous";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,49 @@ export const router = createBrowserRouter([
           },
           {
             path: "/home/pin",
+            element: <Pinpage />,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    element: <PrivateRouterAnonymous />,
+    children: [
+      {
+        path: "/home/annonymous",
+        element: <MainPage />,
+        children: [
+          {
+            path: "/home/annonymous/feed",
+            element: <FeedPage />,
+          },
+          {
+            path: "/home/annonymous/search",
+            element: <SearchPage />,
+          },
+          {
+            path: "/home/annonymous/message",
+            element: <MessagePage />,
+          },
+          {
+            path: "/home/annonymous/message/:targetId",
+            element: <MessagePage />,
+          },
+          {
+            path: "/home/annonymous/album/:id",
+            element: <AlbumPage />,
+          },
+          {
+            path: "/home/annonymous/setting",
+            element: <SettingPage />,
+          },
+          {
+            path: "/home/annonymous/feed",
+            element: <FeedPage />,
+          },
+          {
+            path: "/home/annonymous/pin",
             element: <Pinpage />,
           },
         ],

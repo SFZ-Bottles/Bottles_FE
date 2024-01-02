@@ -48,9 +48,18 @@ const MessagePage = () => {
   return (
     <S.Container>
       <SideBar>{chatList && <UserCard data={chatList} />}</SideBar>
+      
       {targetId && chatList ? (
         <Room roomList={chatList} targetId={targetId} />
-      ) : null}
+      ) : <S.EmptySpace>
+        <S.ImageContainer>
+          <img width="600px" src="/img/bottle.png" alt="bottle"/>
+        </S.ImageContainer>
+        <S.MyText>내 메시지</S.MyText>
+        <S.Text>친구나 그룹에 비공개 사진과 메시지를 보내보세요</S.Text>
+        </S.EmptySpace>
+        }
+        
     </S.Container>
   );
 };
@@ -60,6 +69,28 @@ const S = {
     width: 100%;
     height: 100%;
   `,
+  EmptySpace: styled.div`
+    text-align: center;
+    padding: 20px;
+    `,
+    ImageContainer: styled.div`
+      margin-top: 100px;
+    `,
+    MyText: styled.p`
+      font-size: 40px;
+      padding-bottom:20px;
+      color: #333;
+    `,
+    Text: styled.p`
+      font-size: 25px;
+      padding:10px;
+      color: grey;
+    `,
+  // EmptySpace: styled.div`
+  //   margin-left: 300px;
+  //   height: 100vh;
+  //   background: url("/img/bottle.png") no-repeat center center;
+  // `,
 };
 
 export default MessagePage;

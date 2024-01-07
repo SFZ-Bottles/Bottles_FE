@@ -29,11 +29,11 @@ function Pinpage() {
     e.preventDefault();
     try {
       const response = await LoginApi.loginSecretMode(password);
-      console.log(response.data);
+      console.log(response.data.token);
       localStorage.setItem("secret_token", response.data.token);
       localStorage.setItem("secret_id", response.data.id);
       setTheme(false);
-      naviagte("/home/feed");
+      naviagte("/home/annonymous/feed");
     } catch (error: any) {
       alert(error.message);
     }
@@ -45,11 +45,8 @@ function Pinpage() {
       localStorage.removeItem("secret_token");
       localStorage.removeItem("secret_id");
       setTheme(true);
-      naviagte("/home/feed", { replace: true });
+      naviagte("/home/feed");
       return;
-    } else {
-      setTheme(false);
-      localStorage.setItem("theme", "public");
     }
   }, []);
 

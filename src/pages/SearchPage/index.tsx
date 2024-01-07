@@ -1,10 +1,12 @@
 import { styled } from "styled-components";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { useEffect, useState } from "react";
-import { Card } from "../../components/Comment/Comment";
+import { Card } from "../../components/Card/Card";
 import { useQuery } from "react-query";
 import { getSearchedUsers } from "../../services/API";
 import { useNavigate } from "react-router-dom";
+import useDebounce from "../../hooks/common/useDebounce";
+import { modeNavigation } from "../../utils/modeUtils";
 
 interface IUser {
   message: string;
@@ -23,15 +25,15 @@ const SearchPage = () => {
     }
   );
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      refetch();
-    }, 500); // 0.5초동안 입력 받음
+  const debouncedRefetch = useDebounce(() => {
+    refetch();
+  }, 1000);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [name, refetch]);
+  useEffect(() => {
+    if (name) {
+      debouncedRefetch();
+    }
+  }, [name, debouncedRefetch]);
 
   return (
     <S.Container>
@@ -39,7 +41,11 @@ const SearchPage = () => {
       <S.ItemContainer>
         {name
           ? data?.result?.map((info: any) => (
-              <S.Item onClick={() => navigate(`/home/album/${info.id}`)}>
+              <S.Item
+                onClick={() =>
+                  navigate(modeNavigation(`/home/album/${info.id}`))
+                }
+              >
                 <Card>
                   <Card.UserProfile src={info.avatar} />
                   <Card.UserId>{info.id}</Card.UserId>

@@ -1,8 +1,9 @@
 import { styled } from "styled-components";
-import { Card } from "../../../../components/Comment/Comment";
+import { Card } from "../../../../components/Card/Card";
 import { ProfileProps } from "../..";
 import { useNavigate } from "react-router-dom";
 import { FlexColumnCenterCSS } from "../../../../style/commonStyle";
+import { modeNavigation } from "../../../../utils/modeUtils";
 
 interface UserCardProps {
   data: ProfileProps[];
@@ -12,7 +13,7 @@ function UserCard({ data }: UserCardProps) {
   const navigate = useNavigate();
 
   const cardClick = (index: number) => {
-    navigate(`/home/message/${data[index].members[0]}`);
+    navigate(modeNavigation(`/home/message/${data[index].members[0]}`));
   };
 
   return (

@@ -1,12 +1,12 @@
 import { IAlbum } from "../pages/HomeModal/ModalContent";
 import AuthService from "../utils/authService";
-import TokenService from "../utils/tokenService";
+import UserService from "../utils/userService";
 import axiosInstance from "./core";
-
-const [token, id] = AuthService.getTokenAndId();
 
 const AlbumApi = {
   regist(content: any, album: IAlbum) {
+    const [token, id] = AuthService.getTokenAndId();
+
     const formData = new FormData();
     const boundary = "----WebKitFormBoundary";
     formData.append("is_private", "FALSE");
@@ -34,18 +34,89 @@ const AlbumApi = {
     axiosInstance.post("/api/albums/", formData, { headers });
   },
 
-  get(id: string) {
+  getFeedAlbum(mode: string, pageParam: number) {
+    const [token, id] = AuthService.getTokenAndId();
+
+    const secret_mode = UserService.isSecretMode();
     const headers = {
       Authorization: token,
     };
-    return axiosInstance.get(`/api/albums/?target=${id}&num=4`, { headers });
+    return axiosInstance.get(
+      secret_mode
+        ? `/api/albums/?target=${mode}&num=6&counts=${pageParam}&order_by=-created_at&is_private=true`
+        : `/api/albums/?target=${mode}&num=4&counts=${2}`,
+      {
+        headers,
+      }
+    );
+  },
+
+  getUserAlum(targetId: string) {
+    const [token, id] = AuthService.getTokenAndId();
+
+    const secret_mode = UserService.isSecretMode();
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.get(
+      secret_mode
+        ? `/api/albums/?target=${targetId}&num=4&counts=1`
+        : `/api/albums/?target=${targetId}&num=4&counts=1`,
+      {
+        headers,
+      }
+    );
   },
 
   getDetail(albumId: string) {
+    const [token, id] = AuthService.getTokenAndId();
+
     const headers = {
       Authorization: token,
     };
     return axiosInstance.get(`/api/albums/${albumId}`, { headers });
+  },
+
+  getFollowing(userId: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.get(`/api/users/${userId}/follow/`, { headers });
+  },
+
+  getFollower(userId: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.get(`/api/users/${userId}/follower/`, { headers });
+  },
+
+  getUserInfo(userId: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.get(`/api/users/${userId}/`, { headers });
+  },
+
+  setComment(albumId: string, content: any, id: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.post(`/api/users`, { headers });
+  },
+
+  deleteAlbum(albumId: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.delete(`/api/albums/${albumId}`, { headers });
+  },
+
+  deleteComment(commentId: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.delete(`/api/comments/${commentId}`, { headers });
   },
 };
 

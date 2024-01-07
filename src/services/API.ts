@@ -215,9 +215,7 @@ export const getComments = async (AlbumId: string) => {
 };
 
 export const setComments = async (AlbumId: any, content: IComment) => {
-  const id = localStorage.getItem("id");
-  const token = localStorage.getItem("token");
-
+  const [id, token] = AuthService.getTokenAndId();
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/comments/`,
@@ -340,7 +338,11 @@ export const getAvatar = async (user_id: string) => {
   }
 };
 
-export const makeChatRoom = async (myId: string, targetId: string) => {
+export const makeChatRoom = async (
+  myId: string,
+  targetId: string,
+  token: string
+) => {
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/chatrooms/`,

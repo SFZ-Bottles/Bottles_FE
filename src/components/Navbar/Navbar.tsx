@@ -1,53 +1,99 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { themeState } from "../../atom/atom";
-import { useSetRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { logout } from "../../services/API";
 import { media } from "../../style/theme";
-import { FlexCenterCSS } from "../../style/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import UserService from "../../utils/userService";
+import AuthService from "../../utils/authService";
+import SearchModal from "../Modal/SearchModal";
+import { pageLocation } from "../../utils/modeUtils";
+import { useRecoilState } from "recoil";
+import { searchState } from "../../atom/atom";
 
 function Navbar() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
-  const myId = localStorage.getItem("id");
-  const mySecretId = localStorage.getItem("secret_id");
+  const isSecrete = UserService.isSecretMode();
+  const [, myId] = AuthService.getTokenAndId();
+  const [active, setActive] = useRecoilState(searchState);
+
   const titleClick = () => {
     navigate("/home/pin");
   };
 
+  const onClick = (path: string) => {
+    setActive(false);
+    navigate(`/home${isSecrete ? "/annonymous" : ""}/${path}`);
+  };
+
+  const onSearchClick = () => {
+    setActive((prev: boolean) => !prev);
+  };
+
+  const onOverlayClicked = () => {
+    setActive(false);
+  };
+
   return (
-    <S.HeaderContainer>
-      <span onClick={titleClick}>BOTTLES</span>
-      <S.HeaderItem $active={location.pathname === "/home/feed"}>
-        <S.StyledLink to="/home/feed">Home</S.StyledLink>
-      </S.HeaderItem>
-      <S.HeaderItem $active={location.pathname === "/home/search"}>
-        <S.StyledLink to="/home/search">Search</S.StyledLink>
-      </S.HeaderItem>
-      <S.HeaderItem $active={location.pathname === "/home/message"}>
-        <S.StyledLink to="/home/message">Message</S.StyledLink>
-      </S.HeaderItem>
-      <S.HeaderItem $active={location.pathname === `/home/album/${myId}`}>
-        <S.StyledLink
-          to={`/home/album/${UserService.isSecretMode() ? mySecretId : myId}`}
+    <S.Container>
+      <S.HeaderContainer>
+        <span onClick={titleClick}>BOTTLES</span>
+        <S.HeaderItem
+          $active={pageLocation(pathname, "feed")}
+          onClick={() => onClick("feed")}
         >
-          My Albums
-        </S.StyledLink>
-      </S.HeaderItem>
-      <S.HeaderItem $active={location.pathname === "/home/setting"}>
-        <S.StyledLink to="/home/setting">Setting</S.StyledLink>
-      </S.HeaderItem>
-      <span onClick={logout}>
-        <S.StyledLink to="/">Logout</S.StyledLink>
-      </span>
-    </S.HeaderContainer>
+          feed
+        </S.HeaderItem>
+        <S.HeaderItem $active={active} onClick={onSearchClick}>
+          search
+        </S.HeaderItem>
+        <S.HeaderItem
+          $active={pageLocation(pathname, "message")}
+          onClick={() => onClick("message")}
+        >
+          message
+        </S.HeaderItem>
+        <S.HeaderItem
+          $active={pageLocation(pathname, `${myId}`)}
+          onClick={() => onClick(`album/${myId}`)}
+        >
+          myAlbum
+        </S.HeaderItem>
+        <S.HeaderItem
+          $active={pageLocation(pathname, "setting")}
+          onClick={() => onClick("setting")}
+        >
+          setting
+        </S.HeaderItem>
+        <span onClick={logout}>
+          <S.StyledLink to="/">Logout</S.StyledLink>
+        </span>
+      </S.HeaderContainer>
+
+      {active && (
+        <>
+          <SearchModal />
+          <S.ModalOverlay onClick={onOverlayClicked}></S.ModalOverlay>
+        </>
+      )}
+    </S.Container>
   );
 }
 
 const S = {
-  HeaderContainer: styled.div`
+  Container: styled.div`
     position: fixed;
+    ${FlexColumnCenterCSS};
+    width: 100%;
+    z-index: 2;
+  `,
+
+  ModalContainer: styled.div`
+    ${FlexColumnCenterCSS};
+    position: absolute;
+  `,
+
+  HeaderContainer: styled.div`
     ${FlexCenterCSS}
     justify-content: start;
     font-size: 1.3rem;
@@ -58,9 +104,9 @@ const S = {
     width: 100%;
     padding: 10px;
     gap: 3rem;
-    z-index: 2;
     border-bottom: 3px solid #d9d9d9;
     border-color: ${(props) => props.theme.color.navBorder};
+    z-index: 100;
 
     & > :first-child {
       font-size: 2em;
@@ -117,6 +163,17 @@ const S = {
     font-size: 0.8em;
     cursor: pointer;
     font-weight: ${(props) => (props.$active ? "bold" : "400")};
+  `,
+
+  ModalOverlay: styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    z-index: 98;
   `,
 };
 

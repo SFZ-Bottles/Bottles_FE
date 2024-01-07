@@ -61,5 +61,10 @@ export const contentState = atom<any>({
 
 export const themeState = atom<boolean>({
   key: "themeState",
-  default: UserService.isSecretMode(),
+  default: !UserService.isSecretMode(),
+});
+
+export const searchState = atom<boolean>({
+  key: "searchState",
+  default: false,
 });

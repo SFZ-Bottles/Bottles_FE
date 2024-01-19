@@ -53,7 +53,7 @@ const MessagePage = () => {
       
       {targetId && chatList ? (
         <Room roomList={chatList} targetId={targetId} />
-      ) : <EmptySpace Mytext="내 메시지" text="친구나 그룹에 비공개 사진과 메시지를 보내보세요"/> 
+      ) : <EmptySpace title="내 메시지" text="친구나 그룹에 비공개 사진과 메시지를 보내보세요"/> 
         }
         
     </S.Container>

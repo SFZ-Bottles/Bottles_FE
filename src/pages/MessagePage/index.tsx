@@ -6,7 +6,9 @@ import { getAvatar, getChatList } from "../../services/API";
 import UserCard from "./Components/UserCard/UserCard";
 import { getParticipation } from "../../utils/messageUtils";
 import { useParams } from "react-router-dom";
+import EmptySpace from "../../components/Empty/EmptySpace";
 import Room from "./Components/Room/Room";
+
 export interface DataProps {
   num: number;
   result: ProfileProps[];
@@ -48,9 +50,12 @@ const MessagePage = () => {
   return (
     <S.Container>
       <SideBar>{chatList && <UserCard data={chatList} />}</SideBar>
+      
       {targetId && chatList ? (
         <Room roomList={chatList} targetId={targetId} />
-      ) : null}
+      ) : <EmptySpace title="내 메시지" text="친구나 그룹에 비공개 사진과 메시지를 보내보세요"/> 
+        }
+        
     </S.Container>
   );
 };

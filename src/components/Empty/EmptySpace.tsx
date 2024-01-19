@@ -1,13 +1,18 @@
 import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 
-function EmptySpace (props : any){
+interface EmptyProps {
+  title: string
+  text: string
+}
+
+function EmptySpace (props : EmptyProps){
   return (
     <S.EmptySpace>
           <S.ImageContainer>
             <img width="600px" src="/img/bottle.png" alt="bottle"/>
           </S.ImageContainer>
-          <S.MyText>{props.Mytext}</S.MyText>
+          <S.MyText>{props.title}</S.MyText>
           <S.Text>{props.text}</S.Text>
           </S.EmptySpace>
   );

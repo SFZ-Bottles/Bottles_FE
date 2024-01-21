@@ -4,23 +4,24 @@ import { styled, CSSProp, css } from "styled-components";
 interface Props {
   name?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  size?: number;
   customStyle?: CSSProp;
 }
 
-function CustomButton({ name, onClick, customStyle }: Props) {
+function CustomButton({ name, onClick, size = 15, customStyle }: Props) {
   return (
-    <S.Button onClick={onClick} customStyle={customStyle}>
+    <S.Button onClick={onClick} size={size} customStyle={customStyle}>
       {name}
     </S.Button>
   );
 }
 
 const S = {
-  Button: styled.button<{ customStyle: CSSProp }>`
-    height: 20px;
+  Button: styled.button<{ customStyle: CSSProp; size: number }>`
     background-color: ${(props) => props.theme.color.bgColor};
     border: none;
-    font-size: 1rem;
+    height: 20px;
+    font-size: ${(props) => props.size}px;
     text-decoration: underline;
     cursor: pointer;
 

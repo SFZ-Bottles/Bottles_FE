@@ -1,6 +1,7 @@
 import { Children, ReactNode, isValidElement } from "react";
 import { styled } from "styled-components";
 import CustomButton from "../Button/CustomButton";
+import { FlexCenterCSS } from "../../style/commonStyle";
 
 interface IUserCardProps {
   children?: ReactNode;
@@ -109,11 +110,16 @@ function CardMain({ children, onClick }: IMainProps) {
       <S.UserInfo>
         <S.UserId>
           {userIdContents}
-          {buttonContents && <div>{buttonContents}</div>}
+          <div style={{ width: "100%" }}>
+            {buttonContents && (
+              <S.ButtonWrapper>{buttonContents.slice(0, 2)}</S.ButtonWrapper>
+            )}
+          </div>
         </S.UserId>
         {userDescribeContents && userDescribeContents}
         {userComments && userComments}
         {createdTime && createdTime}
+        {buttonContents && <div>{buttonContents.slice(2)}</div>}
       </S.UserInfo>
 
       {messageContents && messageContents}
@@ -122,28 +128,23 @@ function CardMain({ children, onClick }: IMainProps) {
 }
 
 const S = {
-  Navbar: styled.div`
-    display: flex;
-    width: 100%;
-    height: 10%;
-    align-items: center;
-    justify-content: center;
-    color: ${(props) => props.theme.color.fontColor};
-    border-bottom: 2px solid ${(props) => props.theme.color.navBorder};
-  `,
   CardContainer: styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    height: 90px;
     padding-left: 1rem;
   `,
-  UserProfile: styled.div<{ src: string | null }>`
-    width: 6rem;
-    height: 70px;
-    border-radius: 3rem;
-    background-image: url(${(props) => props.src});
+  UserProfile: styled.img<{ src: string | null }>`
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    src: url(${(props) => props.src});
     background-size: cover;
+  `,
+  ButtonWrapper: styled.div`
+    display: flex;
+    gap: 10px;
+    padding-left: 20px;
   `,
   UserInfo: styled.div`
     display: flex;
@@ -173,6 +174,7 @@ const S = {
   `,
   UserDescribe: styled.div`
     font-size: 1rem;
+    padding-top: 10px;
     color: #918f8f;
   `,
 };

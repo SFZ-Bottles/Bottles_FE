@@ -4,10 +4,8 @@ import { styled } from "styled-components";
 import TokenService from "../../../../../utils/tokenService";
 import CommonInput from "../../../../../components/Input/Input";
 import ChatApi from "../../../../../services/chatApi";
-import {
-  FlexCenterCSS,
-  FlexColumnCenterCSS,
-} from "../../../../../style/commonStyle";
+import { FlexColumnCenterCSS } from "../../../../../style/commonStyle";
+import { media } from "../../../../../style/theme";
 
 export interface Chat {
   message: string;
@@ -136,12 +134,20 @@ const S = {
     ${FlexColumnCenterCSS}
     & > div {
       width: 100%;
+
+      @media screen and (max-width: ${media.mobile}) {
+        height: 45vh;
+      }
     }
     & > form {
       width: 100%;
       height: 100%;
-      ${FlexCenterCSS}
-      padding-top: 1rem;
+      ${FlexColumnCenterCSS}
+      padding: 1rem 0;
+
+      @media screen and (max-width: ${media.mobile}) {
+        height: 10vh;
+      }
     }
   `,
 

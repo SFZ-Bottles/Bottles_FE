@@ -20,18 +20,22 @@ function Room({ roomList, targetId }: RoomProps) {
   }, [targetId, roomList]);
 
   return (
-    <div style={{ paddingLeft: "470px" }}>
+    <S.Container>
       {roomInfo && (
         <S.ContentContainer>
           <MessageBox chatInfo={roomInfo[0]} />
           {roomInfo[0] && <ChatBox roomId={roomInfo[0].id} />}
         </S.ContentContainer>
       )}
-    </div>
+    </S.Container>
   );
 }
 
 const S = {
+  Container: styled.div`
+    flex-grow: 1;
+  `,
+  
   UserContainer: styled.div`
     display: flex;
   `,

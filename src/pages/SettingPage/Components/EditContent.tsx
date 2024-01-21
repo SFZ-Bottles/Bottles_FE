@@ -56,13 +56,11 @@ function EditContent() {
         <S.ProfileDiv>
           {userData && <S.ImageDiv src={userData?.avatar} />}
           <div>
-            <S.ProfileInput>
-              <UploadButton
-                label="Edit"
-                type="image"
-                onChange={profileEditClick}
-              />
-            </S.ProfileInput>
+            <UploadButton
+              label="Edit"
+              type="image"
+              onChange={profileEditClick}
+            />
             <CustomButton name="Delete" />
           </div>
         </S.ProfileDiv>
@@ -110,7 +108,7 @@ function EditContent() {
         </S.ButtonDiv>
       </S.ContentContainer>
       {editData ? (
-        <Modal>
+        <Modal onClose={() => setEditData("")}>
           <EditModal
             editData={editData}
             onClose={() => setEditData(null)}

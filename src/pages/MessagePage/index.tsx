@@ -10,6 +10,7 @@ import Room from "./Components/Room/Room";
 import AuthService from "../../utils/authService";
 import ChatApi from "../../services/chatApi";
 import useToken from "../../hooks/useToken";
+import { media } from "../../style/theme";
 
 export interface DataProps {
   num: number;
@@ -52,18 +53,38 @@ const MessagePage = () => {
 
   return (
     <S.Container>
-      <SideBar>{chatList && <UserCard data={chatList} />}</SideBar>
-      {targetId && chatList ? (
-        <Room roomList={chatList} targetId={targetId} />
-      ) : null}
+      <S.SideBarWrapper show={targetId ?? ""}>
+        <SideBar>{chatList && <UserCard data={chatList} />}</SideBar>
+      </S.SideBarWrapper>
+      <S.RightWraaper show={targetId ?? ""}>
+        {targetId && chatList ? (
+          <Room roomList={chatList} targetId={targetId} />
+        ) : null}
+      </S.RightWraaper>
     </S.Container>
   );
 };
 
 const S = {
   Container: styled.div`
+    display: flex;
     width: 100%;
     height: 100%;
+  `,
+  SideBarWrapper: styled.div<{ show: string }>`
+    width: 30%;
+    @media screen and (max-width: ${media.mobile}) {
+      display: ${(props) => (props.show ? "none" : "flex")};
+      width: 100%;
+    }
+  `,
+  RightWraaper: styled.div<{ show: string }>`
+    display: flex;
+    flex-grow: 1;
+
+    @media screen and (max-width: ${media.mobile}) {
+      display: ${(props) => (props.show ? "flex" : "none")};
+    }
   `,
 };
 

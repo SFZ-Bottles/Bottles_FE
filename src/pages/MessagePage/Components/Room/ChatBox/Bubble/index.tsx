@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Content } from "../ChatBox";
+import { timeAgo } from "../../../../../../utils/timeUtils";
 
 interface Bubble {
   content: Content;
@@ -11,7 +12,7 @@ function ChatBubble({ content, isOwnContent }: Bubble) {
     <S.BubbleContainer isOwnContent={isOwnContent}>
       <S.Bubble isOwnContent={isOwnContent}>
         <S.Content>{content.content}</S.Content>
-        <S.Timestamp>{content.timestamp}</S.Timestamp>
+        <S.Timestamp>{timeAgo(content.timestamp)}</S.Timestamp>
       </S.Bubble>
     </S.BubbleContainer>
   );
@@ -49,6 +50,7 @@ const S = {
     padding-left: 10px;
     display: flex;
     align-items: center;
+    padding-top: 10px;
   `,
 };
 

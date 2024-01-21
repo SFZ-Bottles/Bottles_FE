@@ -168,6 +168,8 @@ export const logout = async () => {
 };
 
 export const changeInfo = async (editData: any) => {
+  const [token, id] = AuthService.getTokenAndId();
+  console.log(editData);
   try {
     const formData = new FormData();
     const boundary = "----WebKitFormBoundary";
@@ -189,13 +191,13 @@ export const changeInfo = async (editData: any) => {
         body: formData,
       }
     ).then((result) => result.json());
-    console.log(response);
   } catch (error: any) {
     alert(error);
   }
 };
 
 export const getComments = async (AlbumId: string) => {
+  const [token, id] = AuthService.getTokenAndId();
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/comments/?album_id=${AlbumId}`,
@@ -208,14 +210,14 @@ export const getComments = async (AlbumId: string) => {
       }
     ).then((result) => result.json());
     return response.message === "ok" && response.result.length ? response : [];
-    console.log(response);
   } catch (error: any) {
     alert(error);
   }
 };
 
 export const setComments = async (AlbumId: any, content: IComment) => {
-  const [id, token] = AuthService.getTokenAndId();
+  const [token, id] = AuthService.getTokenAndId();
+  console.log(id);
   try {
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/comments/`,

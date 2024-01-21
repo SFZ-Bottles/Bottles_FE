@@ -34,7 +34,7 @@ const AlbumApi = {
     axiosInstance.post("/api/albums/", formData, { headers });
   },
 
-  getFeedAlbum(mode: string, pageParam: number) {
+  getFeedAlbum(mode: string, view: number, pageParam: number) {
     const [token, id] = AuthService.getTokenAndId();
 
     const secret_mode = UserService.isSecretMode();
@@ -43,8 +43,8 @@ const AlbumApi = {
     };
     return axiosInstance.get(
       secret_mode
-        ? `/api/albums/?target=${mode}&num=6&counts=${pageParam}&order_by=-created_at&is_private=true`
-        : `/api/albums/?target=${mode}&num=4&counts=${2}`,
+        ? `/api/albums/?target=recommended&num=6&counts=${pageParam}&order_by=-created_at&is_private=true`
+        : `/api/albums/?target=${mode}&num=${view}&counts=${pageParam}`,
       {
         headers,
       }

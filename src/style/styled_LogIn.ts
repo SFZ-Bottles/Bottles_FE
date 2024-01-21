@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "./theme";
 
 export const C_FlexBox = styled.div`
   display: flex;
@@ -25,6 +26,10 @@ export const Title = styled(C_FlexBox)`
   font-size: 8rem;
   font-weight: 700;
   margin-bottom: 5rem;
+
+  @media screen and (max-width: ${media.mobile}) {
+    font-size: 5rem;
+  }
 `;
 
 export const SemiTitle = styled(Title)`
@@ -33,12 +38,16 @@ export const SemiTitle = styled(Title)`
 `;
 
 export const Input = styled.input<{ color: string }>`
-  width: 800px;
+  width: 50vw;
   height: 4rem;
   border-radius: 2rem;
   font-size: 1.5rem;
   padding-left: 2rem;
   border-color: ${(props) => props.color || "black"};
+
+  @media screen and (max-width: ${media.mobile}) {
+    width: 80vw;
+  }
 `;
 
 export const BigInput = styled.textarea`

@@ -98,7 +98,7 @@ const S = {
     height: 450px;
     background-color: ${(props) => props.theme.color.bgColor};
     overflow: auto;
-    padding-top: 1rem;
+    padding: 2rem 0;
   `,
 
   Item: styled.div`

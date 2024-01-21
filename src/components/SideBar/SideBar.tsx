@@ -1,12 +1,17 @@
 import { ReactNode } from "react";
 import { styled } from "styled-components";
+import { media } from "../../style/theme";
 
 interface IProps {
   children: ReactNode;
 }
 
 function SideBar({ children }: IProps) {
-  return <S.Container>{children}</S.Container>;
+  return (
+    <>
+      <S.Container>{children}</S.Container>;
+    </>
+  );
 }
 
 const S = {
@@ -15,6 +20,7 @@ const S = {
     position: fixed;
     align-items: center;
     margin-top: 10px;
+    width: inherit;
     height: 90vh;
     border-right: 5px solid #d9d9d9;
     border-top: 3px solid #d9d9d9;

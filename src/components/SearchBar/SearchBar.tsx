@@ -1,5 +1,6 @@
 import { styled } from "styled-components";
 import CommonInput from "../Input/Input";
+import { media } from "../../style/theme";
 
 interface IProps {
   value: string;
@@ -18,7 +19,9 @@ const SearchBar = ({ value, onChange, ...rest }: IProps) => {
             onChange={onChange}
             {...rest}
             customStyle={{
-              paddingLeft: "2.5rem",
+              paddingLeft: "50px",
+              backgroundColor: "#E8E8E8",
+              border: "none",
             }}
           />
           <S.SearchIcon />
@@ -41,8 +44,12 @@ const S = {
   SearchDiv: styled.div`
     display: flex;
     align-items: center;
-    width: 40%;
+    min-width: 200px;
     position: relative;
+    padding: 0 2rem;
+    @media screen and (max-width: ${media.mobile}) {
+      width: 100px;
+    }
   `,
 
   SearchIcon: styled.div`
@@ -50,19 +57,13 @@ const S = {
     position: absolute;
     width: 1rem;
     height: 1rem;
-    left: 2rem;
+    left: 9%;
     background-size: cover;
     background-image: url("/img/search.svg");
-  `,
 
-  InputDiv: styled.input`
-    display: flex;
-    width: 100%;
-    height: 40px;
-    border: none;
-    background-color: #e8e8e8;
-    border-radius: 1rem;
-    padding-left: 40px;
+    @media screen and (max-width: ${media.mobile}) {
+      left: 0;
+    }
   `,
 };
 

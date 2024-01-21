@@ -57,7 +57,7 @@ function Navbar() {
           $active={pageLocation(pathname, `${myId}`)}
           onClick={() => onClick(`album/${myId}`)}
         >
-          myAlbum
+          profile
         </S.HeaderItem>
         <S.HeaderItem
           $active={pageLocation(pathname, "setting")}
@@ -116,7 +116,9 @@ const S = {
       padding-left: 1rem;
 
       @media screen and (max-width: 478px) {
-        font-size: 1rem;
+        font-size: 1.3rem;
+        padding-left: 0.5rem;
+        margin-top: 0.6rem;
         gap: 1px;
         letter-spacing: 2px;
       }
@@ -131,7 +133,7 @@ const S = {
       margin-top: 30px;
       opacity: 0.5;
 
-      @media screen and (max-width: ${media.tablet}) and (min-width: ${media.mobile}) {
+      @media screen and (max-width: ${media.mobile}) {
         display: none;
       }
     }

@@ -5,12 +5,13 @@ import { darkTheme, lightTheme } from "./style/theme";
 import { themeState } from "./atom/atom";
 import GlobalStyle from "./style/global";
 import { router } from "./router/router";
-import UserService from "./utils/userService";
 import { useEffect } from "react";
 
 function App() {
   const themeMode = useRecoilValue(themeState);
-  let theme = themeMode ? darkTheme : lightTheme;
+  let theme = themeMode ? lightTheme : darkTheme;
+
+  useEffect(() => {}, [themeMode]);
 
   return (
     <ThemeProvider theme={theme}>

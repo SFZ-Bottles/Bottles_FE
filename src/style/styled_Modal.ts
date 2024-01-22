@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "./theme";
 
 export const ModalInput = styled.textarea`
   width: 400px;
@@ -8,6 +9,9 @@ export const ModalInput = styled.textarea`
   padding: 2rem;
   border-width: 3px;
   margin: 30px 0;
+  @media screen and (max-width: ${media.mobile}) {
+    width: 300px;
+  }
 `;
 
 export const CustomButton = styled.button`

@@ -1,14 +1,12 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import { albumState, contentState, templateState } from "../../atom/atom";
+import { useRecoilState } from "recoil";
+import { albumState, templateState } from "../../atom/atom";
 import {
-  AddButton,
   Box,
   BoxContainer,
   DeleteButton,
   ListContainer,
   UploadButton,
 } from "../../style/styled_Modal";
-import { regist, registAlbum } from "../../services/API";
 import { IAlbum } from "./ModalContent";
 import AlbumApi from "../../services/albumApi";
 

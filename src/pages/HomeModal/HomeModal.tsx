@@ -7,14 +7,17 @@ import {
   TemplateContainer,
 } from "../../style/styled_Home";
 import { useRecoilState } from "recoil";
-import { albumState, templateState } from "../../atom/atom";
+import { templateState } from "../../atom/atom";
 import ModalContent from "./ModalContent";
 import ListContent from "./ListContent";
 import { C_FlexBox } from "../../style/styled_LogIn";
 import { AddButton } from "../../style/styled_Modal";
-import { createContext } from "vm";
 
-function HomePage() {
+function HomePage({
+  setState,
+}: {
+  setState: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [modalState, setModalState] = useState<any>(null);
   const [listNum, setListNum] = useState(0);
   const [template, setTemplate] = useRecoilState(templateState);
@@ -24,7 +27,7 @@ function HomePage() {
 
   return (
     <React.Fragment>
-      <Modal>
+      <Modal onClose={() => setState(false)}>
         <ChoiceBox>
           <Phrase>템플릿</Phrase>
           <TemplateContainer>
@@ -33,7 +36,7 @@ function HomePage() {
               <img
                 src="/img/cover.svg"
                 alt="img"
-                style={{ width: "100px", height: "100px" }}
+                style={{ width: "80px", height: "100px" }}
               />
             </Template>
             <Template onClick={() => setModalState("text")}>
@@ -41,7 +44,7 @@ function HomePage() {
               <img
                 src="/img/text.svg"
                 alt="img"
-                style={{ width: "100px", height: "100px" }}
+                style={{ width: "80px", height: "80px" }}
               />
             </Template>
             <Template onClick={() => setModalState("image")}>

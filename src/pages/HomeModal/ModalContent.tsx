@@ -1,6 +1,6 @@
 import { useRecoilState } from "recoil";
 import { albumState, contentState, templateState } from "../../atom/atom";
-import FileInput from "../../components/Modal/FileInput";
+import FileInput from "../../components/Input/FileInput";
 import UploadButton from "../../components/Button/UploadButton";
 import { useState } from "react";
 import { ButtonDiv, CustomButton } from "../../style/styled_Modal";
@@ -69,7 +69,7 @@ function ModalContent({
       content: image,
     };
 
-    if (modalType === "image" || modalType === "cover") {
+    if (modalType !== "text") {
       setContent((prev: any) => [...prev, image]);
       setBoard((prev: IAlbum) => ({
         ...board,

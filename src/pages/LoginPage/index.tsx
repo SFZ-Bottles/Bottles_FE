@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import LoginApi from "../../services/loginApi";
 import TokenService from "../../utils/tokenService";
 import UserService from "../../utils/userService";
+import { modeNavigation } from "../../utils/modeUtils";
 
 interface ILogin {
   id: string;
@@ -33,7 +34,7 @@ function LogInPage() {
       const result = await LoginApi.login(form.id, form.password);
       TokenService.setToken(result.data.token);
       UserService.setUserId(form.id);
-      navigate("/home/feed");
+      navigate(modeNavigation("/home/feed"));
     } catch (error) {
       setIdentity(true);
     }

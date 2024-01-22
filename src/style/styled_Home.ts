@@ -46,6 +46,11 @@ export const ModalContainer = styled.div`
   display: grid;
   min-width: 400px;
   min-height: 400px;
+
+  @media screen and (max-width: ${media.mobile}) {
+    min-width: 100px;
+    min-height: 250px;
+  }
 `;
 
 export const ModalImgDiv = styled.div`

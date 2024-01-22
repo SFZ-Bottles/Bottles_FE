@@ -6,13 +6,14 @@ import HomePage from "../HomeModal/HomeModal";
 import Modal from "../../components/Modal/Modal";
 import FollowList from "./Components/FollowList";
 import AuthService from "../../utils/authService";
-import { useRecoilValue } from "recoil";
-import { themeState } from "../../atom/atom";
 import AlbumApi from "../../services/albumApi";
 import Feed from "../../components/Feed/Feed";
 import { modeNavigation } from "../../utils/modeUtils";
 import Profile from "../../components/Profile/Profile";
 import { useInView } from "react-intersection-observer";
+import AlbumButton from "./Components/AlbumButton/AlbumButton";
+import { FlexCenterCSS } from "../../style/commonStyle";
+import UserService from "../../utils/userService";
 
 export interface MyInfoProps {
   id: string;
@@ -33,6 +34,7 @@ const AlbumPage = () => {
   const id = params.id ?? "";
   const [token, myId] = AuthService.getTokenAndId();
   const navigate = useNavigate();
+  const isSecreteMode = UserService.isSecretMode();
   const [isMyAlbum, setIsMyAlbum] = useState<boolean>();
   const [userBasicInfo, setUserBasicInfo] = useState<MyInfoProps>();
   const [userFollower, setUserFollower] = useState<FollowProps>();
@@ -94,27 +96,37 @@ const AlbumPage = () => {
       <S.Container>
         {isMyAlbum ? (
           <>
-            <button onClick={() => setAlbumModalActivity(true)}>
+            <AlbumButton onClick={() => setAlbumModalActivity(true)}>
               new Album
-            </button>
+            </AlbumButton>
           </>
         ) : (
-          <>
-            <button onClick={followClick}>팔로우</button>
-            <button onClick={messageClick}>메세지</button>
-          </>
+          <S.FollowWrapper>
+            <AlbumButton onClick={followClick}>팔로우</AlbumButton>
+            <AlbumButton onClick={messageClick}>메세지</AlbumButton>
+          </S.FollowWrapper>
         )}
+
         {userBasicInfo && <Profile src={userBasicInfo.avatar} />}
         <S.UserText>{userBasicInfo?.name || myId}</S.UserText>
-        <S.UserText>
-          <div onClick={() => followListClick(userFollowing?.result ?? [])}>
-            팔로잉 {userFollowing?.num}
-          </div>
-          <div onClick={() => followListClick(userFollower?.result ?? [])}>
-            팔로워 {userFollower?.num}
-          </div>
-        </S.UserText>
+
+        {!isSecreteMode && (
+          <S.FollowWrapper>
+            <AlbumButton
+              onClick={() => followListClick(userFollowing?.result ?? [])}
+            >
+              팔로잉 {userFollowing?.num}
+            </AlbumButton>
+            <AlbumButton
+              onClick={() => followListClick(userFollower?.result ?? [])}
+            >
+              팔로워 {userFollower?.num}
+            </AlbumButton>
+          </S.FollowWrapper>
+        )}
+
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
+
         <div>
           <React.Fragment>
             <Feed data={albums} />
@@ -167,6 +179,11 @@ const S = {
     font-size: 35px;
     font-weight: bold;
     color: lightgray;
+  `,
+
+  FollowWrapper: styled.div`
+    ${FlexCenterCSS}
+    gap: 2rem;
   `,
 };
 

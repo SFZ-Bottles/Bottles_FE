@@ -1,72 +1,38 @@
-import { useEffect, useState } from "react";
-import { styled } from "styled-components";
-import Comment from "../../components/Comment/CommentModal";
-import FeedModal from "../../components/Modal/FeedModal";
-import CommentImage from "../../components/Comment/CommentImage";
-import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import AlbumApi from "../../services/albumApi";
+import { useInView } from "react-intersection-observer";
+import { feedTargeting } from "../../utils/feedTargetingUtils";
+import Feed from "../../components/Feed/Feed";
+import React, { useEffect, useState } from "react";
 
 function FeedPage() {
   const params = useParams();
-  const target = params.id || "follow";
-  const [modal, setModal] = useState(false);
-  const [AlbumId, setAlbumId] = useState<string>();
-  const { data: albums } = useQuery(["feedAlbum", target], () =>
-    AlbumApi.get(target)
-  );
+  const target = feedTargeting(params.id);
+  const [idx, setIdx] = useState(1);
+  const [ref, inView] = useInView();
+  const [data, setData] = useState<any>([]);
 
-  const onImgClick = (id: string) => {
-    setModal(true);
-    setAlbumId(id);
+  const getFeed = async () => {
+    const result = await AlbumApi.getFeedAlbum(target, 6, idx);
+    console.log(result, "결과");
+    setData([...data, ...result?.data?.result]);
+    setIdx((prev: number) => prev + 1);
   };
 
-  console.log(albums);
+  useEffect(() => {
+    if (inView) {
+      getFeed();
+    }
+  }, [inView]);
 
   return (
-    <S.Container>
-      <S.AlbumContainer>
-        {albums?.data.result.map((album: any, index: number) => (
-          <S.ImgDiv
-            key={index}
-            onClick={() => onImgClick(album.id)}
-            src={album.cover_image_url}
-          />
-        ))}
-      </S.AlbumContainer>
-      {modal && AlbumId ? (
-        <div style={{ display: "flex", position: "absolute" }}>
-          <FeedModal onClose={() => setModal(false)}>
-            {{
-              left: <CommentImage AlbumId={AlbumId} />,
-              right: <Comment AlbumId={AlbumId} />,
-            }}
-          </FeedModal>
-        </div>
-      ) : null}
-    </S.Container>
+    <div>
+      <React.Fragment>
+        <Feed data={data} />
+      </React.Fragment>
+      <div style={{ width: "100%", height: "20px" }} ref={ref} />
+    </div>
   );
 }
-
-const S = {
-  Container: styled.div`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-  `,
-  AlbumContainer: styled.div`
-    display: grid;
-    padding-top: 40px;
-    grid-template-columns: repeat(2, 1fr);
-    width: 800px;
-    gap: 10px;
-    height: 100%;
-  `,
-  ImgDiv: styled.img`
-    width: 400px;
-    height: 400px;
-  `,
-};
 
 export default FeedPage;

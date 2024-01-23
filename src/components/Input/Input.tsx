@@ -10,7 +10,7 @@ const InputWrapper = styled.div`
 const StyledInput = styled.input<{ customStyle?: CSSProp }>`
   border-radius: 2rem;
   font-size: 1rem;
-  width: 40rem;
+  width: 40em;
   padding-left: 2rem;
   height: 2.5rem;
 

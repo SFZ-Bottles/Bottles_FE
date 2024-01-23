@@ -15,6 +15,31 @@ const ChatApi = {
       }
     );
   },
+
+  Rooms(userId: string, token: string) {
+    const headers = {
+      Authorization: token,
+    };
+    return axiosInstance.get(`/api/chatrooms/?target=${userId}&num=0`, {
+      headers,
+    });
+  },
+
+  makeRoom(myId: string, targetId: string, token: string) {
+    return axiosInstance.post(
+      `/api/chatrooms`,
+      JSON.stringify({
+        name: targetId,
+        members: [myId, targetId],
+      }),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+      }
+    );
+  },
 };
 
 export default ChatApi;

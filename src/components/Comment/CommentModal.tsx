@@ -2,7 +2,11 @@ import { styled } from "styled-components";
 import { useEffect, useState } from "react";
 import CustomButton from "../Button/CustomButton";
 import { getComments, setComments } from "../../services/API";
-import { Card } from "./Comment";
+import { Card } from "../Card/Card";
+import RemoveModal from "../Modal/RemoveModal";
+import AuthService from "../../utils/authService";
+import AlbumApi from "../../services/albumApi";
+import { timeAgo } from "../../utils/timeUtils";
 
 export interface IComment {
   made_by: string;
@@ -20,11 +24,14 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
     mentioned_user_id: "",
     parent_comment_id: "",
   });
-
+  const [token, myId] = AuthService.getTokenAndId();
   const [data, setData] = useState<any>();
+
+  const [removeModalState, setRemoveModalState] = useState(false);
 
   const getComment = async () => {
     const result = await getComments(AlbumId);
+    console.log(result, "comment");
     setData(result.result);
   };
 
@@ -52,13 +59,35 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
     setMent({ ...ment, content: "", mentioned_user_id: null, commentId: null });
   };
 
+  const onRemoveButtonClick = () => {
+    setRemoveModalState(true);
+  };
+
+  const onDeleteClick = (commentId: string) => {
+    AlbumApi.deleteComment(commentId, token);
+    getComment();
+  };
+
   useEffect(() => {
     getComment();
   }, []);
 
   return (
     <S.Container>
-      <S.Navbar>comments</S.Navbar>
+      <S.Navbar>
+        comments
+        <img
+          src="/img/selection.svg"
+          alt="선택자"
+          onClick={onRemoveButtonClick}
+        />
+        {removeModalState && (
+          <RemoveModal
+            albumId={AlbumId}
+            onClose={() => setRemoveModalState(true)}
+          />
+        )}
+      </S.Navbar>
       <S.CommentContainer>
         {data?.map((comment: any) => (
           <S.CommentDiv>
@@ -66,15 +95,23 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
               <Card.UserProfile src={comment.avatar} />
               <Card.UserId>{comment.user_id}</Card.UserId>
               <CustomButton
+                size={5}
                 name="reply"
                 onClick={() => onReplyClick(comment.user_id, comment.id)}
               />
               <CustomButton
+                size={2}
                 name="mention"
                 onClick={() => onMentionClick(comment.user_id, comment.id)}
               />
               <Card.UserComment>{comment.comment}</Card.UserComment>
-              <Card.CreatedTime>{comment.created_at}</Card.CreatedTime>
+              <Card.CreatedTime>{timeAgo(comment.created_at)}</Card.CreatedTime>
+              {myId === comment.user_id && (
+                <CustomButton
+                  name="delete"
+                  onClick={() => onDeleteClick(comment.id)}
+                />
+              )}
             </Card>
             {comment?.reply.length
               ? comment?.reply.map((reply: any) => (
@@ -87,7 +124,15 @@ function CommentModal({ AlbumId }: { AlbumId: string }) {
                         onClick={() => onMentionClick(reply.user_id, reply.id)}
                       />
                       <Card.UserComment>{reply.comment}</Card.UserComment>
-                      <Card.CreatedTime>{reply.created_at}</Card.CreatedTime>
+                      <Card.CreatedTime>
+                        {timeAgo(reply.created_at)}
+                      </Card.CreatedTime>
+                      {myId === reply.user_id && (
+                        <CustomButton
+                          name="deletes"
+                          onClick={() => onDeleteClick(reply.id)}
+                        />
+                      )}
                     </Card>
                   </S.ReplyDiv>
                 ))
@@ -123,6 +168,8 @@ const S = {
   CommentContainer: styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
+    width: 100%;
     height: 80%;
     overflow: auto;
     overflow-x: hidden;
@@ -158,6 +205,7 @@ const S = {
   Input: styled.input`
     width: 80%;
     padding-left: 1rem;
+    padding-right: 3rem;
     height: 60%;
     border: 1px solid black;
     border-radius: 2rem;
@@ -175,7 +223,7 @@ const S = {
 
     & > button {
       position: absolute;
-      right: 13%;
+      right: 17%;
       padding-bottom: 5%;
     }
   `,

@@ -62,7 +62,6 @@ function GetIdPw() {
     }
     return true;
   };
-  console.log(errors);
 
   const onSubmit = (data: any) => {
     if (!Object.keys(errors).length && idStatusMessage) {
@@ -195,6 +194,7 @@ const S = {
 
   InputDiv: styled.div`
     display: flex;
+    align-items: center;
     justify-content: start;
   `,
 };

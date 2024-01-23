@@ -1,18 +1,18 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import {
-  getMyFollowing,
-  getUserInfo,
-  getMyFollower,
-  userFollow,
-  makeChatRoom,
-} from "../../services/API";
+import React, { useEffect, useState } from "react";
+import { userFollow, makeChatRoom } from "../../services/API";
 import { useNavigate, useParams } from "react-router-dom";
-import FeedPage from "../FeedPage";
-import TokenService from "../../utils/tokenService";
 import HomePage from "../HomeModal/HomeModal";
 import Modal from "../../components/Modal/Modal";
 import FollowList from "./Components/FollowList";
+import AuthService from "../../utils/authService";
+import { useRecoilValue } from "recoil";
+import { themeState } from "../../atom/atom";
+import AlbumApi from "../../services/albumApi";
+import Feed from "../../components/Feed/Feed";
+import { modeNavigation } from "../../utils/modeUtils";
+import Profile from "../../components/Profile/Profile";
+import { useInView } from "react-intersection-observer";
 
 export interface MyInfoProps {
   id: string;
@@ -25,40 +25,43 @@ export interface MyInfoProps {
 export interface FollowProps {
   message: string;
   num: number;
-  result: FollowId[];
-}
-
-export interface FollowId {
-  id: string;
+  result: string[];
 }
 
 const AlbumPage = () => {
   const params = useParams();
   const id = params.id ?? "";
-  const myId = localStorage.getItem("id") ?? "";
+  const [token, myId] = AuthService.getTokenAndId();
   const navigate = useNavigate();
-  const [isMyAlbum, setIsMyAlbum] = useState(id === myId);
+  const [isMyAlbum, setIsMyAlbum] = useState<boolean>();
   const [userBasicInfo, setUserBasicInfo] = useState<MyInfoProps>();
   const [userFollower, setUserFollower] = useState<FollowProps>();
   const [userFollowing, setUserFollowing] = useState<FollowProps>();
-  const [albummodalAcivity, setAlbumModalActivity] = useState(false);
+  const [albumModalAcivity, setAlbumModalActivity] = useState(false);
   const [followModal, setFollowModal] = useState({
     open: false,
-    content: [] as FollowId[],
+    content: [] as string[],
   });
+  const [ref, inView] = useInView();
+  const [idx, setIdx] = useState(1);
+  const [albums, setAlbums] = useState<any>([]);
 
-  console.log(userFollowing);
+  console.log(albums);
+
+  const getFeed = async () => {
+    const result = await AlbumApi.getFeedAlbum(id, 6, idx);
+    setAlbums([...albums, ...result?.data?.result]);
+    setIdx((prev: number) => prev + 1);
+  };
 
   const fetchData = async () => {
     if (!id) return;
-    const token = TokenService.getToken() ?? "";
-    const follower = await getMyFollowing(id);
-    const userInfo = await getUserInfo(id, token);
-    const following = await getMyFollower(id);
-    setUserFollower(follower);
-
-    setUserBasicInfo(userInfo);
-    setUserFollowing(following);
+    const follower = await AlbumApi.getFollower(id, token);
+    const userInfo = await AlbumApi.getUserInfo(id, token);
+    const following = await AlbumApi.getFollowing(id, token);
+    setUserFollower(follower.data);
+    setUserBasicInfo(userInfo.data);
+    setUserFollowing(following.data);
   };
 
   const followClick = async () => {
@@ -67,18 +70,24 @@ const AlbumPage = () => {
   };
 
   const messageClick = async () => {
-    await makeChatRoom(myId, id);
-    navigate("/home/message");
+    await makeChatRoom(myId, id, token);
+    navigate(modeNavigation("/home/message"));
   };
 
-  const followListClick = (list: FollowId[]) => {
-    console.log(list, "처음 리스트");
+  const followListClick = (list: string[]) => {
     setFollowModal({ open: true, content: list });
   };
 
   useEffect(() => {
     fetchData();
+    setIsMyAlbum(id === myId);
   }, [id]);
+
+  useEffect(() => {
+    if (inView) {
+      getFeed();
+    }
+  }, [inView]);
 
   return (
     <>
@@ -95,8 +104,8 @@ const AlbumPage = () => {
             <button onClick={messageClick}>메세지</button>
           </>
         )}
-        {userBasicInfo && <S.UserProfile src={userBasicInfo.avatar} />}
-        <S.UserText>{userBasicInfo?.name}</S.UserText>
+        {userBasicInfo && <Profile src={userBasicInfo.avatar} />}
+        <S.UserText>{userBasicInfo?.name || myId}</S.UserText>
         <S.UserText>
           <div onClick={() => followListClick(userFollowing?.result ?? [])}>
             팔로잉 {userFollowing?.num}
@@ -106,12 +115,22 @@ const AlbumPage = () => {
           </div>
         </S.UserText>
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
-        <FeedPage />
+        <div>
+          <React.Fragment>
+            <Feed data={albums} />
+          </React.Fragment>
+          <div style={{ width: "100%", height: "20px" }} ref={ref} />
+        </div>
       </S.Container>
-      {albummodalAcivity && <HomePage />}
+
+      {albumModalAcivity && <HomePage setState={setAlbumModalActivity} />}
+
       {followModal.open && (
         <Modal onClose={() => setFollowModal({ ...followModal, open: false })}>
-          <FollowList list={followModal.content} />
+          <FollowList
+            onClose={() => setFollowModal({ ...followModal, open: false })}
+            list={followModal.content}
+          />
         </Modal>
       )}
     </>
@@ -143,13 +162,6 @@ const S = {
     & div {
       cursor: pointer;
     }
-  `,
-  UserProfile: styled.div<{ src: string }>`
-    width: 20rem;
-    height: 20rem;
-    background-size: cover;
-    border-radius: 3rem;
-    background-image: url(${(props) => props.src});
   `,
   Introduction: styled.span`
     font-size: 35px;

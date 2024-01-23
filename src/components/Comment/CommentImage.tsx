@@ -11,21 +11,33 @@ function CommentImage({ AlbumId }: { AlbumId: string }) {
   return (
     <S.ImageContainer>
       {album?.data?.result?.map((content: any, index: number) =>
-        content.species === "image" || content.species === "cover" ? (
+        content.species !== "text" ? (
           <S.ImageDiv>
-            <img
-              style={{ width: "100%", height: "100%" }}
-              src={content?.data}
-              alt="이미지"
-            />
-            <S.ImageTitle>
-              {content.species === "cover" && (
-                <>
-                  <span>{album?.data?.title}</span>
-                  <span>{album?.data?.preface}</span>
-                </>
-              )}
-            </S.ImageTitle>
+            {content.species === "video" ? (
+              <video
+                muted
+                autoPlay
+                loop
+                style={{ width: "100%", height: "100%" }}
+                src={content?.data}
+              ></video>
+            ) : (
+              <>
+                <img
+                  style={{ width: "100%", height: "100%" }}
+                  src={content?.data}
+                  alt="이미지"
+                />
+                <S.ImageTitle>
+                  {content.species === "cover" && (
+                    <>
+                      <span>{album?.data?.title}</span>
+                      <span>{album?.data?.preface}</span>
+                    </>
+                  )}
+                </S.ImageTitle>
+              </>
+            )}
           </S.ImageDiv>
         ) : (
           <S.TextDiv key={index}>{content?.data}</S.TextDiv>

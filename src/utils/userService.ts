@@ -3,7 +3,13 @@ const UserService = {
     localStorage.setItem("id", userId);
   },
   getUserId() {
-    return localStorage.getItem("id");
+    return localStorage.getItem("id") ?? "";
+  },
+  getSecretId() {
+    return localStorage.getItem("secret_id") ?? "";
+  },
+  isSecretMode() {
+    return localStorage.getItem("secret_token") ? true : false;
   },
 };
 

@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import UserService from "../utils/userService";
 
 interface ITemplate {
   data: string;
@@ -60,5 +61,10 @@ export const contentState = atom<any>({
 
 export const themeState = atom<boolean>({
   key: "themeState",
-  default: true,
+  default: !UserService.isSecretMode(),
+});
+
+export const searchState = atom<boolean>({
+  key: "searchState",
+  default: false,
 });

@@ -1,5 +1,13 @@
 import { useRef } from "react";
-function UploadButton({ label, onChange }: any) {
+import CustomButton from "./CustomButton";
+
+interface UploadProps {
+  label: string;
+  onChange: any;
+  type: string;
+}
+
+function UploadButton({ onChange, type }: UploadProps) {
   const ref: any = useRef(null);
 
   const onClick = () => {
@@ -8,16 +16,21 @@ function UploadButton({ label, onChange }: any) {
   };
   return (
     <div onClick={onClick}>
-      {label}
       <input
         hidden
         type="file"
-        accept="image/jpg,image/png,image/jpeg"
+        accept={
+          type !== "video"
+            ? "image/jpg,image/png,image/jpeg,image/svg"
+            : "video/mp4"
+        }
         name="image-input"
+        style={{ display: "none" }}
         onChange={onChange}
         ref={ref}
         multiple
       />
+      <CustomButton name="Edit" />
     </div>
   );
 }

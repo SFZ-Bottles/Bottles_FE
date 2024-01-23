@@ -28,17 +28,22 @@ const S = {
     padding: 20px;
     `,
     ImageContainer: styled.div`
-      margin-top: 100px;
+    text-align: center;
+    margin-top: 100px;
+    margin-left: 350px;
     `,
     MyText: styled.p`
-      font-size: 40px;
-      padding-bottom:20px;
-      color: #333;
+    font-size: 40px;
+    margin-top:20px;
+    padding-left:350px;
+    padding-bottom:20px;
+    color: #333;
     `,
     Text: styled.p`
-      font-size: 25px;
-      padding:10px;
-      color: grey;
+    font-size: 25px;
+    padding-left:350px;
+    padding-bottom:10px;
+    color: grey;
     `,
 };
 

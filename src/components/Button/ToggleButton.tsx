@@ -1,6 +1,5 @@
 import { styled } from "styled-components";
 import { FlexCenterCSS } from "../../style/commonStyle";
-import { media } from "../../style/theme";
 
 function ToggleButton() {
   return (

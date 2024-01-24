@@ -5,7 +5,7 @@ import { Card } from "../../components/Card/Card";
 import { useQuery } from "react-query";
 import { getSearchedUsers } from "../../services/API";
 import { useNavigate } from "react-router-dom";
-import useDebounce from "../../hooks/common/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 import { modeNavigation } from "../../utils/modeUtils";
 
 interface IUser {

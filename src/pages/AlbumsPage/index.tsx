@@ -7,13 +7,13 @@ import Modal from "../../components/Modal/Modal";
 import FollowList from "./Components/FollowList";
 import AuthService from "../../utils/authService";
 import AlbumApi from "../../services/albumApi";
-import Feed from "../../components/Feed/Feed";
 import { modeNavigation } from "../../utils/modeUtils";
 import Profile from "../../components/Profile/Profile";
 import { useInView } from "react-intersection-observer";
 import AlbumButton from "./Components/AlbumButton/AlbumButton";
 import { FlexCenterCSS } from "../../style/commonStyle";
 import UserService from "../../utils/userService";
+import { Feed } from "../../components/Feed/Feed";
 
 export interface MyInfoProps {
   id: string;

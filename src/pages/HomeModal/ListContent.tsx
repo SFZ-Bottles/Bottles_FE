@@ -5,11 +5,7 @@ import {
   BoxContainer,
   DeleteButton,
   ListContainer,
-  UploadButton,
 } from "../../style/styled_Modal";
-import { IAlbum } from "./ModalContent";
-import AlbumApi from "../../services/albumApi";
-
 interface ITemplate {
   data: string;
   species: string;
@@ -19,17 +15,9 @@ interface ITemplate {
 
 function ListContent() {
   const [template, setTemplate] = useRecoilState<ITemplate[]>(templateState);
-  const [board, setBoard] = useRecoilState<IAlbum>(albumState);
 
   const deleteClick = (indexNum: number) => {
     setTemplate((prev: any) => prev.filter((index: any) => index !== indexNum));
-  };
-
-  const uploadClick = async () => {
-    const data = await AlbumApi.regist(
-      { pages: template },
-      { ...board, num: template.length }
-    );
   };
 
   const getImage = (species: string) => {
@@ -40,7 +28,7 @@ function ListContent() {
   };
 
   return (
-    <ListContainer>
+    <ListContainer count={template.length}>
       {template.map((item: ITemplate, index: number) =>
         template.length > 0 ? (
           <BoxContainer key={index}>
@@ -56,7 +44,6 @@ function ListContent() {
           </BoxContainer>
         ) : null
       )}
-      <UploadButton onClick={uploadClick}>제출</UploadButton>
     </ListContainer>
   );
 }

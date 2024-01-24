@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { themeState } from "../../atom/atom";
 import { useEffect, useState } from "react";
 import CommonInput from "../../components/Input/Input";
-import { FlexColumnCenterCSS } from "../../style/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import LoginApi from "../../services/loginApi";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -72,12 +72,17 @@ const S = {
   Container: styled.div`
     ${FlexColumnCenterCSS}
     padding-top: 5rem;
-    color: ${(props) => props.theme.color.fontColor};
+    color: white;
     font-size: 2rem;
-    width: 100%;
-    height: 100%;
-    background-color: ${(props) => props.theme.color.bgColor};
+    width: 100vw;
+    height: 100vh;
+    background-color: #555a5f;
     gap: 5rem;
+
+    & > span {
+      ${FlexCenterCSS};
+      width: 80%;
+    }
   `,
 };
 

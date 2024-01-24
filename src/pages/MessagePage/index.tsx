@@ -6,7 +6,7 @@ import { getAvatar } from "../../services/API";
 import UserCard from "./Components/UserCard/UserCard";
 import { getParticipation } from "../../utils/messageUtils";
 import { useParams } from "react-router-dom";
-import EmptySpace from "../../components/Empty/EmptySpace";
+import EmptySpace from "../../components/Filler/Filler";
 import Room from "./Components/Room/Room";
 import AuthService from "../../utils/authService";
 import ChatApi from "../../services/chatApi";

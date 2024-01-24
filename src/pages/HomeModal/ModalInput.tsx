@@ -13,18 +13,14 @@ function ModalInput({ P, inputInfo }: any) {
       <Form>
         <InputDiv>
           <Span>{inputInfo?.title}</Span>
-          <C_FlexBox>
-            <Input
-              type="text"
-              color="default"
-              placeholder={inputInfo?.title}
-              value={P?.value?.title}
-              onChange={(e: any) =>
-                P.set({ ...P.value, title: e.target.value })
-              }
-              required
-            />
-          </C_FlexBox>
+          <Input
+            type="text"
+            color="default"
+            placeholder={inputInfo?.title}
+            value={P?.value?.title}
+            onChange={(e: any) => P.set({ ...P.value, title: e.target.value })}
+            required
+          />
         </InputDiv>
         <InputDiv>
           <Span>{inputInfo?.preface}</Span>

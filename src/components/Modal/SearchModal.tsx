@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Card } from "../../components/Card/Card";
 import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
-import useDebounce from "../../hooks/common/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 import { modeNavigation } from "../../utils/modeUtils";
 import AuthService from "../../utils/authService";
 import { SearchApi } from "../../services/searchApi";

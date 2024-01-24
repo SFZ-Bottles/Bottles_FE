@@ -1,11 +1,19 @@
-import { useState } from "react";
-import { styled } from "styled-components";
+import { FC, HTMLAttributes, PropsWithChildren, useState } from "react";
 import FeedModal from "../Modal/FeedModal";
 import CommentImage from "../Comment/CommentImage";
 import Comment from "../Comment/CommentModal";
-import { media } from "../../style/theme";
+import * as S from "./Feed.styles";
+import { FeedProps } from "./Feed.types";
 
-function Feed({ data }: any) {
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  data: FeedProps[];
+}
+
+export const Feed: FC<PropsWithChildren<Props>> = ({
+  children,
+  data,
+  ...props
+}: Props) => {
   const [modal, setModal] = useState(false);
   const [albumId, setAlbumId] = useState("");
 
@@ -13,8 +21,6 @@ function Feed({ data }: any) {
     setModal(true);
     setAlbumId(id);
   };
-
-  console.log(data, "data");
 
   return (
     <S.Container>
@@ -39,40 +45,4 @@ function Feed({ data }: any) {
       ) : null}
     </S.Container>
   );
-}
-
-const S = {
-  Container: styled.div`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-  `,
-  AlbumContainer: styled.div`
-    display: grid;
-    padding-top: 40px;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    height: 100%;
-
-    @media screen and (max-width: ${media.mobile}) {
-      grid-template-columns: repeat(1, 1fr);
-    }
-  `,
-  ImgDiv: styled.img`
-    width: 25vw;
-    height: 25vw;
-
-    @media screen and (max-width: ${media.tablet}) {
-      width: 40vw;
-      height: 40vw;
-    }
-
-    @media screen and (max-width: ${media.mobile}) {
-      width: 60vw;
-      height: 60vw;
-    }
-  `,
 };
-
-export default Feed;

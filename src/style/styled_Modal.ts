@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { media } from "./theme";
 
 export const ModalInput = styled.textarea`
   width: 400px;
@@ -8,6 +9,9 @@ export const ModalInput = styled.textarea`
   padding: 2rem;
   border-width: 3px;
   margin: 30px 0;
+  @media screen and (max-width: ${media.mobile}) {
+    width: 300px;
+  }
 `;
 
 export const CustomButton = styled.button`
@@ -42,23 +46,33 @@ export const Box = styled.div`
   width: 100px;
   height: 100px;
   border: 2px solid black;
+
+  @media screen and (max-width: ${media.mobile}) {
+    width: 20vw;
+    height: 20vw;
+  }
 `;
 
-export const ListContainer = styled.div`
+export const ListContainer = styled.div<{ count: number }>`
   display: grid;
   position: relative;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: repeat(${(props) => (props.count > 6 ? 2 : 1)}, 1fr);
   grid-template-columns: repeat(6, 1fr);
   width: 100%;
   padding: 24px;
   gap: 10px;
   z-index: -1;
+
+  @media screen and (max-width: ${media.mobile}) {
+    grid-template-rows: repeat(${(props) => (props.count > 3 ? 2 : 1)}, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 export const UploadButton = styled.div`
   display: flex;
   position: absolute;
-  bottom: -100px;
+  bottom: 0px;
   left: 50%;
   right: 50%;
   justify-content: center;

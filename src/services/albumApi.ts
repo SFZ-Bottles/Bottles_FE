@@ -36,14 +36,14 @@ const AlbumApi = {
 
   getFeedAlbum(mode: string, view: number, pageParam: number) {
     const [token, id] = AuthService.getTokenAndId();
-
+    console.log(mode);
     const secret_mode = UserService.isSecretMode();
     const headers = {
       Authorization: token,
     };
     return axiosInstance.get(
       secret_mode
-        ? `/api/albums/?target=recommended&num=6&counts=${pageParam}&order_by=-created_at&is_private=true`
+        ? `/api/albums/?target=${mode}&num=6&counts=${pageParam}&order_by=-created_at&is_private=true`
         : `/api/albums/?target=${mode}&num=${view}&counts=${pageParam}`,
       {
         headers,

@@ -2,17 +2,19 @@ import { useNavigate } from "react-router-dom";
 import {
   Form,
   LogInDiv,
-  Input,
   Title,
   LogInButton,
   UnderLine,
   InvalidBox,
   C_ColFlexBox,
 } from "../../style/styled_LogIn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LoginApi from "../../services/loginApi";
 import TokenService from "../../utils/tokenService";
 import UserService from "../../utils/userService";
+import { modeNavigation } from "../../utils/modeUtils";
+import CommonInput from "../../components/Input/Input";
+import Logo from "../../components/Logo/Logo";
 
 interface ILogin {
   id: string;
@@ -33,36 +35,32 @@ function LogInPage() {
       const result = await LoginApi.login(form.id, form.password);
       TokenService.setToken(result.data.token);
       UserService.setUserId(form.id);
-      navigate("/home/feed");
+      navigate(modeNavigation("/home/feed"));
     } catch (error) {
       setIdentity(true);
     }
   };
 
-  useEffect(() => {
-    // checkToken({navigate});
-  }, []);
-
   return (
     <LogInDiv>
-      <Title>Bottles</Title>
+      <Logo size={7}>Bottles</Logo>
       <Form onSubmit={onSubmit}>
-        <Input
-          color="default"
+        <CommonInput
           type="text"
           placeholder="ID"
           value={form.id}
+          name="text"
+          customStyle={{ height: "50px" }}
           onChange={(e: any) => setForm({ ...form, id: e.target.value })}
-          required
-        ></Input>
-        <Input
-          color="default"
+        />
+        <CommonInput
           type="password"
           placeholder="Pasword"
           value={form.password}
+          name="text"
+          customStyle={{ height: "50px" }}
           onChange={(e: any) => setForm({ ...form, password: e.target.value })}
-          required
-        ></Input>
+        />
         <C_ColFlexBox>
           {identity && <InvalidBox>잘못된 회원정보입니다.</InvalidBox>}
           <LogInButton>Login</LogInButton>

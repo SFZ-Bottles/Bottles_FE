@@ -38,8 +38,8 @@ export const SemiTitle = styled(Title)`
 `;
 
 export const Input = styled.input<{ color: string }>`
-  width: 50vw;
-  height: 4rem;
+  width: 90%;
+  height: 3rem;
   border-radius: 2rem;
   font-size: 1.5rem;
   padding-left: 2rem;
@@ -89,13 +89,17 @@ export const UnderLine = styled.div`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1rem;
 `;
 
 export const Span = styled.span`
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 700;
   padding: 1rem 1rem;
+
+  @media screen and (max-width: ${media.mobile}) {
+    font-size: 8vw;
+  }
 `;
 
 export const InvalidBox = styled(C_FlexBox)`

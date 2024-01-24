@@ -1,16 +1,7 @@
 import { Children, ReactNode, isValidElement } from "react";
-import { styled } from "styled-components";
 import CustomButton from "../Button/CustomButton";
-import { FlexCenterCSS } from "../../style/commonStyle";
-
-interface IUserCardProps {
-  children?: ReactNode;
-}
-
-interface IMainProps {
-  children?: ReactNode;
-  onClick?: () => void;
-}
+import * as S from "./Card.styles";
+import { IUserCardProps } from "./Card.types";
 
 const UserProfile = ({ src }: { src: string | null }) => {
   return <S.UserProfile src={src} />;
@@ -95,7 +86,7 @@ const getMessageImg = (children: ReactNode) => {
     .slice(0, 1);
 };
 
-function CardMain({ children, onClick }: IMainProps) {
+function CardMain({ children, onClick }: IUserCardProps) {
   const buttonContents = getButtons(children);
   const profileContents = getProfile(children);
   const userIdContents = getUserId(children);
@@ -126,58 +117,6 @@ function CardMain({ children, onClick }: IMainProps) {
     </S.CardContainer>
   );
 }
-
-const S = {
-  CardContainer: styled.div`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding-left: 1rem;
-  `,
-  UserProfile: styled.img<{ src: string | null }>`
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    src: url(${(props) => props.src});
-    background-size: cover;
-  `,
-  ButtonWrapper: styled.div`
-    display: flex;
-    gap: 10px;
-    padding-left: 20px;
-  `,
-  UserInfo: styled.div`
-    display: flex;
-    width: 100%;
-    padding-left: 1rem;
-    flex-direction: column;
-    color: black;
-    font-size: 1rem;
-    font-weight: 700;
-  `,
-  CommentTime: styled.div`
-    display: flex;
-    color: gray;
-    font-size: 0.8rem;
-  `,
-  UserId: styled.div`
-    display: flex;
-    color: ${(props) => props.theme.color.fontColor};
-    font-size: 1.2rem;
-  `,
-  Comment: styled.div`
-    width: 90%;
-  `,
-  Message: styled.img`
-    width: 50px;
-    height: 50px;
-  `,
-  UserDescribe: styled.div`
-    font-size: 1rem;
-    padding-top: 10px;
-    color: #918f8f;
-  `,
-};
 
 export const Card = Object.assign(CardMain, {
   UserProfile,

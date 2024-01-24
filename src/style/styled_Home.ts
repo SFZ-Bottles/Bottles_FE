@@ -32,6 +32,7 @@ export const Template = styled.div`
   height: 150px;
   border: 2px solid black;
   position: relative;
+
   @media screen and (max-width: ${media.mobile}) {
     width: 100px;
     height: 100px;
@@ -46,6 +47,12 @@ export const ModalContainer = styled.div`
   display: grid;
   min-width: 400px;
   min-height: 400px;
+  @media screen and (max-width: ${media.mobile}) {
+    width: 80vw;
+    height: 130vw;
+    min-width: 100px;
+    min-height: 250px;
+  }
 `;
 
 export const ModalImgDiv = styled.div`

@@ -1,11 +1,14 @@
 import { useRecoilState } from "recoil";
 import { albumState, contentState, templateState } from "../../atom/atom";
-import FileInput from "../../components/Modal/FileInput";
+import FileInput from "../../components/Input/FileInput";
 import UploadButton from "../../components/Button/UploadButton";
 import { useState } from "react";
 import { ButtonDiv, CustomButton } from "../../style/styled_Modal";
 import { ModalContainer, ModalImgDiv } from "../../style/styled_Home";
 import ModalInput from "./ModalInput";
+import { styled } from "styled-components";
+import { media } from "../../style/theme";
+import { FlexCenterCSS } from "../../style/commonStyle";
 
 export interface ITemplate {
   data: string;
@@ -69,7 +72,7 @@ function ModalContent({
       content: image,
     };
 
-    if (modalType === "image" || modalType === "cover") {
+    if (modalType !== "text") {
       setContent((prev: any) => [...prev, image]);
       setBoard((prev: IAlbum) => ({
         ...board,
@@ -112,21 +115,21 @@ function ModalContent({
               onChange={onFileReaderChange}
             />
           </CustomButton>
-          <ModalImgDiv>
+          <S.ImageWrapper>
             {fileReader ? (
               <img
-                style={{ maxWidth: "300px", maxHeight: "300px" }}
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
                 src={fileReader}
                 alt="업로드 오류"
               />
             ) : (
               <img
-                style={{ width: "200px", height: "200px" }}
+                style={{ width: "100%", height: "100%" }}
                 src="/img/image.svg"
                 alt="이미지"
               />
             )}
-          </ModalImgDiv>
+          </S.ImageWrapper>
         </>
       ) : (
         <FileInput setText={setText}></FileInput>
@@ -148,5 +151,17 @@ function ModalContent({
     </ModalContainer>
   );
 }
+
+const S = {
+  ImageWrapper: styled.div`
+    width: 200px;
+    height: 200px;
+
+    @media screen and (max-width: ${media.mobile}) {
+      width: 30vw;
+      height: 30vw;
+    }
+  `,
+};
 
 export default ModalContent;

@@ -1,45 +1,10 @@
-import React from "react";
-import styled, { CSSProp, css } from "styled-components";
-import { FlexCenterCSS } from "../../style/commonStyle";
+import { FC, HTMLAttributes, PropsWithChildren } from "react";
+import * as S from "./Input.styles";
+import { StylesProps } from "./Input.types";
 
-const InputWrapper = styled.div`
-  width: 100%;
-  ${FlexCenterCSS}
-`;
+interface Props extends StylesProps {}
 
-const StyledInput = styled.input<{ customStyle?: CSSProp }>`
-  border-radius: 2rem;
-  font-size: 1rem;
-  width: 40em;
-  padding-left: 2rem;
-  height: 2.5rem;
-
-  &.error {
-    border-color: red;
-  }
-
-  ${(props) =>
-    props.customStyle &&
-    css`
-      ${props.customStyle}
-    `}
-`;
-
-const ErrorMsg = styled.div`
-  color: red;
-`;
-
-interface CommonInputProps {
-  type: string;
-  placeholder?: string;
-  name: string;
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-  customStyle?: CSSProp;
-}
-
-function CommonInput({
+const CommonInput: FC<PropsWithChildren<Props>> = ({
   type,
   placeholder,
   name,
@@ -47,10 +12,10 @@ function CommonInput({
   onChange,
   error,
   customStyle,
-}: CommonInputProps) {
+}: Props) => {
   return (
-    <InputWrapper>
-      <StyledInput
+    <S.InputWrapper>
+      <S.StyledInput
         type={type}
         placeholder={placeholder}
         name={name}
@@ -59,9 +24,9 @@ function CommonInput({
         className={error ? "error" : ""}
         customStyle={customStyle}
       />
-      {error && <ErrorMsg>{error}</ErrorMsg>}
-    </InputWrapper>
+      {error && <S.ErrorMsg>{error}</S.ErrorMsg>}
+    </S.InputWrapper>
   );
-}
+};
 
 export default CommonInput;

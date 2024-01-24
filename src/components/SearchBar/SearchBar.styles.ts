@@ -18,7 +18,7 @@ export const SearchDiv = styled.div`
   padding: 0 2rem;
 
   @media screen and (max-width: ${media.mobile}) {
-    width: 100px;
+    width: 300px;
   }
 `;
 
@@ -32,6 +32,6 @@ export const SearchIcon = styled.div`
   background-image: url("/img/search.svg");
 
   @media screen and (max-width: ${media.mobile}) {
-    left: 0;
+    left: 15%;
   }
 `;

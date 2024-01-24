@@ -41,14 +41,13 @@ const AlbumPage = () => {
   const [userFollowing, setUserFollowing] = useState<FollowProps>();
   const [albumModalAcivity, setAlbumModalActivity] = useState(false);
   const [followModal, setFollowModal] = useState({
-    open: false,
+    type: "",
     content: [] as string[],
   });
+
   const [ref, inView] = useInView();
   const [idx, setIdx] = useState(1);
   const [albums, setAlbums] = useState<any>([]);
-
-  console.log(albums);
 
   const getFeed = async () => {
     const result = await AlbumApi.getFeedAlbum(id, 6, idx);
@@ -76,8 +75,8 @@ const AlbumPage = () => {
     navigate(modeNavigation("/home/message"));
   };
 
-  const followListClick = (list: string[]) => {
-    setFollowModal({ open: true, content: list });
+  const followListClick = (list: string[], type: string) => {
+    setFollowModal({ type: type, content: list });
   };
 
   useEffect(() => {
@@ -113,12 +112,16 @@ const AlbumPage = () => {
         {!isSecreteMode && (
           <S.FollowWrapper>
             <AlbumButton
-              onClick={() => followListClick(userFollowing?.result ?? [])}
+              onClick={() =>
+                followListClick(userFollowing?.result ?? [], "Following")
+              }
             >
               팔로잉 {userFollowing?.num}
             </AlbumButton>
             <AlbumButton
-              onClick={() => followListClick(userFollower?.result ?? [])}
+              onClick={() =>
+                followListClick(userFollower?.result ?? [], "Follower")
+              }
             >
               팔로워 {userFollower?.num}
             </AlbumButton>
@@ -128,20 +131,22 @@ const AlbumPage = () => {
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
 
         <div>
-          <React.Fragment>
-            <Feed data={albums} />
-          </React.Fragment>
+          <Feed data={albums} />
           <div style={{ width: "100%", height: "20px" }} ref={ref} />
         </div>
       </S.Container>
 
       {albumModalAcivity && <HomePage setState={setAlbumModalActivity} />}
 
-      {followModal.open && (
-        <Modal onClose={() => setFollowModal({ ...followModal, open: false })}>
+      {followModal.type && (
+        <Modal
+          onClose={() => setFollowModal({ ...followModal, type: "" })}
+          padding={0}
+        >
           <FollowList
-            onClose={() => setFollowModal({ ...followModal, open: false })}
+            onClose={() => setFollowModal({ ...followModal, type: "" })}
             list={followModal.content}
+            type={followModal?.type}
           />
         </Modal>
       )}

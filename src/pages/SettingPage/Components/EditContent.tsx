@@ -28,7 +28,7 @@ function EditContent() {
 
     if (token && id) {
       try {
-        const { data } = await InfoApi.getInfo(id, token);
+        const { data } = await InfoApi.getInfo(id);
         setUserData(data);
       } catch (error: any) {
         alert(error.message);

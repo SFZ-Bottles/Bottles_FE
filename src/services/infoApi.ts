@@ -2,16 +2,13 @@ import AuthService from "../utils/authService";
 import axiosInstance from "./core";
 
 const InfoApi = {
-  getInfo(id: string, token: string) {
-    const headers = {
-      Authorization: token,
-    };
-    return axiosInstance.get(`/api/users/${id}`, { headers });
+  getInfo(id: string) {
+    return axiosInstance.get(`/api/users/${id}`);
   },
 
   changeInfo(editData: any) {
     const [token, id] = AuthService.getTokenAndId();
-    
+
     const formData = new FormData();
     const boundary = "----WebKitFormBoundary";
     formData.append("id", editData.id);

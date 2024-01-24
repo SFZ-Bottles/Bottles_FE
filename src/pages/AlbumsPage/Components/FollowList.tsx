@@ -27,9 +27,7 @@ function FollowList({ list, onClose }: Props) {
   const [userInfo, setUserInfo] = useState<Info[]>([]);
 
   const getInfo = async () => {
-    
-    const [token] = AuthService.getTokenAndId();
-    const promises = list.map((user) => InfoApi.getInfo(user, token));
+    const promises = list.map((user) => InfoApi.getInfo(user));
     const results = await Promise.all(promises);
     setUserInfo(results.map((result) => result.data));
   };

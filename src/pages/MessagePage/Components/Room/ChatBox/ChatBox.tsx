@@ -158,9 +158,15 @@ const S = {
     overflow: auto;
     overflow-x: hidden;
     border-bottom: 2px solid #d9d9d9;
+
     &::-webkit-scrollbar {
       width: 0.7rem;
     }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: gray;
+    }
+
     &::-webkit-scrollbar-thumb {
       border-radius: 2px;
       background: ${(props) => props.theme.color.barColor};

@@ -81,9 +81,14 @@ const S = {
     &::-webkit-scrollbar {
       width: 0.7rem;
     }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: gray;
+    }
+
     &::-webkit-scrollbar-thumb {
       border-radius: 2px;
-      background: ${(props) => props.theme.color.barColor};
+      background-color: ${(props) => props.theme.color.barColor};
     }
   `,
   Nav: styled.div`

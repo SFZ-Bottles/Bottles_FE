@@ -23,8 +23,8 @@ const CreatedTime = ({ children }: IUserCardProps) => {
   return <S.CommentTime>{children}</S.CommentTime>;
 };
 
-const MessageImg = ({ url, size = 30 }: ImageProps) => {
-  return <S.Message src={url} size={size} />;
+const ButtonImg = ({ url, size = 30 }: ImageProps) => {
+  return <S.ButtonImg src={url} size={size} />;
 };
 
 const ButtonTypes = (<CustomButton />).type;
@@ -33,7 +33,7 @@ const UserIdTypes = (<UserId />).type;
 const UserDescribeTypes = (<UserDescribe />).type;
 const UserCommentTypes = (<UserComment />).type;
 const CreatedTimeTypes = (<CreatedTime />).type;
-const MessageImgTypes = (<MessageImg url={""} size={10} />).type;
+const MessageImgTypes = (<ButtonImg url={""} size={10} />).type;
 
 const getUserId = (children: ReactNode) => {
   const childrenArray = Children.toArray(children);
@@ -124,5 +124,5 @@ export const Card = Object.assign(CardMain, {
   UserDescribe,
   UserComment,
   CreatedTime,
-  MessageImg,
+  ButtonImg,
 });

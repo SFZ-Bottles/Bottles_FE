@@ -48,7 +48,7 @@ export const Comment = styled.div`
   max-width: 300px;
 `;
 
-export const Message = styled.img<{ size: number }>`
+export const ButtonImg = styled.img<{ size: number }>`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;
 `;

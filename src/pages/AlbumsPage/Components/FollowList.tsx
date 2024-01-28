@@ -52,6 +52,7 @@ function FollowList({ list, onClose, type }: Props) {
             <Card onClick={() => onCardClicked(`/home/album/${user.id}`)}>
               <Card.UserProfile src={user.avatar} />
               <Card.UserId>{user.id}</Card.UserId>
+              <Card.ButtonImg url="/img/remove.svg" size={20} />
               <Card.UserDescribe>{subtractString(user.info)}</Card.UserDescribe>
             </Card>
           </S.Item>
@@ -105,8 +106,6 @@ const S = {
     align-items: center;
     height: 100px;
     width: 400px;
-    border: 2px solid #d9d9d9;
-    border-radius: 2rem;
     justify-content: space-between;
     padding: 0 20px;
     cursor: pointer;

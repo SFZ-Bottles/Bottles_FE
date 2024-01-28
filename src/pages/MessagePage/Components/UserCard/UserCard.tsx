@@ -25,7 +25,7 @@ function UserCard({ data }: UserCardProps) {
             <Card onClick={() => cardClick(index)}>
               <Card.UserId>{info?.members[0]}</Card.UserId>
               <Card.UserDescribe>{info.name}</Card.UserDescribe>
-              <Card.MessageImg />
+              <Card.ButtonImg url="/img/message.svg" size={40} />
             </Card>
           </S.CardContainer>
         </S.Item>

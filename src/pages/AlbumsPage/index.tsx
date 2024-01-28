@@ -14,6 +14,7 @@ import AlbumButton from "./Components/AlbumButton/AlbumButton";
 import { FlexCenterCSS } from "../../style/commonStyle";
 import UserService from "../../utils/userService";
 import { Feed } from "../../components/Feed/Feed";
+import Loading from "../../components/Loading/Loading";
 
 export interface MyInfoProps {
   id: string;
@@ -40,6 +41,7 @@ const AlbumPage = () => {
   const [userFollower, setUserFollower] = useState<FollowProps>();
   const [userFollowing, setUserFollowing] = useState<FollowProps>();
   const [albumModalAcivity, setAlbumModalActivity] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [followModal, setFollowModal] = useState({
     type: "",
     content: [] as string[],
@@ -50,11 +52,19 @@ const AlbumPage = () => {
   const [albums, setAlbums] = useState<any>([]);
 
   const getFeed = async () => {
-    const result = await AlbumApi.getFeedAlbum(id, 6, idx);
-    setAlbums([...albums, ...result?.data?.result]);
-    setIdx((prev: number) => prev + 1);
+    setIsLoading(true);
+    try {
+      const result = await AlbumApi.getFeedAlbum(id, 6, idx);
+      setAlbums([...albums, ...result?.data?.result]);
+      setIdx((prev: number) => prev + 1);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
+  console.log(isLoading);
   const fetchData = async () => {
     if (!id) return;
     const follower = await AlbumApi.getFollower(id, token);
@@ -85,7 +95,7 @@ const AlbumPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && !isLoading) {
       getFeed();
     }
   }, [inView]);
@@ -130,6 +140,7 @@ const AlbumPage = () => {
 
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
 
+        {isLoading && <Loading />}
         <div>
           <Feed data={albums} />
           <div style={{ width: "100%", height: "20px" }} ref={ref} />

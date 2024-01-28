@@ -42,8 +42,8 @@ const S = {
   LeftModalContent: styled.div`
     position: fixed;
     top: 50%;
-    left: 30%;
-    height: 80%;
+    left: 25%;
+    height: 50vw;
     width: 35vw;
     min-width: 35vw;
     transform: translate(-25%, -50%);
@@ -61,8 +61,8 @@ const S = {
     position: fixed;
     top: 50%;
     right: 30%;
-    min-width: 25vw;
-    height: 80%;
+    width: 400px;
+    height: 50vw;
     transform: translate(50%, -50%);
     background-color: #ffffff;
     border-radius: 8px;
@@ -91,7 +91,7 @@ const S = {
     display: flex;
     position: absolute;
     top: 50%;
-    right: ${(props) => (props.right ? "10%" : "35%")};
+    right: ${(props) => (props.right ? "75px" : "35vw")};
     transform: rotate(${(props) => (props.right ? "180deg" : "0deg")});
     width: 5rem;
     height: 5rem;

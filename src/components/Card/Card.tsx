@@ -1,7 +1,7 @@
 import { Children, ReactNode, isValidElement } from "react";
 import CustomButton from "../Button/CustomButton";
 import * as S from "./Card.styles";
-import { IUserCardProps } from "./Card.types";
+import { IUserCardProps, ImageProps } from "./Card.types";
 
 const UserProfile = ({ src }: { src: string | null }) => {
   return <S.UserProfile src={src} />;
@@ -23,8 +23,8 @@ const CreatedTime = ({ children }: IUserCardProps) => {
   return <S.CommentTime>{children}</S.CommentTime>;
 };
 
-const MessageImg = () => {
-  return <S.Message src="/img/message.svg" />;
+const MessageImg = ({ url, size = 30 }: ImageProps) => {
+  return <S.Message src={url} size={size} />;
 };
 
 const ButtonTypes = (<CustomButton />).type;
@@ -33,7 +33,7 @@ const UserIdTypes = (<UserId />).type;
 const UserDescribeTypes = (<UserDescribe />).type;
 const UserCommentTypes = (<UserComment />).type;
 const CreatedTimeTypes = (<CreatedTime />).type;
-const MessageImgTypes = (<MessageImg />).type;
+const MessageImgTypes = (<MessageImg url={""} size={10} />).type;
 
 const getUserId = (children: ReactNode) => {
   const childrenArray = Children.toArray(children);

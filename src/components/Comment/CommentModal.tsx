@@ -173,6 +173,8 @@ const S = {
     height: 80%;
     overflow: auto;
     overflow-x: hidden;
+    padding: 10px;
+    gap: 10px;
     &::-webkit-scrollbar {
       width: 0.7rem;
     }
@@ -198,8 +200,6 @@ const S = {
   ReplyDiv: styled.div`
     display: flex;
     align-items: center;
-    width: 100%;
-    height: 90px;
     padding-left: 4rem;
   `,
   Input: styled.input`

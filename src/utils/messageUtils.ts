@@ -7,3 +7,9 @@ export const getParticipation = (myId: string, members: string[]) => {
 export const filterChatList = (roomList: ProfileProps[], targetId: string) => {
   return roomList.filter((room) => room.members[0] === targetId);
 };
+
+export const isThereRoom = (roomList: any, userId: string) => {
+  const members = roomList.map((room: any) => room.members[1]);
+  console.log(members.includes(userId));
+  return members.includes(userId);
+};

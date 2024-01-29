@@ -15,6 +15,9 @@ import { FlexCenterCSS } from "../../style/commonStyle";
 import UserService from "../../utils/userService";
 import { Feed } from "../../components/Feed/Feed";
 import Loading from "../../components/Loading/Loading";
+import { media } from "../../style/theme";
+import ChatApi from "../../services/chatApi";
+import { isThereRoom } from "../../utils/messageUtils";
 
 export interface MyInfoProps {
   id: string;
@@ -64,7 +67,6 @@ const AlbumPage = () => {
     }
   };
 
-  console.log(isLoading);
   const fetchData = async () => {
     if (!id) return;
     const follower = await AlbumApi.getFollower(id, token);
@@ -80,9 +82,12 @@ const AlbumPage = () => {
     setIsMyAlbum(false);
   };
 
-  const messageClick = async () => {
-    await makeChatRoom(myId, id, token);
-    navigate(modeNavigation("/home/message"));
+  const messageClick = async (id: string) => {
+    const roomList = await ChatApi.Rooms(myId);
+    if (!isThereRoom(roomList.data.result, id)) {
+      await makeChatRoom(myId, id, token);
+    }
+    navigate(modeNavigation(`/home/message/${id}`));
   };
 
   const followListClick = (list: string[], type: string) => {
@@ -110,10 +115,10 @@ const AlbumPage = () => {
             </AlbumButton>
           </>
         ) : (
-          <S.FollowWrapper>
-            <AlbumButton onClick={followClick}>팔로우</AlbumButton>
-            <AlbumButton onClick={messageClick}>메세지</AlbumButton>
-          </S.FollowWrapper>
+          <div>
+            <AlbumButton onClick={followClick}>follow</AlbumButton>
+            <AlbumButton onClick={() => messageClick(id)}>message</AlbumButton>
+          </div>
         )}
 
         {userBasicInfo && <Profile src={userBasicInfo.avatar} />}
@@ -167,13 +172,26 @@ const AlbumPage = () => {
 
 const S = {
   Container: styled.div`
-    padding-top: 130px;
+    padding-top: 40px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+
+    & > :first-child {
+      display: flex;
+      gap: 30px;
+      width: 100%;
+      justify-content: end;
+      padding-right: 3rem;
+
+      @media screen and (max-width: ${media.mobile}) {
+        justify-content: center;
+        padding-right: 0;
+      }
+    }
 
     button {
       font-size: 1.5rem;

@@ -1,7 +1,4 @@
-import TokenService from "../utils/tokenService";
 import axiosInstance from "./core";
-
-const token = TokenService.getToken();
 
 const ChatApi = {
   RoomHistory(roomId: string) {
@@ -10,11 +7,11 @@ const ChatApi = {
     );
   },
 
-  Rooms(userId: string, token: string) {
+  Rooms(userId: string) {
     return axiosInstance.get(`/api/chatrooms/?target=${userId}&num=0`);
   },
 
-  makeRoom(myId: string, targetId: string, token: string) {
+  makeRoom(myId: string, targetId: string) {
     return axiosInstance.post(
       `/api/chatrooms`,
       JSON.stringify({

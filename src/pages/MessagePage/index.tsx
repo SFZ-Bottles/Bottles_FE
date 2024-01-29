@@ -27,12 +27,11 @@ export interface ProfileProps {
 }
 
 const MessagePage = () => {
-  const [token] = useToken();
   const [, myId] = AuthService.getTokenAndId();
   const { targetId } = useParams();
   const [chatList, setChatList] = useState<ProfileProps[]>([]);
   const { data: rooms } = useQuery(["message", myId as string], () =>
-    ChatApi.Rooms(myId as string, token)
+    ChatApi.Rooms(myId as string)
   );
 
   const getProfile = async () => {

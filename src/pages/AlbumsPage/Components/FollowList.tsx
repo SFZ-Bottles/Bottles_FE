@@ -72,10 +72,10 @@ const S = {
     overflow: auto;
   `,
   CardWrapper: styled.div`
-    ${FlexColumnCenterCSS};
+    display: flex;
+    flex-direction: column;
     gap: 5px;
     padding: 10px;
-    padding-top: 60px;
     height: 400px;
     overflow-y: scroll;
 

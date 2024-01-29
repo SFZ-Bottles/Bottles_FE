@@ -1,7 +1,4 @@
-import axios from "axios";
 import axiosInstance from "./core";
-
-const token = localStorage.getItem("token");
 
 export interface UserValueProps {
   id: string;
@@ -34,17 +31,9 @@ const LoginApi = {
   },
 
   loginSecretMode(pw: string) {
-    const headers = {
-      Authorization: token,
-    };
-
-    return axiosInstance.post(
-      `/api/secret_mode/auth/login/`,
-      {
-        pw,
-      },
-      { headers }
-    );
+    return axiosInstance.post(`/api/secret_mode/auth/login/`, {
+      pw,
+    });
   },
 };
 

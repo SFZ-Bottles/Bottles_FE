@@ -23,27 +23,27 @@ const SettingPage = () => {
 
   return (
     <S.SettingContainer>
-      <S.SideBarWrapper show={sideBarShow}>
+      <S.SideBarWrapper $show={sideBarShow}>
         <SideBar>
           <S.MenuBar>
-            <S.Content active={pageNum === 1} onClick={() => setPageNum(1)}>
+            <S.Content $active={pageNum === 1} onClick={() => setPageNum(1)}>
               개인정보 <br />
               편집
             </S.Content>
-            <S.Content active={pageNum === 2} onClick={() => setPageNum(2)}>
+            <S.Content $active={pageNum === 2} onClick={() => setPageNum(2)}>
               Bottles란?
             </S.Content>
-            <S.Content active={pageNum === 3} onClick={() => setPageNum(3)}>
+            <S.Content $active={pageNum === 3} onClick={() => setPageNum(3)}>
               SFZ란?
             </S.Content>
-            <S.Content active={pageNum === 4} onClick={() => setPageNum(4)}>
+            <S.Content $active={pageNum === 4} onClick={() => setPageNum(4)}>
               회원탈퇴
             </S.Content>
           </S.MenuBar>
         </SideBar>
       </S.SideBarWrapper>
       <S.ContentContainer>
-        <S.ToggleWrapper show={sideBarShow} onClick={onMenuClick}>
+        <S.ToggleWrapper onClick={onMenuClick}>
           <ToggleButton />
         </S.ToggleWrapper>
         {setContent()}
@@ -70,7 +70,7 @@ const S = {
     }
   `,
 
-  SideBarWrapper: styled.div<{ show: boolean }>`
+  SideBarWrapper: styled.div<{ $show: boolean }>`
     display: flex;
     width: 20%;
     position: relative;
@@ -78,7 +78,7 @@ const S = {
     @media screen and (max-width: ${media.mobile}) {
       width: 130px;
       font-size: 20px;
-      display: ${(props) => (props.show ? "flex" : "none")};
+      display: ${(props) => (props.$show ? "flex" : "none")};
     }
   `,
 
@@ -89,16 +89,16 @@ const S = {
     align-items: center;
   `,
 
-  Content: styled.div<{ active: boolean }>`
+  Content: styled.div<{ $active: boolean }>`
     display: flex;
     width: 100%;
     height: 100px;
     justify-content: center;
-    font-weight: ${(props) => (props.active ? "600" : "400")};
+    font-weight: ${(props) => (props.$active ? "600" : "400")};
     cursor: pointer;
   `,
 
-  ToggleWrapper: styled.div<{ show: boolean }>`
+  ToggleWrapper: styled.div`
     display: flex;
     position: fixed;
     right: 5%;

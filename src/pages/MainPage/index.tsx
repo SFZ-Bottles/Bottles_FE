@@ -24,6 +24,7 @@ const S = {
     color: ${(props) => props.theme.color.fontColor};
   `,
   OutletConatiner: styled.div`
+    min-height: 100vh;
     padding-top: 5rem;
   `,
 };

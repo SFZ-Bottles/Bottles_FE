@@ -3,6 +3,7 @@ import { changeInfo } from "../../services/API";
 import { useState } from "react";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import CommonInput from "../Input/Input";
+import UserService from "../../utils/userService";
 
 export interface IEdit {
   id: string;
@@ -16,7 +17,11 @@ function EditModal({ editData, userData, setUserData, onClose }: any) {
   const [inputData, setInputData] = useState("");
   const onClick = async (editData: string) => {
     try {
-      await changeInfo({ ...userData, [editData]: inputData });
+      await changeInfo({
+        ...userData,
+        [editData]: inputData,
+      });
+      if (editData === "id") UserService.setUserId(inputData);
       setUserData({ ...userData, [editData]: inputData });
       onClose(null);
     } catch (error: any) {

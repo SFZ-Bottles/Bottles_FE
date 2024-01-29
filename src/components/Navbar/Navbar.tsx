@@ -32,8 +32,8 @@ function Navbar() {
   };
 
   return (
-    <S.Container url={pathname}>
-      <S.HeaderContainer>
+    <S.Container>
+      <S.HeaderContainer $url={pathname}>
         <span onClick={titleClick}>BOTTLES</span>
         <S.HeaderItem
           $active={pageLocation(pathname, "feed")}

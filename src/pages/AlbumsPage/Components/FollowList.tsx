@@ -1,10 +1,9 @@
 import { styled } from "styled-components";
-import { FlexColumnCenterCSS } from "../../../style/commonStyle";
+import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
 import { Card } from "../../../components/Card/Card";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import InfoApi from "../../../services/infoApi";
-import AuthService from "../../../utils/authService";
 import { subtractString } from "../../../utils/basicUtills";
 import { media } from "../../../style/theme";
 
@@ -20,16 +19,15 @@ interface Info {
 interface Props {
   list: string[];
   onClose: () => void;
+  type: string;
 }
 
-function FollowList({ list, onClose }: Props) {
+function FollowList({ list, onClose, type }: Props) {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<Info[]>([]);
 
   const getInfo = async () => {
-    
-    const [token] = AuthService.getTokenAndId();
-    const promises = list.map((user) => InfoApi.getInfo(user, token));
+    const promises = list.map((user) => InfoApi.getInfo(user));
     const results = await Promise.all(promises);
     setUserInfo(results.map((result) => result.data));
   };
@@ -47,15 +45,19 @@ function FollowList({ list, onClose }: Props) {
 
   return (
     <S.Container>
-      {userInfo?.map((user: Info, index: number) => (
-        <S.Item key={index}>
-          <Card onClick={() => onCardClicked(`/home/album/${user.id}`)}>
-            <Card.UserProfile src={user.avatar} />
-            <Card.UserId>{user.id}</Card.UserId>
-            <Card.UserDescribe>{subtractString(user.info)}</Card.UserDescribe>
-          </Card>
-        </S.Item>
-      ))}
+      <S.Nav>{type}</S.Nav>
+      <S.CardWrapper>
+        {userInfo?.map((user: Info, index: number) => (
+          <S.Item key={index}>
+            <Card onClick={() => onCardClicked(`/home/album/${user.id}`)}>
+              <Card.UserProfile src={user.avatar} />
+              <Card.UserId>{user.id}</Card.UserId>
+              <Card.ButtonImg url="/img/remove.svg" size={20} />
+              <Card.UserDescribe>{subtractString(user.info)}</Card.UserDescribe>
+            </Card>
+          </S.Item>
+        ))}
+      </S.CardWrapper>
     </S.Container>
   );
 }
@@ -65,8 +67,38 @@ const S = {
     ${FlexColumnCenterCSS}
     align-items: center;
     gap: 20px;
+    min-width: 300px;
     height: 100%;
     overflow: auto;
+  `,
+  CardWrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    height: 400px;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      width: 0.7rem;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: gray;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 2px;
+      background-color: ${(props) => props.theme.color.barColor};
+    }
+  `,
+  Nav: styled.div`
+    ${FlexCenterCSS};
+    font-size: 2rem;
+    width: 100%;
+    height: 10dvh;
+    font-weight: 700;
+    border-bottom: 2px solid black;
   `,
 
   Item: styled.div`
@@ -74,8 +106,6 @@ const S = {
     align-items: center;
     height: 100px;
     width: 400px;
-    border: 2px solid #d9d9d9;
-    border-radius: 2rem;
     justify-content: space-between;
     padding: 0 20px;
     cursor: pointer;

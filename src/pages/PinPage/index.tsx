@@ -71,14 +71,11 @@ function Pinpage() {
 const S = {
   Container: styled.div`
     ${FlexColumnCenterCSS}
-    padding-top: 5rem;
     color: white;
     font-size: 2rem;
-    width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #555a5f;
     gap: 5rem;
-
     & > span {
       ${FlexCenterCSS};
       width: 80%;

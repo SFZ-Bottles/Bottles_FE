@@ -14,6 +14,10 @@ import AlbumButton from "./Components/AlbumButton/AlbumButton";
 import { FlexCenterCSS } from "../../style/commonStyle";
 import UserService from "../../utils/userService";
 import { Feed } from "../../components/Feed/Feed";
+import Loading from "../../components/Loading/Loading";
+import { media } from "../../style/theme";
+import ChatApi from "../../services/chatApi";
+import { isThereRoom } from "../../utils/messageUtils";
 
 export interface MyInfoProps {
   id: string;
@@ -40,20 +44,27 @@ const AlbumPage = () => {
   const [userFollower, setUserFollower] = useState<FollowProps>();
   const [userFollowing, setUserFollowing] = useState<FollowProps>();
   const [albumModalAcivity, setAlbumModalActivity] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [followModal, setFollowModal] = useState({
-    open: false,
+    type: "",
     content: [] as string[],
   });
+
   const [ref, inView] = useInView();
   const [idx, setIdx] = useState(1);
   const [albums, setAlbums] = useState<any>([]);
 
-  console.log(albums);
-
   const getFeed = async () => {
-    const result = await AlbumApi.getFeedAlbum(id, 6, idx);
-    setAlbums([...albums, ...result?.data?.result]);
-    setIdx((prev: number) => prev + 1);
+    setIsLoading(true);
+    try {
+      const result = await AlbumApi.getFeedAlbum(id, 6, idx);
+      setAlbums([...albums, ...result?.data?.result]);
+      setIdx((prev: number) => prev + 1);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const fetchData = async () => {
@@ -71,13 +82,16 @@ const AlbumPage = () => {
     setIsMyAlbum(false);
   };
 
-  const messageClick = async () => {
-    await makeChatRoom(myId, id, token);
-    navigate(modeNavigation("/home/message"));
+  const messageClick = async (id: string) => {
+    const roomList = await ChatApi.Rooms(myId);
+    if (!isThereRoom(roomList.data.result, id)) {
+      await makeChatRoom(myId, id, token);
+    }
+    navigate(modeNavigation(`/home/message/${id}`));
   };
 
-  const followListClick = (list: string[]) => {
-    setFollowModal({ open: true, content: list });
+  const followListClick = (list: string[], type: string) => {
+    setFollowModal({ type: type, content: list });
   };
 
   useEffect(() => {
@@ -86,7 +100,7 @@ const AlbumPage = () => {
   }, [id]);
 
   useEffect(() => {
-    if (inView) {
+    if (inView && !isLoading) {
       getFeed();
     }
   }, [inView]);
@@ -101,10 +115,10 @@ const AlbumPage = () => {
             </AlbumButton>
           </>
         ) : (
-          <S.FollowWrapper>
-            <AlbumButton onClick={followClick}>팔로우</AlbumButton>
-            <AlbumButton onClick={messageClick}>메세지</AlbumButton>
-          </S.FollowWrapper>
+          <div>
+            <AlbumButton onClick={followClick}>follow</AlbumButton>
+            <AlbumButton onClick={() => messageClick(id)}>message</AlbumButton>
+          </div>
         )}
 
         {userBasicInfo && <Profile src={userBasicInfo.avatar} />}
@@ -113,12 +127,16 @@ const AlbumPage = () => {
         {!isSecreteMode && (
           <S.FollowWrapper>
             <AlbumButton
-              onClick={() => followListClick(userFollowing?.result ?? [])}
+              onClick={() =>
+                followListClick(userFollowing?.result ?? [], "Following")
+              }
             >
               팔로잉 {userFollowing?.num}
             </AlbumButton>
             <AlbumButton
-              onClick={() => followListClick(userFollower?.result ?? [])}
+              onClick={() =>
+                followListClick(userFollower?.result ?? [], "Follower")
+              }
             >
               팔로워 {userFollower?.num}
             </AlbumButton>
@@ -127,21 +145,24 @@ const AlbumPage = () => {
 
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
 
+        {isLoading && <Loading />}
         <div>
-          <React.Fragment>
-            <Feed data={albums} />
-          </React.Fragment>
+          <Feed data={albums} />
           <div style={{ width: "100%", height: "20px" }} ref={ref} />
         </div>
       </S.Container>
 
       {albumModalAcivity && <HomePage setState={setAlbumModalActivity} />}
 
-      {followModal.open && (
-        <Modal onClose={() => setFollowModal({ ...followModal, open: false })}>
+      {followModal.type && (
+        <Modal
+          onClose={() => setFollowModal({ ...followModal, type: "" })}
+          padding={0}
+        >
           <FollowList
-            onClose={() => setFollowModal({ ...followModal, open: false })}
+            onClose={() => setFollowModal({ ...followModal, type: "" })}
             list={followModal.content}
+            type={followModal?.type}
           />
         </Modal>
       )}
@@ -151,13 +172,26 @@ const AlbumPage = () => {
 
 const S = {
   Container: styled.div`
-    padding-top: 130px;
+    padding-top: 40px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+
+    & > :first-child {
+      display: flex;
+      gap: 30px;
+      width: 100%;
+      justify-content: end;
+      padding-right: 3rem;
+
+      @media screen and (max-width: ${media.mobile}) {
+        justify-content: center;
+        padding-right: 0;
+      }
+    }
 
     button {
       font-size: 1.5rem;

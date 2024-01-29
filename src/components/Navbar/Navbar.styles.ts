@@ -3,13 +3,11 @@ import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import { media } from "../../style/theme";
 import { Link } from "react-router-dom";
 
-export const Container = styled.div<{ url: string }>`
+export const Container = styled.div`
   position: fixed;
   ${FlexColumnCenterCSS};
   width: 100%;
   z-index: 2;
-  background-color: ${(props) =>
-    props.url === "/home/pin" ? "gray" : "transparent"};
 `;
 
 export const ModalContainer = styled.div`
@@ -17,11 +15,14 @@ export const ModalContainer = styled.div`
   position: absolute;
 `;
 
-export const HeaderContainer = styled.div`
+export const HeaderContainer = styled.div<{ $url: string }>`
   ${FlexCenterCSS}
   justify-content: start;
   font-size: 1.3rem;
+
   background-color: ${(props) => props.theme.color.bgColor};
+  background-color: ${(props) =>
+    props.$url === "/home/pin" ? "#555a5f" : props.theme.color.bgColor};
   height: 6rem;
   top: 0;
   left: 0;
@@ -30,7 +31,12 @@ export const HeaderContainer = styled.div`
   gap: 3rem;
   border-bottom: 3px solid #d9d9d9;
   border-color: ${(props) => props.theme.color.navBorder};
+  border-color: ${(props) =>
+    props.$url === "/home/pin" ? "black" : props.theme.color.navBorder};
   z-index: 100;
+  color: ${(props) => props.theme.color.fontColor};
+  color: ${(props) =>
+    props.$url === "/home/pin" ? "white" : props.theme.color.fontColor};
 
   & > :first-child {
     font-size: 2em;
@@ -74,8 +80,6 @@ export const HeaderContainer = styled.div`
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
-  color: black;
-  color: ${(props) => props.theme.color.fontColor};
   text-decoration: none;
   transition: font-weight 0.2s;
   &:hover {

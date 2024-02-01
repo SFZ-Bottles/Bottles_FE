@@ -52,7 +52,6 @@ const AlbumPage = () => {
   const [ref, inView] = useInView();
   const [idx, setIdx] = useState(1);
   const [albums, setAlbums] = useState<any>([]);
-
   const getFeed = async () => {
     setIsLoading(true);
     try {
@@ -97,7 +96,6 @@ const AlbumPage = () => {
     const result = await AlbumApi.getFeedAlbum(id, 6, 1);
     console.log(result);
     setAlbums([...result?.data?.result]);
-    setIdx(2);
   };
 
   useEffect(() => {
@@ -153,12 +151,8 @@ const AlbumPage = () => {
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
 
         {isLoading && <Loading />}
-        <div>
-          <Feed data={albums} />
-          <div style={{ width: "100%", height: "20px" }} ref={ref} />
-        </div>
       </S.Container>
-
+      {/* 피드생성 컴포넌트 */}
       {albumModalAcivity && (
         <HomePage refreshFeed={refreshFeed} setState={setAlbumModalActivity} />
       )}
@@ -175,6 +169,10 @@ const AlbumPage = () => {
           />
         </Modal>
       )}
+      <div>
+        <Feed data={albums} />
+        <div style={{ width: "100%", height: "20px" }} ref={ref} />
+      </div>
     </>
   );
 };

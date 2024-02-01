@@ -7,22 +7,19 @@ import { Button } from "../Button/Button";
 function RemoveModal({
   albumId,
   onClose,
+  deleteClick,
 }: {
   albumId: string;
   onClose: () => void;
+  deleteClick: () => void;
 }) {
-  const onClick = () => {
-    AlbumApi.deleteAlbum(albumId);
-    onClose();
-  };
-
   return (
     <Modal onClose={onClose}>
       <S.Container>
         <img src="/img/garbage.svg" alt="아이콘" />
         <span>게시글을 삭제하시겠습니까?</span>
         <S.ButtonWrapper>
-          <Button onClick={onClick} skin="red" round="very" size="standard">
+          <Button onClick={deleteClick} skin="red" round="very" size="standard">
             삭제
           </Button>
           <Button onClick={onClose} skin="gray" round="very" size="standard">

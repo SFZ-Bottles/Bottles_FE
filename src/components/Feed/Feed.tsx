@@ -44,6 +44,7 @@ export const Feed: FC<PropsWithChildren<Props>> = ({ data }: Props) => {
                 <CommentModal
                   AlbumId={albumState.albumId}
                   owner={albumState.owner}
+                  onClose={() => setAlbumState({ ...albumState, modal: false })}
                 />
               ),
             }}

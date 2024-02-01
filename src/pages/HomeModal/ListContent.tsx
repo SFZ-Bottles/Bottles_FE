@@ -17,7 +17,10 @@ function ListContent() {
   const [template, setTemplate] = useRecoilState<ITemplate[]>(templateState);
 
   const deleteClick = (indexNum: number) => {
-    setTemplate((prev: any) => prev.filter((index: any) => index !== indexNum));
+    setTemplate((prev: ITemplate[]) => [
+      ...prev.slice(0, indexNum),
+      ...prev.slice(indexNum + 1),
+    ]);
   };
 
   const getImage = (species: string) => {

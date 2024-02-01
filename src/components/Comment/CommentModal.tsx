@@ -17,7 +17,15 @@ export interface IComment {
   parent_comment_id: string | null;
 }
 
-function CommentModal({ AlbumId, owner }: { AlbumId: string; owner: string }) {
+function CommentModal({
+  AlbumId,
+  owner,
+  onClose,
+}: {
+  AlbumId: string;
+  owner: string;
+  onClose: () => void;
+}) {
   const [ment, setMent] = useState<IComment>({
     made_by: "",
     content: "",
@@ -27,7 +35,6 @@ function CommentModal({ AlbumId, owner }: { AlbumId: string; owner: string }) {
   });
   const [, myId] = AuthService.getTokenAndId();
   const [data, setData] = useState<any>();
-
   const [removeModalState, setRemoveModalState] = useState(false);
 
   const getComment = async () => {
@@ -68,11 +75,14 @@ function CommentModal({ AlbumId, owner }: { AlbumId: string; owner: string }) {
     }
   };
 
-  const onRemoveButtonClick = () => {
-    setRemoveModalState(true);
+  const deleteAlbum = async () => {
+    await AlbumApi.deleteAlbum(AlbumId);
+    setRemoveModalState(false);
+    onClose();
+    window.location.reload();
   };
 
-  const onDeleteClick = async (commentId: string) => {
+  const deleteComment = async (commentId: string) => {
     try {
       await AlbumApi.deleteComment(commentId);
       await getComment();
@@ -89,11 +99,14 @@ function CommentModal({ AlbumId, owner }: { AlbumId: string; owner: string }) {
     <S.Container>
       <S.Navbar>
         comments
-        {owner === myId && <S.StyledSelection onClick={onRemoveButtonClick} />}
+        {owner === myId && (
+          <S.StyledSelection onClick={() => setRemoveModalState(true)} />
+        )}
         {removeModalState && (
           <RemoveModal
             albumId={AlbumId}
             onClose={() => setRemoveModalState(false)}
+            deleteClick={deleteAlbum}
           />
         )}
       </S.Navbar>
@@ -120,7 +133,7 @@ function CommentModal({ AlbumId, owner }: { AlbumId: string; owner: string }) {
               {myId === comment.user_id && (
                 <Button
                   variant="outlined"
-                  onClick={() => onDeleteClick(comment.id)}
+                  onClick={() => deleteComment(comment.id)}
                 >
                   delete
                 </Button>
@@ -144,7 +157,7 @@ function CommentModal({ AlbumId, owner }: { AlbumId: string; owner: string }) {
                       </Card.CreatedTime>
                       {myId === reply.user_id && (
                         <Button
-                          onClick={() => onDeleteClick(reply.id)}
+                          onClick={() => deleteComment(reply.id)}
                           variant="outlined"
                         >
                           delete

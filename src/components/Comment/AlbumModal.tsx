@@ -3,7 +3,7 @@ import AlbumApi from "../../services/albumApi";
 import { useQuery } from "react-query";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 
-function CommentImage({ AlbumId }: { AlbumId: string }) {
+function AlbumModal({ AlbumId }: { AlbumId: string }) {
   const { data: album } = useQuery(["detail", AlbumId], () =>
     AlbumApi.getDetail(AlbumId)
   );
@@ -12,7 +12,7 @@ function CommentImage({ AlbumId }: { AlbumId: string }) {
     <S.ImageContainer>
       {album?.data?.result?.map((content: any, index: number) =>
         content.species !== "text" ? (
-          <S.ImageDiv>
+          <S.ImageDiv key={content.id}>
             {content.species === "video" ? (
               <video
                 muted
@@ -40,7 +40,7 @@ function CommentImage({ AlbumId }: { AlbumId: string }) {
             )}
           </S.ImageDiv>
         ) : (
-          <S.TextDiv key={index}>{content?.data}</S.TextDiv>
+          <S.TextDiv key={content.id}>{content?.data}</S.TextDiv>
         )
       )}
     </S.ImageContainer>
@@ -85,4 +85,4 @@ const S = {
   `,
 };
 
-export default CommentImage;
+export default AlbumModal;

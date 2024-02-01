@@ -9,6 +9,7 @@ import ModalInput from "./ModalInput";
 import { styled } from "styled-components";
 import { media } from "../../style/theme";
 import { FlexCenterCSS } from "../../style/commonStyle";
+import { Button } from "../../components/Button/Button";
 
 export interface ITemplate {
   data: string;
@@ -92,68 +93,89 @@ function ModalContent({
 
   return (
     <ModalContainer>
-      {modalType}
-      {modalType !== "text" ? (
-        <>
-          {/* 커버 일때 */}
-          {modalType === "cover" && (
-            <ModalInput
-              P={{
-                value: board,
-                set: setBoard,
-              }}
-              inputInfo={{
-                title: "Title",
-                preface: "Preface",
-              }}
-            />
-          )}
-          <CustomButton>
-            <UploadButton
-              label="파일 선택"
-              type={
-                modalType === "image" || modalType === "cover"
-                  ? "image"
-                  : "video"
-              }
-              onChange={onFileReaderChange}
-            >
-              업로드
-            </UploadButton>
-          </CustomButton>
-          <S.ImageWrapper>
-            {fileReader ? (
-              <img
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
-                src={fileReader}
-                alt="업로드 오류"
-              />
-            ) : (
-              <img
-                style={{ width: "100%", height: "100%" }}
-                src="/img/image.svg"
-                alt="이미지"
+      <div>{modalType}</div>
+      <S.Wrapper>
+        {modalType !== "text" ? (
+          <>
+            {/* 커버 일때 */}
+            {modalType === "cover" && (
+              <ModalInput
+                P={{
+                  value: board,
+                  set: setBoard,
+                }}
+                inputInfo={{
+                  title: "Title",
+                  preface: "Preface",
+                }}
               />
             )}
-          </S.ImageWrapper>
-        </>
-      ) : (
-        <FileInput setText={setText}></FileInput>
-      )}
-      <ButtonDiv>
-        {modalType !== "text" ? (
-          fileReader ? (
-            <CustomButton onClick={() => handleComplete(listNum, modalType)}>
-              완료
-            </CustomButton>
-          ) : null
+            <S.ButtonWrapper>
+              <Button skin="blue" round="very" size="standard">
+                <UploadButton
+                  label="파일 선택"
+                  type={
+                    modalType === "image" || modalType === "cover"
+                      ? "image"
+                      : "video"
+                  }
+                  onChange={onFileReaderChange}
+                >
+                  업로드
+                </UploadButton>
+              </Button>
+            </S.ButtonWrapper>
+            <S.ImageWrapper>
+              {fileReader ? (
+                <img
+                  style={{ maxWidth: "100%", maxHeight: "100%" }}
+                  src={fileReader}
+                  alt="업로드 오류"
+                />
+              ) : (
+                <img
+                  style={{ width: "100%", height: "100%" }}
+                  src="/img/image.svg"
+                  alt="이미지"
+                />
+              )}
+            </S.ImageWrapper>
+          </>
         ) : (
-          <CustomButton onClick={() => handleComplete(listNum, modalType)}>
-            완료
-          </CustomButton>
+          <FileInput setText={setText}></FileInput>
         )}
-        <CustomButton onClick={() => onClose(null)}>취소</CustomButton>
-      </ButtonDiv>
+        <ButtonDiv>
+          {modalType !== "text" ? (
+            fileReader ? (
+              <Button
+                skin="blue"
+                round="very"
+                size="standard"
+                onClick={() => handleComplete(listNum, modalType)}
+              >
+                완료
+              </Button>
+            ) : null
+          ) : (
+            <Button
+              skin="blue"
+              round="very"
+              size="standard"
+              onClick={() => handleComplete(listNum, modalType)}
+            >
+              완료
+            </Button>
+          )}
+          <Button
+            skin="blue"
+            round="very"
+            size="standard"
+            onClick={() => onClose(null)}
+          >
+            취소
+          </Button>
+        </ButtonDiv>
+      </S.Wrapper>
     </ModalContainer>
   );
 }
@@ -167,6 +189,14 @@ const S = {
       width: 30vw;
       height: 30vw;
     }
+  `,
+  ButtonWrapper: styled.div`
+    padding-top: 2rem;
+  `,
+  Wrapper: styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
   `,
 };
 

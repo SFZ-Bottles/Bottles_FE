@@ -3,7 +3,9 @@ import { changeInfo } from "../../services/API";
 import { useState } from "react";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import CommonInput from "../Input/Input";
-import UserService from "../../utils/userService";
+import InfoApi from "../../services/infoApi";
+import AuthService from "../../utils/authService";
+import { Button } from "../Button/Button";
 
 export interface IEdit {
   id: string;
@@ -13,16 +15,16 @@ export interface IEdit {
   avatar: string;
 }
 
-function EditModal({ editData, userData, setUserData, onClose }: any) {
+function EditModal({ editData, setUserData, onClose }: any) {
   const [inputData, setInputData] = useState("");
   const onClick = async (editData: string) => {
     try {
-      await changeInfo({
-        ...userData,
-        [editData]: inputData,
-      });
-      if (editData === "id") UserService.setUserId(inputData);
-      setUserData({ ...userData, [editData]: inputData });
+      const changedInfo = await changeInfo(editData, inputData);
+
+      AuthService.setTokenAndId(changedInfo.token, changedInfo.id);
+      const { data } = await InfoApi.getInfo(changedInfo.id);
+      setUserData(data);
+
       onClose(null);
     } catch (error: any) {
       alert(error.message);
@@ -37,9 +39,11 @@ function EditModal({ editData, userData, setUserData, onClose }: any) {
         name="inputData"
         value={inputData}
         onChange={(e) => setInputData(e.target.value)}
-        customStyle={{ width: "20rem", height: "2rem" }}
+        $customStyle={{ width: "20rem", height: "2rem" }}
       />
-      <button onClick={() => onClick(editData)}>확인</button>
+      <Button round="very" skin="gray" onClick={() => onClick(editData)}>
+        확인
+      </Button>
     </S.Container>
   );
 }
@@ -47,11 +51,12 @@ function EditModal({ editData, userData, setUserData, onClose }: any) {
 const S = {
   Container: styled.div`
     ${FlexColumnCenterCSS}
-    width: 30rem;
+    min-width: 20rem;
     height: 15rem;
     gap: 10%;
     border-radius: 8px;
     font-size: 2rem;
+    color: black;
 
     & > button {
       ${FlexCenterCSS}

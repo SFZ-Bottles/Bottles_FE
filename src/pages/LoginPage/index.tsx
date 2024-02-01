@@ -1,20 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import {
-  Form,
-  LogInDiv,
-  Title,
-  LogInButton,
-  UnderLine,
-  InvalidBox,
-  C_ColFlexBox,
-} from "../../style/styled_LogIn";
-import { useState } from "react";
+import { Form, LogInDiv, InvalidBox } from "../../style/styled_LogIn";
+import { useEffect, useState } from "react";
 import LoginApi from "../../services/loginApi";
 import TokenService from "../../utils/tokenService";
 import UserService from "../../utils/userService";
 import { modeNavigation } from "../../utils/modeUtils";
 import CommonInput from "../../components/Input/Input";
 import Logo from "../../components/Logo/Logo";
+import AuthService from "../../utils/authService";
+import { Button } from "../../components/Button/Button";
 
 interface ILogin {
   id: string;
@@ -41,6 +35,12 @@ function LogInPage() {
     }
   };
 
+  useEffect(() => {
+    if (AuthService.getAuthrization()) {
+      navigate(-1);
+    }
+  }, []);
+
   return (
     <LogInDiv>
       <Logo size={7}>Bottles</Logo>
@@ -50,7 +50,7 @@ function LogInPage() {
           placeholder="ID"
           value={form.id}
           name="text"
-          customStyle={{ height: "50px" }}
+          $customStyle={{ width: "40rem", height: "50px" }}
           onChange={(e: any) => setForm({ ...form, id: e.target.value })}
         />
         <CommonInput
@@ -58,14 +58,20 @@ function LogInPage() {
           placeholder="Pasword"
           value={form.password}
           name="text"
-          customStyle={{ height: "50px" }}
+          $customStyle={{ width: "40rem", height: "50px" }}
           onChange={(e: any) => setForm({ ...form, password: e.target.value })}
         />
-        <C_ColFlexBox>
+        <div>
           {identity && <InvalidBox>잘못된 회원정보입니다.</InvalidBox>}
-          <LogInButton>Login</LogInButton>
-          <UnderLine onClick={() => navigate("/signup")}>sign-up</UnderLine>
-        </C_ColFlexBox>
+          <Button size="standard">Login</Button>
+          <Button
+            variant="outlined"
+            size="standard"
+            onClick={() => navigate("/signup")}
+          >
+            sign-up
+          </Button>
+        </div>
       </Form>
     </LogInDiv>
   );

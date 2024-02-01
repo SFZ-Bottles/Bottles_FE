@@ -1,13 +1,15 @@
 import { useRef } from "react";
-import CustomButton from "./CustomButton";
+import styled from "styled-components";
+import { FlexCenterCSS } from "../../style/commonStyle";
 
 interface UploadProps {
   label: string;
   onChange: any;
   type: string;
+  children?: React.ReactNode;
 }
 
-function UploadButton({ onChange, type }: UploadProps) {
+function UploadButton({ onChange, type, children }: UploadProps) {
   const ref: any = useRef(null);
 
   const onClick = () => {
@@ -15,7 +17,7 @@ function UploadButton({ onChange, type }: UploadProps) {
     console.log("click!");
   };
   return (
-    <div onClick={onClick}>
+    <S.Wrapeer onClick={onClick}>
       <input
         hidden
         type="file"
@@ -30,9 +32,15 @@ function UploadButton({ onChange, type }: UploadProps) {
         ref={ref}
         multiple
       />
-      <CustomButton name="Edit" />
-    </div>
+      {children}
+    </S.Wrapeer>
   );
 }
+
+const S = {
+  Wrapeer: styled.div`
+    ${FlexCenterCSS}
+  `,
+};
 
 export default UploadButton;

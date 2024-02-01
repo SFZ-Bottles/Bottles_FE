@@ -20,13 +20,14 @@ export const UserProfile = styled.img<{ src: string | null }>`
 export const ButtonWrapper = styled.div`
   display: flex;
   gap: 10px;
+  padding-left: 5px;
 `;
 
 export const UserInfo = styled.div`
   display: flex;
+  flex-direction: column;
   flex: 1;
   padding-left: 1rem;
-  flex-direction: column;
   color: black;
   font-size: 1rem;
   font-weight: 700;
@@ -36,6 +37,7 @@ export const CommentTime = styled.div`
   display: flex;
   color: gray;
   font-size: 0.8rem;
+  padding-top: 5px;
 `;
 
 export const UserId = styled.div`

@@ -12,13 +12,10 @@ const ChatApi = {
   },
 
   makeRoom(myId: string, targetId: string) {
-    return axiosInstance.post(
-      `/api/chatrooms`,
-      JSON.stringify({
-        name: targetId,
-        members: [myId, targetId],
-      })
-    );
+    return axiosInstance.post(`/api/chatrooms/`, {
+      name: `${myId}, ${targetId}`,
+      members: [myId, targetId],
+    });
   },
 };
 

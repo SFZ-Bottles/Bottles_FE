@@ -22,6 +22,7 @@ export const sizeCSS = {
   standard: css`
     min-width: 6rem;
     min-height: 2rem;
+    font-size: 15px;
   `,
   full: css`
     width: 100%;

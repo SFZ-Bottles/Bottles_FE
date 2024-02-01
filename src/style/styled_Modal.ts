@@ -17,6 +17,7 @@ export const ModalInput = styled.textarea`
 export const CustomButton = styled.button`
   display: flex;
   justify-content: center;
+  position: transparent;
   align-items: center;
   width: 100px;
   height: 40px;
@@ -55,13 +56,11 @@ export const Box = styled.div`
 
 export const ListContainer = styled.div<{ count: number }>`
   display: grid;
-  position: relative;
   grid-template-rows: repeat(${(props) => (props.count > 6 ? 2 : 1)}, 1fr);
   grid-template-columns: repeat(6, 1fr);
   width: 100%;
   padding: 24px;
   gap: 10px;
-  z-index: -1;
 
   @media screen and (max-width: ${media.mobile}) {
     grid-template-rows: repeat(${(props) => (props.count > 3 ? 2 : 1)}, 1fr);

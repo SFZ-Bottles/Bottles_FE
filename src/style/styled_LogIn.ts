@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { media } from "./theme";
+import { FlexColumnCenterCSS } from "./commonStyle";
 
 export const C_FlexBox = styled.div`
   display: flex;
@@ -38,9 +39,9 @@ export const SemiTitle = styled(Title)`
 `;
 
 export const Input = styled.input<{ color: string }>`
-  width: 90%;
-  height: 3rem;
-  border-radius: 2rem;
+  width: 50vw;
+  height: 4rem;
+  border-radius: 1.5rem;
   font-size: 1.5rem;
   padding-left: 2rem;
   border-color: ${(props) => props.color || "black"};
@@ -90,15 +91,12 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-export const Span = styled.span`
-  font-size: 3rem;
-  font-weight: 700;
-  padding: 1rem 1rem;
-
-  @media screen and (max-width: ${media.mobile}) {
-    font-size: 8vw;
+  width: 100%;
+  padding: 0 2rem;
+  & > :last-child {
+    ${FlexColumnCenterCSS}
+    gap: 2rem;
+    padding-top: 2rem;
   }
 `;
 
@@ -137,7 +135,7 @@ export const CheckId = styled.div`
 
 export const IdLength = styled.div<{ len: number }>`
   position: absolute;
-  right: 2rem;
+  right: 8rem;
   bottom: -1rem;
   font-size: 1.5rem;
   font-weight: 600;

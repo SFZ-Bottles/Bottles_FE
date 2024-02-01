@@ -19,7 +19,6 @@ export const HeaderContainer = styled.div<{ $url: string }>`
   ${FlexCenterCSS}
   justify-content: start;
   font-size: 1.3rem;
-
   background-color: ${(props) => props.theme.color.bgColor};
   background-color: ${(props) =>
     props.$url === "/home/pin" ? "#555a5f" : props.theme.color.bgColor};
@@ -93,6 +92,9 @@ export const HeaderItem = styled.div<{ $active: boolean }>`
   font-size: 0.8em;
   cursor: pointer;
   font-weight: ${(props) => (props.$active ? "bold" : "400")};
+  &:hover {
+    font-weight: 700;
+  }
 `;
 
 export const ModalOverlay = styled.div`

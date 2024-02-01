@@ -4,13 +4,13 @@ import { timeAgo } from "../../../../../../utils/timeUtils";
 
 interface Bubble {
   content: Content;
-  isOwnContent: boolean;
+  $isOwnContent: boolean;
 }
 
-function ChatBubble({ content, isOwnContent }: Bubble) {
+function ChatBubble({ content, $isOwnContent }: Bubble) {
   return (
-    <S.BubbleContainer isOwnContent={isOwnContent}>
-      <S.Bubble isOwnContent={isOwnContent}>
+    <S.BubbleContainer isOwnContent={$isOwnContent}>
+      <S.Bubble $isOwnContent={$isOwnContent}>
         <S.Content>{content.content}</S.Content>
         <S.Timestamp>{timeAgo(content.timestamp)}</S.Timestamp>
       </S.Bubble>
@@ -26,18 +26,18 @@ const S = {
     margin: 10px 0;
   `,
 
-  Bubble: styled.div<{ isOwnContent: boolean }>`
+  Bubble: styled.div<{ $isOwnContent: boolean }>`
     max-width: 60%;
     padding: 10px 14px;
     border-radius: 18px;
     background-color: ${(props) =>
-      props.isOwnContent ? "#E8E8E8" : "#FFFFFF"};
-    border: ${(props) => (props.isOwnContent ? "none" : "2px solid black")};
-    color: ${(props) => (props.isOwnContent ? "#000" : "#000")};
+      props.$isOwnContent ? "#E8E8E8" : "#FFFFFF"};
+    border: ${(props) => (props.$isOwnContent ? "none" : "2px solid black")};
+    color: ${(props) => (props.$isOwnContent ? "#000" : "#000")};
     font-weight: bold;
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
     margin: 0 10px;
-    border-top-${(props) => (props.isOwnContent ? "right" : "left")}-radius: 0;
+    border-top-${(props) => (props.$isOwnContent ? "right" : "left")}-radius: 0;
   `,
 
   Content: styled.span`

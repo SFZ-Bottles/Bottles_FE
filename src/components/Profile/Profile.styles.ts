@@ -1,13 +1,10 @@
 import { styled } from "styled-components";
 
-export const UserProfile = styled.div<{
-  src: string;
-  width: number;
-  height: number;
+export const UserProfile = styled.img<{
+  size: number;
 }>`
-  width: ${(props) => props.width}rem;
-  height: ${(props) => props.height}rem;
+  width: ${(props) => props.size}rem;
+  height: ${(props) => props.size}rem;
   background-size: cover;
   border-radius: 50%;
-  background-image: url(${(props) => props.src});
 `;

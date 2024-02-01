@@ -111,9 +111,15 @@ function ModalContent({
           <CustomButton>
             <UploadButton
               label="파일 선택"
-              type={modalType === "image" ? "image" : "video"}
+              type={
+                modalType === "image" || modalType === "cover"
+                  ? "image"
+                  : "video"
+              }
               onChange={onFileReaderChange}
-            />
+            >
+              업로드
+            </UploadButton>
           </CustomButton>
           <S.ImageWrapper>
             {fileReader ? (

@@ -7,5 +7,5 @@ export interface StylesProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string;
-  customStyle?: CSSProp;
+  $customStyle?: CSSProp;
 }

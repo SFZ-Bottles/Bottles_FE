@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes, PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 import * as S from "./Input.styles";
 import { StylesProps } from "./Input.types";
 
@@ -11,8 +11,8 @@ const CommonInput: FC<PropsWithChildren<Props>> = ({
   value,
   onChange,
   error,
-  customStyle,
-}: Props) => {
+  $customStyle,
+}) => {
   return (
     <S.InputWrapper>
       <S.StyledInput
@@ -22,7 +22,7 @@ const CommonInput: FC<PropsWithChildren<Props>> = ({
         value={value}
         onChange={onChange}
         className={error ? "error" : ""}
-        customStyle={customStyle}
+        $customStyle={$customStyle}
       />
       {error && <S.ErrorMsg>{error}</S.ErrorMsg>}
     </S.InputWrapper>

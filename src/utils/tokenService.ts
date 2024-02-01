@@ -4,8 +4,11 @@ const TokenService = {
   },
 
   setToken(newToken: string) {
-    console.log(newToken);
     return localStorage.setItem("token", newToken);
+  },
+
+  setSecretToken(newToken: string) {
+    return localStorage.setItem("secret_token", newToken);
   },
 
   getSecretToken() {

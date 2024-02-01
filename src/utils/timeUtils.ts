@@ -9,7 +9,6 @@ export const timeAgo = (dateString: string) => {
   const days = hours / 24;
   const months = days / 30;
   const years = months / 12;
-  console.log(minutes);
   if (seconds < 60) {
     return "방금 전";
   } else if (minutes < 60) {

@@ -2,6 +2,9 @@ const UserService = {
   setUserId(userId: string) {
     localStorage.setItem("id", userId);
   },
+  setSecretId(userId: string) {
+    localStorage.setItem("secret_id", userId);
+  },
   getUserId() {
     return localStorage.getItem("id") ?? "";
   },

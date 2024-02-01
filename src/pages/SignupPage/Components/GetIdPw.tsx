@@ -12,6 +12,9 @@ import {
 import styled from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
 import React from "react";
+import { media } from "../../../style/theme";
+import { idValidation } from "../../../utils/validation";
+import { Button } from "../../../components/Button/Button";
 
 function GetIdPw() {
   const setPageNum = useSetRecoilState(signupPage);
@@ -50,20 +53,7 @@ function GetIdPw() {
     }
   };
 
-  const idValidator = (value: string) => {
-    if (!value) {
-      return "ID는 필수 항목입니다.";
-    }
-    if (value.length > 30) {
-      return "ID는 30자 이하여야 합니다.";
-    }
-    if (idStatusMessage !== "Available!") {
-      return "ID가 유효하지 않습니다.";
-    }
-    return true;
-  };
-
-  const onSubmit = (data: any) => {
+  const onSubmit = () => {
     if (!Object.keys(errors).length && idStatusMessage) {
       setSignup({ ...signup, id: idValue, pw: pwValue });
       setPageNum(2);
@@ -85,9 +75,7 @@ function GetIdPw() {
               placeholder="ID"
               color={idValue.length > 30 || errors.id ? "red" : "default"}
               {...register("id", {
-                required: true,
-                maxLength: 30,
-                validate: { idValidator },
+                ...idValidation(idStatusMessage),
               })}
             />
             <CheckId onClick={checkIdClicked}>check id</CheckId>
@@ -128,7 +116,7 @@ function GetIdPw() {
         </S.InputContainer>
 
         <S.ButtonDiv>
-          <button type="submit">1 / 3 다음단계로</button>
+          <Button>1 / 3 다음단계로</Button>
         </S.ButtonDiv>
       </form>
     </S.Container>
@@ -137,11 +125,17 @@ function GetIdPw() {
 
 const S = {
   Container: styled.div`
+    width: 100%;
     ${FlexColumnCenterCSS}
     & > :first-child {
+      ${FlexCenterCSS};
       margin: 2rem 0;
       font-size: 6rem;
-      font-weight: 700;
+      font-weight: 500;
+      text-align: center;
+      @media screen and (max-width: ${media.tablet}) {
+        font-size: 4rem;
+      }
     }
 
     p {
@@ -176,13 +170,14 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding-left: 5rem;
     & > p {
       font-size: 1.5rem;
     }
 
     & > span {
       font-size: 4rem;
-      font-weight: 700;
+      font-weight: 500;
       padding: 1rem 1rem;
       & > :first-child {
         margin-top: 1rem;
@@ -190,12 +185,18 @@ const S = {
         color: #888888;
       }
     }
+
+    @media screen and (max-width: ${media.mobile}) {
+      padding-left: 2rem;
+    }
   `,
 
   InputDiv: styled.div`
     display: flex;
     align-items: center;
     justify-content: start;
+    width: 100%;
+    height: 100%;
   `,
 };
 

@@ -4,6 +4,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
+import { emailValidation, nameValidation } from "../../../utils/validation";
+import { media } from "../../../style/theme";
+import { Button } from "../../../components/Button/Button";
 
 function GetName() {
   const setPageNum = useSetRecoilState(signupPage);
@@ -23,7 +26,6 @@ function GetName() {
   const emailValue = watch("email");
 
   const onSubmit = (data: any) => {
-    console.log(data);
     if (!Object.keys(errors).length) {
       setSignup({ ...signup, name: nameValue, email: emailValue });
       setPageNum(3);
@@ -47,12 +49,10 @@ function GetName() {
             color={nameValue.length > 30 || errors.name ? "red" : "default"}
             placeholder="Name"
             {...register("name", {
-              required: true,
-              maxLength: 30,
-              minLength: 2,
+              ...nameValidation,
             })}
           />
-          {errors.name && <p>이름은 2글자 이상, 30글자 이하입니다.</p>}
+          <p>{errors?.name?.message}</p>
           <PasswordLength len={nameValue.length || 0}>
             {nameValue.length || 0} / 30
           </PasswordLength>
@@ -70,18 +70,16 @@ function GetName() {
             color={emailValue.length > 30 || errors.email ? "red" : "default"}
             placeholder="E-mail"
             {...register("email", {
-              required: true,
-              maxLength: 30,
-              minLength: 2,
+              ...emailValidation,
             })}
           />
           <PasswordLength len={emailValue.length || 0}>
             {emailValue.length || 0} / 30
           </PasswordLength>
-          {errors.email && <p>정확한 형식에 맞춰주세요</p>}
+          <p>{errors?.email?.message}</p>
         </S.InputContainer>
         <S.ButtonDiv>
-          <button type="submit">(2 / 3) 다음단계로</button>
+          <Button>(2 / 3) 다음단계로</Button>
         </S.ButtonDiv>
       </form>
     </S.Container>
@@ -90,11 +88,17 @@ function GetName() {
 
 const S = {
   Container: styled.div`
+    width: 100%;
     ${FlexColumnCenterCSS}
     & > :first-child {
+      ${FlexCenterCSS};
       margin: 2rem 0;
       font-size: 6rem;
-      font-weight: 700;
+      font-weight: 500;
+      text-align: center;
+      @media screen and (max-width: ${media.tablet}) {
+        font-size: 4rem;
+      }
     }
 
     p {
@@ -136,7 +140,7 @@ const S = {
 
     & > span {
       font-size: 4rem;
-      font-weight: 700;
+      font-weight: 500;
       padding: 1rem 1rem;
       & > :first-child {
         margin-top: 1rem;

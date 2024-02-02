@@ -18,15 +18,21 @@ export const idValidation = ($checkDuplicated: string) => {
 
 export const nameValidation = () => {
   return {
-    required: true,
-    maxLength: 30,
-    minLength: 2,
+    required: "입력해주세요",
+    maxLength: {
+      value: 30,
+      message: "이름은 최대 30글자까지 가능합니다.",
+    },
+    minLength: {
+      value: 2,
+      message: "이름은 최소 2글자 이상이어야 합니다.",
+    },
   };
 };
 
 export const emailValidation = () => {
   return {
-    required: true,
+    required: "입력해주세요",
     maxLength: {
       value: 30,
       message: "이메일은 최대 30글자까지 가능합니다.",

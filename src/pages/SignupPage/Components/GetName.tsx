@@ -49,7 +49,7 @@ function GetName() {
             color={nameValue.length > 30 || errors.name ? "red" : "default"}
             placeholder="Name"
             {...register("name", {
-              ...nameValidation,
+              ...nameValidation(),
             })}
           />
           <p>{errors?.name?.message}</p>
@@ -70,7 +70,7 @@ function GetName() {
             color={emailValue.length > 30 || errors.email ? "red" : "default"}
             placeholder="E-mail"
             {...register("email", {
-              ...emailValidation,
+              ...emailValidation(),
             })}
           />
           <PasswordLength len={emailValue.length || 0}>

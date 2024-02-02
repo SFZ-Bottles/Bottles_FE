@@ -21,7 +21,6 @@ const CommonInput: FC<PropsWithChildren<Props>> = ({
         name={name}
         value={value}
         onChange={onChange}
-        className={error ? "error" : ""}
         $customStyle={$customStyle}
       />
       {error && <S.ErrorMsg>{error}</S.ErrorMsg>}

@@ -1,11 +1,17 @@
 import { styled } from "styled-components";
 import { changeInfo } from "../../services/API";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import CommonInput from "../Input/Input";
 import InfoApi from "../../services/infoApi";
 import AuthService from "../../utils/authService";
 import { Button } from "../Button/Button";
+import { useForm } from "react-hook-form";
+import {
+  emailValidation,
+  idValidation,
+  nameValidation,
+} from "../../utils/validation";
 
 export interface IEdit {
   id: string;
@@ -16,34 +22,60 @@ export interface IEdit {
 }
 
 function EditModal({ editData, setUserData, onClose }: any) {
-  const [inputData, setInputData] = useState("");
-  const onClick = async (editData: string) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    clearErrors,
+    setError,
+  } = useForm();
+
+  useEffect(() => {
+    setValue("inputData", "");
+    clearErrors("inputData");
+  }, [editData, setValue, clearErrors]);
+
+  const onSubmit = async (data: any) => {
     try {
-      const changedInfo = await changeInfo(editData, inputData);
-
+      const changedInfo = await changeInfo(editData, data.inputData);
       AuthService.setTokenAndId(changedInfo.token, changedInfo.id);
-      const { data } = await InfoApi.getInfo(changedInfo.id);
-      setUserData(data);
-
-      onClose(null);
+      const { data: userInfo } = await InfoApi.getInfo(changedInfo.id);
+      setUserData(userInfo);
+      onClose();
     } catch (error: any) {
-      alert(error.message);
+      setError("inputData", {
+        type: "manual",
+        message: "불가능한 변경입니다.",
+      });
+    }
+  };
+
+  const getValidationRules = () => {
+    switch (editData) {
+      case "id":
+        return idValidation("Available!"); // 중복 검사 상태를 가정한 값
+      case "name":
+        return nameValidation();
+      case "email":
+        return emailValidation();
+      default:
+        return {}; // 기본값은 비어 있는 규칙 객체
     }
   };
 
   return (
     <S.Container>
-      {editData}
-      <CommonInput
-        type="text"
-        name="inputData"
-        value={inputData}
-        onChange={(e) => setInputData(e.target.value)}
-        $customStyle={{ width: "20rem", height: "2rem" }}
-      />
-      <Button round="very" skin="gray" onClick={() => onClick(editData)}>
-        확인
-      </Button>
+      <div>{editData}</div>
+      <S.FormWrapper>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <input type="text" {...register("inputData", getValidationRules())} />
+          <>{errors.inputData?.message && errors.inputData?.message}</>
+          <Button round="very" skin="gray" size="standard">
+            확인
+          </Button>
+        </form>
+      </S.FormWrapper>
     </S.Container>
   );
 }
@@ -54,16 +86,27 @@ const S = {
     min-width: 20rem;
     height: 15rem;
     gap: 10%;
-    border-radius: 8px;
     font-size: 2rem;
-    color: black;
+  `,
 
-    & > button {
-      ${FlexCenterCSS}
-      border-radius: 1rem;
-      background-color: #d9d9d9;
-      width: 20%;
-      height: 13%;
+  FormWrapper: styled.div`
+    form {
+      ${FlexColumnCenterCSS};
+      gap: 1rem;
+      font-size: 15px;
+      color: red;
+      :first-child {
+        width: 18rem;
+        height: 2rem;
+        color: black;
+        font-size: 1rem;
+      }
+      :nth-child(2) {
+      }
+    }
+    input {
+      border-radius: 10px;
+      color: black;
       font-size: 1rem;
     }
   `,

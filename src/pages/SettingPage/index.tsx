@@ -5,6 +5,7 @@ import IntroContent from "./Components/IntroContent";
 import SideBar from "../../components/SideBar/SideBar";
 import { media } from "../../style/theme";
 import ToggleButton from "../../components/Button/ToggleButton";
+import WithdrawContent from "./Components/WithdrawContent";
 
 const SettingPage = () => {
   const [pageNum, setPageNum] = useState(1);
@@ -14,6 +15,9 @@ const SettingPage = () => {
       return <EditContent />;
     } else if (pageNum === 2) {
       return <IntroContent />;
+    }
+    else if (pageNum === 4) {
+      return <WithdrawContent/>;
     }
   };
 

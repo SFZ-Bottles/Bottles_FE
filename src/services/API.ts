@@ -1,9 +1,32 @@
 import { IComment } from "../components/Comment/CommentModal";
 import { IAlbum } from "../pages/HomeModal/ModalContent";
 import AuthService from "../utils/authService";
+import axios from 'axios';
+
 
 const [token, id] = AuthService.getTokenAndId();
 
+export const deleteUserAccount = async (id: string , password: string) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.delete(
+      `${process.env.REACT_APP_SERVER}api/users/${id}/`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token as string,
+        },
+        data: {
+          pw: password,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
 export const registAlbum = async (content: any, album: IAlbum) => {
   try {
     const formData = new FormData();
@@ -166,6 +189,7 @@ export const logout = async () => {
     alert(error);
   }
 };
+
 
 export const changeInfo = async (editData: any) => {
   const [token, id] = AuthService.getTokenAndId();

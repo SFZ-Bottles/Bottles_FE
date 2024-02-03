@@ -1,8 +1,7 @@
 import { styled } from "styled-components";
 import { changeInfo } from "../../services/API";
-import { useEffect, useState } from "react";
-import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
-import CommonInput from "../Input/Input";
+import { useEffect } from "react";
+import { FlexColumnCenterCSS } from "../../style/commonStyle";
 import InfoApi from "../../services/infoApi";
 import AuthService from "../../utils/authService";
 import { Button } from "../Button/Button";
@@ -54,13 +53,13 @@ function EditModal({ editData, setUserData, onClose }: any) {
   const getValidationRules = () => {
     switch (editData) {
       case "id":
-        return idValidation("Available!"); // 중복 검사 상태를 가정한 값
+        return idValidation("Available!");
       case "name":
         return nameValidation();
       case "email":
         return emailValidation();
       default:
-        return {}; // 기본값은 비어 있는 규칙 객체
+        return {};
     }
   };
 
@@ -100,8 +99,6 @@ const S = {
         height: 2rem;
         color: black;
         font-size: 1rem;
-      }
-      :nth-child(2) {
       }
     }
     input {

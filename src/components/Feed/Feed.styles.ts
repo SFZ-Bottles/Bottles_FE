@@ -23,7 +23,8 @@ export const AlbumContainer = styled.div`
 export const ImgDiv = styled.img`
   width: 25vw;
   height: 25vw;
-
+  cursor: pointer;
+  transition: filter 0.3s ease;
   @media screen and (max-width: ${media.tablet}) {
     width: 40vw;
     height: 40vw;
@@ -32,5 +33,9 @@ export const ImgDiv = styled.img`
   @media screen and (max-width: ${media.mobile}) {
     width: 60vw;
     height: 60vw;
+  }
+
+  &:hover {
+    filter: brightness(75%);
   }
 `;

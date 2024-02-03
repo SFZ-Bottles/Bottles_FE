@@ -25,16 +25,27 @@ interface Props {
 function FollowList({ list, onClose, type }: Props) {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState<Info[]>([]);
-
+  const [input, setInput] = useState("");
+  const [filteredInfo, setFilteredInfo] = useState<Info[]>([]);
   const getInfo = async () => {
     const promises = list.map((user) => InfoApi.getInfo(user));
     const results = await Promise.all(promises);
-    setUserInfo(results.map((result) => result.data));
+    const info = results.map((result) => result.data);
+    setUserInfo(info);
+    setFilteredInfo(info);
   };
 
   const onCardClicked = (path: string) => {
     onClose();
     navigate(path);
+  };
+
+  const inputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    const filtered = userInfo.filter((user) =>
+      user.id.includes(e.target.value)
+    );
+    setFilteredInfo(filtered);
   };
 
   useEffect(() => {
@@ -47,16 +58,25 @@ function FollowList({ list, onClose, type }: Props) {
     <S.Container>
       <S.Nav>{type}</S.Nav>
       <S.CardWrapper>
-        {userInfo?.map((user: Info, index: number) => (
-          <S.Item key={index}>
-            <Card onClick={() => onCardClicked(`/home/album/${user.id}`)}>
-              <Card.UserProfile src={user.avatar} />
-              <Card.UserId>{user.id}</Card.UserId>
-              <Card.ButtonImg url="/img/remove.svg" size={20} />
-              <Card.UserDescribe>{subtractString(user.info)}</Card.UserDescribe>
-            </Card>
-          </S.Item>
-        ))}
+        <S.InputWrapper>
+          <img src="/img/search.svg" alt="검색" />
+          <input type="text" value={input} onChange={inputChanged} />
+        </S.InputWrapper>
+
+        <S.ContentWrapper>
+          {filteredInfo?.map((user: Info, index: number) => (
+            <S.Item key={index}>
+              <Card onClick={() => onCardClicked(`/home/album/${user.id}`)}>
+                <Card.UserProfile src={user.avatar} />
+                <Card.UserId>{user.id}</Card.UserId>
+                <Card.ButtonImg url="/img/remove.svg" size={20} />
+                <Card.UserDescribe>
+                  {subtractString(user.info)}
+                </Card.UserDescribe>
+              </Card>
+            </S.Item>
+          ))}
+        </S.ContentWrapper>
       </S.CardWrapper>
     </S.Container>
   );
@@ -64,12 +84,34 @@ function FollowList({ list, onClose, type }: Props) {
 
 const S = {
   Container: styled.div`
-    ${FlexColumnCenterCSS}
-    align-items: center;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
     min-width: 300px;
     height: 100%;
     overflow: auto;
+  `,
+  InputWrapper: styled.div`
+    ${FlexCenterCSS}
+    background-color: white;
+    position: fixed;
+    width: 90%;
+
+    padding-left: 15px;
+    & > input {
+      width: 100%;
+      min-height: 40px;
+      padding-left: 15%;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      border: none;
+    }
+
+    & > img {
+      position: absolute;
+      left: 8%;
+      top: 10px;
+    }
   `,
   CardWrapper: styled.div`
     display: flex;
@@ -113,6 +155,11 @@ const S = {
     @media screen and (max-width: ${media.mobile}) {
       width: 300px;
     }
+  `,
+
+  ContentWrapper: styled.div`
+    display: flex;
+    padding-top: 40px;
   `,
 };
 

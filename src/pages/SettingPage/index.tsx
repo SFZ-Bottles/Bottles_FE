@@ -16,9 +16,7 @@ const SettingPage = () => {
     } else if (pageNum === 2) {
       return <IntroContent />;
     } else if (pageNum === 4) {
-      return <WithdrawContent />;
-    } else if (pageNum === 4) {
-      return <WithdrawContent />;
+      return <WithdrawContent setPageNum={setPageNum} />;
     }
   };
 

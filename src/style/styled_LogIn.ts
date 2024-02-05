@@ -39,7 +39,7 @@ export const SemiTitle = styled(Title)`
 `;
 
 export const Input = styled.input<{ color: string }>`
-  width: 50vw;
+  width: 100%;
   height: 4rem;
   border-radius: 1.5rem;
   font-size: 1.5rem;
@@ -47,7 +47,7 @@ export const Input = styled.input<{ color: string }>`
   border-color: ${(props) => props.color || "black"};
 
   @media screen and (max-width: ${media.mobile}) {
-    width: 80vw;
+    flex: 1;
   }
 `;
 
@@ -127,23 +127,28 @@ export const LoginInfo = styled.div`
 `;
 
 export const CheckId = styled.div`
-  font-size: 1.5rem;
+  position: absolute;
+  right: 15px;
+  bottom: 1.5rem;
+  font-size: 15px;
   text-decoration: underline;
   cursor: pointer;
   padding: 0 1rem;
+  white-space: nowrap;
 `;
 
 export const IdLength = styled.div<{ len: number }>`
   position: absolute;
-  right: 8rem;
-  bottom: -1rem;
+  right: 0rem;
+  bottom: -2rem;
   font-size: 1.5rem;
   font-weight: 600;
   color: ${(props) => (props.len < 30 ? "#888888" : "#FC7268")};
 `;
 
 export const PasswordLength = styled(IdLength)`
-  bottom: -4rem;
+  position: absolute;
+  bottom: -2rem;
 `;
 
 export const IntroLegnth = styled(PasswordLength)`

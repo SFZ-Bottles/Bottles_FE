@@ -67,9 +67,9 @@ function GetIdPw() {
         <S.InputContainer>
           <span>
             ID
-            <div>아이디를 생성해보세요!</div>
+            <div>아이디를 입력 후, 중복검사를 해주세요!</div>
           </span>
-          <S.InputDiv>
+          <S.IdWrapper>
             <Input
               type="text"
               placeholder="ID"
@@ -79,42 +79,35 @@ function GetIdPw() {
               })}
             />
             <CheckId onClick={checkIdClicked}>check id</CheckId>
-          </S.InputDiv>
+          </S.IdWrapper>
           <IdLength len={idValue?.length || 0}>
             {idValue?.length || 0} / 30
           </IdLength>
-          {errors.id ? (
-            <p>{errors.id.message || "ID를 입력해주세요."}</p>
-          ) : (
-            <React.Fragment />
-          )}
+          {errors.id && <p>{errors.id.message || "ID를 입력해주세요."}</p>}
           {<p style={{ color: "blue" }}>{idStatusMessage}</p>}
         </S.InputContainer>
         <S.InputContainer>
           <span>
             Password
-            <div>비밀번호를 생성해보세요!</div>
+            <div>비밀번호를 입력해주세요!</div>
           </span>
-          <Input
-            type="password"
-            placeholder="Password"
-            color={pwValue.length > 30 || errors.pw ? "red" : "default"}
-            {...register("pw", {
-              required: true,
-              minLength: 8,
-              maxLength: 30,
-            })}
-          />
-          <PasswordLength len={pwValue?.length || 0}>
+          <S.InputDiv>
+            <Input
+              type="password"
+              placeholder="Password"
+              color={pwValue.length > 30 || errors.pw ? "red" : "default"}
+              {...register("pw", {
+                required: true,
+                minLength: 8,
+                maxLength: 30,
+              })}
+            />
+          </S.InputDiv>
+          <S.InputLength len={pwValue?.length || 0}>
             {pwValue?.length || 0} / 30
-          </PasswordLength>
-          {errors.pw ? (
-            <p>비밀번호는 8자이상, 30자 이하여야 합니다.</p>
-          ) : (
-            <React.Fragment />
-          )}
+          </S.InputLength>
+          {errors.pw && <p>비밀번호는 8자이상, 30자 이하여야 합니다.</p>}
         </S.InputContainer>
-
         <S.ButtonDiv>
           <Button>1 / 3 다음단계로</Button>
         </S.ButtonDiv>
@@ -170,7 +163,7 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding-left: 5rem;
+
     & > p {
       font-size: 1.5rem;
     }
@@ -187,16 +180,33 @@ const S = {
     }
 
     @media screen and (max-width: ${media.mobile}) {
-      padding-left: 2rem;
+      padding: 0 1rem;
     }
   `,
 
   InputDiv: styled.div`
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: start;
     width: 100%;
     height: 100%;
+    padding: 0 1rem;
+  `,
+  IdWrapper: styled.div`
+    position: relative;
+    padding: 0 1rem;
+    & > :last-child {
+      position: absolute;
+    }
+  `,
+  InputLength: styled.div<{ len: number }>`
+    position: absolute;
+    right: 0;
+    bottom: -2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: ${(props) => (props.len < 30 ? "#888888" : "#FC7268")};
   `,
 };
 

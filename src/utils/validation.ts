@@ -47,3 +47,17 @@ export const emailValidation = () => {
     },
   };
 };
+
+export const infoValidation = () => {
+  return {
+    required: "입력해주세요",
+    maxLength: {
+      value: 150,
+      message: "최대 150글자입니다.",
+    },
+    minLegnth: {
+      value: 1,
+      message: "최소 1글자입니다.",
+    },
+  };
+};

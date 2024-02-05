@@ -8,6 +8,7 @@ import { styled } from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
 import { media } from "../../../style/theme";
 import { Button } from "../../../components/Button/Button";
+import { infoValidation } from "../../../utils/validation";
 
 function GetIntro() {
   const navigate = useNavigate();
@@ -48,11 +49,7 @@ function GetIntro() {
           <S.InputDiv>
             <BigInput
               placeholder="소개 입력"
-              {...register("intro", {
-                required: true,
-                minLength: 1,
-                maxLength: 150,
-              })}
+              {...register("intro", { ...infoValidation() })}
             ></BigInput>
           </S.InputDiv>
           {errors.intro && <p>최소 1자, 최대 150자 까지입니다.</p>}

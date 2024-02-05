@@ -1,5 +1,5 @@
 import { SignupState, signupPage } from "../../../atom/atom";
-import { Input, PasswordLength } from "../../../style/styled_LogIn";
+import { IdLength, Input, PasswordLength } from "../../../style/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
@@ -40,42 +40,47 @@ function GetName() {
           <span>
             Name
             <div>
-              이름 정보는 프로필 상단에 표시되며 이를 통해 친구와 연결될 수
-              있습니다.
+              이름 정보는 프로필 상단에 표시되며
+              <br /> 이를 통해 친구와 연결될 수 있습니다.
             </div>
           </span>
-          <Input
-            type="text"
-            color={nameValue.length > 30 || errors.name ? "red" : "default"}
-            placeholder="Name"
-            {...register("name", {
-              ...nameValidation(),
-            })}
-          />
-          <p>{errors?.name?.message}</p>
-          <PasswordLength len={nameValue.length || 0}>
+          <S.InputDiv>
+            <Input
+              type="text"
+              color={nameValue.length > 30 || errors.name ? "red" : "default"}
+              placeholder="Name"
+              {...register("name", {
+                ...nameValidation(),
+              })}
+            />
+          </S.InputDiv>
+          <S.InputLength len={nameValue.length || 0}>
             {nameValue.length || 0} / 30
-          </PasswordLength>
+          </S.InputLength>
+          <p>{errors?.name?.message}</p>
         </S.InputContainer>
         <S.InputContainer>
           <span>
             E-mail
             <div>
-              이메일 정보는 계정정보 분실시 이용됩니다. 정확한 주소를 입력해
-              주세요.
+              이메일 정보는 계정정보 분실시 이용됩니다.
+              <br /> 정확한 주소를 입력해 주세요.
             </div>
           </span>
-          <Input
-            type="text"
-            color={emailValue.length > 30 || errors.email ? "red" : "default"}
-            placeholder="E-mail"
-            {...register("email", {
-              ...emailValidation(),
-            })}
-          />
-          <PasswordLength len={emailValue.length || 0}>
+
+          <S.InputDiv>
+            <Input
+              type="text"
+              color={emailValue.length > 30 || errors.email ? "red" : "default"}
+              placeholder="E-mail"
+              {...register("email", {
+                ...emailValidation(),
+              })}
+            />
+          </S.InputDiv>
+          <S.InputLength len={emailValue.length || 0}>
             {emailValue.length || 0} / 30
-          </PasswordLength>
+          </S.InputLength>
           <p>{errors?.email?.message}</p>
         </S.InputContainer>
         <S.ButtonDiv>
@@ -148,6 +153,27 @@ const S = {
         color: #888888;
       }
     }
+  `,
+  InputWrapper: styled.div`
+    position: relative;
+  `,
+
+  InputLength: styled.div<{ len: number }>`
+    position: absolute;
+    right: 0;
+    bottom: -1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: ${(props) => (props.len < 30 ? "#888888" : "#FC7268")};
+  `,
+
+  InputDiv: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
   `,
 };
 

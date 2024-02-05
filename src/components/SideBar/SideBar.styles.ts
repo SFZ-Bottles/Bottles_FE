@@ -6,6 +6,7 @@ export const Container = styled.div`
   align-items: center;
   margin-top: 10px;
   width: inherit;
+  z-index: 2;
   height: 90vh;
   border-right: 5px solid #d9d9d9;
   border-top: 3px solid #d9d9d9;

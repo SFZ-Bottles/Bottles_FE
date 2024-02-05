@@ -15,13 +15,6 @@ export const EmptySpace: FC<PropsWithChildren<Props>> = ({
 }) => {
   return (
     <S.Wrapper>
-      <S.ImageContainer>
-        <img
-          style={{ width: `${width}px`, height: `${height}px` }}
-          src="/img/bottle.png"
-          alt="bottle"
-        />
-      </S.ImageContainer>
       <S.MyText>{props.title}</S.MyText>
       <S.Text>{props.text}</S.Text>
     </S.Wrapper>

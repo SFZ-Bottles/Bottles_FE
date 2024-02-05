@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
-import { userFollow, makeChatRoom } from "../../services/API";
 import { useNavigate, useParams } from "react-router-dom";
 import HomePage from "../HomeModal/HomeModal";
 import Modal from "../../components/Modal/Modal";
@@ -36,7 +35,7 @@ export interface FollowProps {
 const AlbumPage = () => {
   const params = useParams();
   const id = params.id ?? "";
-  const [token, myId] = AuthService.getTokenAndId();
+  const [, myId] = AuthService.getTokenAndId();
   const navigate = useNavigate();
   const isSecreteMode = UserService.isSecretMode();
   const [isMyAlbum, setIsMyAlbum] = useState<boolean>();
@@ -53,7 +52,6 @@ const AlbumPage = () => {
   const [ref, inView] = useInView();
   const [idx, setIdx] = useState(1);
   const [albums, setAlbums] = useState<any>([]);
-
   const getFeed = async () => {
     setIsLoading(true);
     try {
@@ -69,23 +67,23 @@ const AlbumPage = () => {
 
   const fetchData = async () => {
     if (!id) return;
-    const follower = await AlbumApi.getFollower(id, token);
-    const userInfo = await AlbumApi.getUserInfo(id, token);
-    const following = await AlbumApi.getFollowing(id, token);
+    const follower = await AlbumApi.getFollower(id);
+    const userInfo = await AlbumApi.getUserInfo(id);
+    const following = await AlbumApi.getFollowing(id);
     setUserFollower(follower.data);
     setUserBasicInfo(userInfo.data);
     setUserFollowing(following.data);
   };
 
   const followClick = async () => {
-    await userFollow(myId, id);
+    await AlbumApi.startFollow(myId, id);
     setIsMyAlbum(false);
   };
 
   const messageClick = async (id: string) => {
     const roomList = await ChatApi.Rooms(myId);
     if (!isThereRoom(roomList.data.result, id)) {
-      await makeChatRoom(myId, id, token);
+      await ChatApi.makeRoom(myId, id);
     }
     navigate(modeNavigation(`/home/message/${id}`));
   };
@@ -94,8 +92,15 @@ const AlbumPage = () => {
     setFollowModal({ type: type, content: list });
   };
 
+  const refreshFeed = async () => {
+    const result = await AlbumApi.getFeedAlbum(id, 6, 1);
+    console.log(result);
+    setAlbums([...result?.data?.result]);
+  };
+
   useEffect(() => {
     fetchData();
+    refreshFeed();
     setIsMyAlbum(id === myId);
   }, [id]);
 
@@ -146,13 +151,11 @@ const AlbumPage = () => {
         <S.Introduction>{userBasicInfo?.info}</S.Introduction>
 
         {isLoading && <Loading />}
-        <div>
-          <Feed data={albums} />
-          <div style={{ width: "100%", height: "20px" }} ref={ref} />
-        </div>
       </S.Container>
-
-      {albumModalAcivity && <HomePage setState={setAlbumModalActivity} />}
+      {/* 피드생성 컴포넌트 */}
+      {albumModalAcivity && (
+        <HomePage refreshFeed={refreshFeed} setState={setAlbumModalActivity} />
+      )}
 
       {followModal.type && (
         <Modal
@@ -166,6 +169,10 @@ const AlbumPage = () => {
           />
         </Modal>
       )}
+      <div>
+        <Feed data={albums} />
+        <div style={{ width: "100%", height: "20px" }} ref={ref} />
+      </div>
     </>
   );
 };

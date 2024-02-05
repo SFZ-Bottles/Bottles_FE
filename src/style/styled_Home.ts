@@ -1,6 +1,6 @@
-import { screen } from "@testing-library/react";
 import styled from "styled-components";
 import { media } from "./theme";
+import { FlexCenterCSS } from "./commonStyle";
 
 export const ChoiceBox = styled.div`
   display: flex;
@@ -47,6 +47,16 @@ export const ModalContainer = styled.div`
   display: grid;
   min-width: 400px;
   min-height: 400px;
+
+  & > :first-child {
+    ${FlexCenterCSS}
+    padding: 1rem 0;
+    border-bottom: 2px solid gray;
+    width: 100%;
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
   @media screen and (max-width: ${media.mobile}) {
     width: 80vw;
     height: 130vw;

@@ -21,7 +21,7 @@ const FeedModal = ({ onClose, children }: any) => {
       <S.ArrowButton
         src="/img/Arrow.svg"
         onClick={(e) => arrowClick(e)}
-        right={right}
+        $right={right}
       />
       <S.Xbutton>x</S.Xbutton>
     </S.ModalOverlay>
@@ -87,12 +87,12 @@ const S = {
     color: ${(props) => props.theme.color.fontColor};
   `,
 
-  ArrowButton: styled.img<{ right: boolean }>`
+  ArrowButton: styled.img<{ $right: boolean }>`
     display: flex;
     position: absolute;
     top: 50%;
-    right: ${(props) => (props.right ? "75px" : "35vw")};
-    transform: rotate(${(props) => (props.right ? "180deg" : "0deg")});
+    right: ${(props) => (props.$right ? "75px" : "35vw")};
+    transform: rotate(${(props) => (props.$right ? "180deg" : "0deg")});
     width: 5rem;
     height: 5rem;
     cursor: pointer;

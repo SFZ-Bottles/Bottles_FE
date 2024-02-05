@@ -1,7 +1,5 @@
-import { useRecoilValue } from "recoil";
 import TokenService from "./tokenService";
 import UserService from "./userService";
-import { themeState } from "../atom/atom";
 
 const AuthService = {
   getAuthrization() {
@@ -16,6 +14,15 @@ const AuthService = {
       return [TokenService.getSecretToken(), UserService.getSecretId()];
     }
     return [TokenService.getToken(), UserService.getUserId()];
+  },
+  setTokenAndId(token: string, id: string) {
+    if (UserService.isSecretMode()) {
+      UserService.setSecretId(id);
+      TokenService.setSecretToken(token);
+    } else {
+      UserService.setUserId(id);
+      TokenService.setToken(token);
+    }
   },
 };
 

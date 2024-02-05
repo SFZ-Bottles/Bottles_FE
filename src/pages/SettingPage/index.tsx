@@ -4,7 +4,7 @@ import EditContent from "./Components/EditContent";
 import IntroContent from "./Components/IntroContent";
 import SideBar from "../../components/SideBar/SideBar";
 import { media } from "../../style/theme";
-import ToggleButton from "../../components/Button/ToggleButton";
+import { Button } from "../../components/Button/Button";
 import WithdrawContent from "./Components/WithdrawContent";
 
 const SettingPage = () => {
@@ -15,9 +15,8 @@ const SettingPage = () => {
       return <EditContent />;
     } else if (pageNum === 2) {
       return <IntroContent />;
-    }
-    else if (pageNum === 4) {
-      return <WithdrawContent/>;
+    } else if (pageNum === 4) {
+      return <WithdrawContent setPageNum={setPageNum} />;
     }
   };
 
@@ -48,7 +47,9 @@ const SettingPage = () => {
       </S.SideBarWrapper>
       <S.ContentContainer>
         <S.ToggleWrapper onClick={onMenuClick}>
-          <ToggleButton />
+          <Button variant="shape" round="uniform" skin="white2gray">
+            <img src="/img/menu.png" alt="메뉴" />
+          </Button>
         </S.ToggleWrapper>
         {setContent()}
       </S.ContentContainer>
@@ -79,6 +80,7 @@ const S = {
     width: 20%;
     position: relative;
     font-size: 2rem;
+
     @media screen and (max-width: ${media.mobile}) {
       width: 130px;
       font-size: 20px;

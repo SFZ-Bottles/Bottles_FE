@@ -37,11 +37,20 @@ function UserCard({ data }: UserCardProps) {
 const S = {
   ItemContainer: styled.div`
     ${FlexColumnCenterCSS}
-    align-items: center;
     gap: 20px;
-    width: 450px;
+    width: 100%;
     height: 100%;
     overflow: auto;
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    &::-webkit-scrollbar {
+      width: 0.7rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 2px;
+      background: ${(props) => props.theme.color.barColor};
+    }
   `,
 
   Item: styled.div`

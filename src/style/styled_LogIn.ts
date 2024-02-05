@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { media } from "./theme";
+import { FlexColumnCenterCSS } from "./commonStyle";
 
 export const C_FlexBox = styled.div`
   display: flex;
@@ -38,15 +39,15 @@ export const SemiTitle = styled(Title)`
 `;
 
 export const Input = styled.input<{ color: string }>`
-  width: 90%;
-  height: 3rem;
-  border-radius: 2rem;
+  width: 100%;
+  height: 4rem;
+  border-radius: 1.5rem;
   font-size: 1.5rem;
   padding-left: 2rem;
   border-color: ${(props) => props.color || "black"};
 
   @media screen and (max-width: ${media.mobile}) {
-    width: 80vw;
+    flex: 1;
   }
 `;
 
@@ -90,15 +91,12 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-`;
-
-export const Span = styled.span`
-  font-size: 3rem;
-  font-weight: 700;
-  padding: 1rem 1rem;
-
-  @media screen and (max-width: ${media.mobile}) {
-    font-size: 8vw;
+  width: 100%;
+  padding: 0 2rem;
+  & > :last-child {
+    ${FlexColumnCenterCSS}
+    gap: 2rem;
+    padding-top: 2rem;
   }
 `;
 
@@ -129,23 +127,28 @@ export const LoginInfo = styled.div`
 `;
 
 export const CheckId = styled.div`
-  font-size: 1.5rem;
+  position: absolute;
+  right: 15px;
+  bottom: 1.5rem;
+  font-size: 15px;
   text-decoration: underline;
   cursor: pointer;
   padding: 0 1rem;
+  white-space: nowrap;
 `;
 
 export const IdLength = styled.div<{ len: number }>`
   position: absolute;
-  right: 2rem;
-  bottom: -1rem;
+  right: 0rem;
+  bottom: -2rem;
   font-size: 1.5rem;
   font-weight: 600;
   color: ${(props) => (props.len < 30 ? "#888888" : "#FC7268")};
 `;
 
 export const PasswordLength = styled(IdLength)`
-  bottom: -4rem;
+  position: absolute;
+  bottom: -2rem;
 `;
 
 export const IntroLegnth = styled(PasswordLength)`

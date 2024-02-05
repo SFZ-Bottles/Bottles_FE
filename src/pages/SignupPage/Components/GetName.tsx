@@ -1,9 +1,12 @@
 import { SignupState, signupPage } from "../../../atom/atom";
-import { Input, PasswordLength } from "../../../style/styled_LogIn";
+import { IdLength, Input, PasswordLength } from "../../../style/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
+import { emailValidation, nameValidation } from "../../../utils/validation";
+import { media } from "../../../style/theme";
+import { Button } from "../../../components/Button/Button";
 
 function GetName() {
   const setPageNum = useSetRecoilState(signupPage);
@@ -23,7 +26,6 @@ function GetName() {
   const emailValue = watch("email");
 
   const onSubmit = (data: any) => {
-    console.log(data);
     if (!Object.keys(errors).length) {
       setSignup({ ...signup, name: nameValue, email: emailValue });
       setPageNum(3);
@@ -38,50 +40,51 @@ function GetName() {
           <span>
             Name
             <div>
-              이름 정보는 프로필 상단에 표시되며 이를 통해 친구와 연결될 수
-              있습니다.
+              이름 정보는 프로필 상단에 표시되며
+              <br /> 이를 통해 친구와 연결될 수 있습니다.
             </div>
           </span>
-          <Input
-            type="text"
-            color={nameValue.length > 30 || errors.name ? "red" : "default"}
-            placeholder="Name"
-            {...register("name", {
-              required: true,
-              maxLength: 30,
-              minLength: 2,
-            })}
-          />
-          {errors.name && <p>이름은 2글자 이상, 30글자 이하입니다.</p>}
-          <PasswordLength len={nameValue.length || 0}>
+          <S.InputDiv>
+            <Input
+              type="text"
+              color={nameValue.length > 30 || errors.name ? "red" : "default"}
+              placeholder="Name"
+              {...register("name", {
+                ...nameValidation(),
+              })}
+            />
+          </S.InputDiv>
+          <S.InputLength len={nameValue.length || 0}>
             {nameValue.length || 0} / 30
-          </PasswordLength>
+          </S.InputLength>
+          <p>{errors?.name?.message}</p>
         </S.InputContainer>
         <S.InputContainer>
           <span>
             E-mail
             <div>
-              이메일 정보는 계정정보 분실시 이용됩니다. 정확한 주소를 입력해
-              주세요.
+              이메일 정보는 계정정보 분실시 이용됩니다.
+              <br /> 정확한 주소를 입력해 주세요.
             </div>
           </span>
-          <Input
-            type="text"
-            color={emailValue.length > 30 || errors.email ? "red" : "default"}
-            placeholder="E-mail"
-            {...register("email", {
-              required: true,
-              maxLength: 30,
-              minLength: 2,
-            })}
-          />
-          <PasswordLength len={emailValue.length || 0}>
+
+          <S.InputDiv>
+            <Input
+              type="text"
+              color={emailValue.length > 30 || errors.email ? "red" : "default"}
+              placeholder="E-mail"
+              {...register("email", {
+                ...emailValidation(),
+              })}
+            />
+          </S.InputDiv>
+          <S.InputLength len={emailValue.length || 0}>
             {emailValue.length || 0} / 30
-          </PasswordLength>
-          {errors.email && <p>정확한 형식에 맞춰주세요</p>}
+          </S.InputLength>
+          <p>{errors?.email?.message}</p>
         </S.InputContainer>
         <S.ButtonDiv>
-          <button type="submit">(2 / 3) 다음단계로</button>
+          <Button>(2 / 3) 다음단계로</Button>
         </S.ButtonDiv>
       </form>
     </S.Container>
@@ -90,11 +93,17 @@ function GetName() {
 
 const S = {
   Container: styled.div`
+    width: 100%;
     ${FlexColumnCenterCSS}
     & > :first-child {
+      ${FlexCenterCSS};
       margin: 2rem 0;
       font-size: 6rem;
-      font-weight: 700;
+      font-weight: 500;
+      text-align: center;
+      @media screen and (max-width: ${media.tablet}) {
+        font-size: 4rem;
+      }
     }
 
     p {
@@ -136,7 +145,7 @@ const S = {
 
     & > span {
       font-size: 4rem;
-      font-weight: 700;
+      font-weight: 500;
       padding: 1rem 1rem;
       & > :first-child {
         margin-top: 1rem;
@@ -144,6 +153,27 @@ const S = {
         color: #888888;
       }
     }
+  `,
+  InputWrapper: styled.div`
+    position: relative;
+  `,
+
+  InputLength: styled.div<{ len: number }>`
+    position: absolute;
+    right: 0;
+    bottom: -1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: ${(props) => (props.len < 30 ? "#888888" : "#FC7268")};
+  `,
+
+  InputDiv: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
   `,
 };
 

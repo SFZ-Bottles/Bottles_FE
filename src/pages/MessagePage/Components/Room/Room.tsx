@@ -12,7 +12,6 @@ interface RoomProps {
 
 function Room({ roomList, targetId }: RoomProps) {
   const [roomInfo, setRoomInfo] = useState<ProfileProps[]>();
-  console.log(roomList, targetId);
 
   useEffect(() => {
     const filteredList = filterChatList(roomList, targetId);
@@ -35,7 +34,7 @@ const S = {
   Container: styled.div`
     flex-grow: 1;
   `,
-  
+
   UserContainer: styled.div`
     display: flex;
   `,

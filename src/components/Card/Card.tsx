@@ -1,7 +1,7 @@
 import { Children, ReactNode, isValidElement } from "react";
-import CustomButton from "../Button/CustomButton";
 import * as S from "./Card.styles";
 import { IUserCardProps, ImageProps } from "./Card.types";
+import { Button } from "../Button/Button";
 
 const UserProfile = ({ src }: { src: string | null }) => {
   return <S.UserProfile src={src} />;
@@ -27,7 +27,7 @@ const ButtonImg = ({ url, size = 30 }: ImageProps) => {
   return <S.ButtonImg src={url} size={size} />;
 };
 
-const ButtonTypes = (<CustomButton />).type;
+const ButtonTypes = (<Button />).type;
 const ProfileTypes = (<UserProfile src={null} />).type;
 const UserIdTypes = (<UserId />).type;
 const UserDescribeTypes = (<UserDescribe />).type;

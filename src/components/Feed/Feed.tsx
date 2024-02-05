@@ -1,7 +1,7 @@
 import { FC, HTMLAttributes, PropsWithChildren, useState } from "react";
 import FeedModal from "../Modal/FeedModal";
-import CommentImage from "../Comment/CommentImage";
-import Comment from "../Comment/CommentModal";
+import AlbumModal from "../Comment/AlbumModal";
+import CommentModal from "../Comment/CommentModal";
 import * as S from "./Feed.styles";
 import { FeedProps } from "./Feed.types";
 
@@ -9,17 +9,15 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   data: FeedProps[];
 }
 
-export const Feed: FC<PropsWithChildren<Props>> = ({
-  children,
-  data,
-  ...props
-}: Props) => {
-  const [modal, setModal] = useState(false);
-  const [albumId, setAlbumId] = useState("");
+export const Feed: FC<PropsWithChildren<Props>> = ({ data }: Props) => {
+  const [albumState, setAlbumState] = useState({
+    modal: false,
+    albumId: "",
+    owner: "",
+  });
 
-  const onImgClick = (id: string) => {
-    setModal(true);
-    setAlbumId(id);
+  const onAlbumClicked = (id: string, owner: string) => {
+    setAlbumState({ modal: true, albumId: id, owner: owner });
   };
 
   return (
@@ -28,17 +26,27 @@ export const Feed: FC<PropsWithChildren<Props>> = ({
         {data?.map((album: any, index: number) => (
           <S.ImgDiv
             key={index}
-            onClick={() => onImgClick(album.id)}
+            onClick={() => onAlbumClicked(album.id, album.user_id)}
             src={album.cover_image_url}
           />
         ))}
       </S.AlbumContainer>
-      {modal && albumId ? (
+
+      {/* 앨범 클릭시 모달 창  */}
+      {albumState.modal && albumState.albumId ? (
         <div style={{ display: "flex", position: "absolute" }}>
-          <FeedModal onClose={() => setModal(false)}>
+          <FeedModal
+            onClose={() => setAlbumState({ ...albumState, modal: false })}
+          >
             {{
-              left: <CommentImage AlbumId={albumId} />,
-              right: <Comment AlbumId={albumId} />,
+              left: <AlbumModal AlbumId={albumState.albumId} />,
+              right: (
+                <CommentModal
+                  AlbumId={albumState.albumId}
+                  owner={albumState.owner}
+                  onClose={() => setAlbumState({ ...albumState, modal: false })}
+                />
+              ),
             }}
           </FeedModal>
         </div>

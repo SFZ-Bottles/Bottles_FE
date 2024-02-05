@@ -1,12 +1,11 @@
 import { IComment } from "../components/Comment/CommentModal";
 import { IAlbum } from "../pages/HomeModal/ModalContent";
 import AuthService from "../utils/authService";
-import axios from 'axios';
-
+import axios from "axios";
 
 const [token, id] = AuthService.getTokenAndId();
 
-export const deleteUserAccount = async (id: string , password: string) => {
+export const deleteUserAccount = async (id: string, password: string) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.delete(
@@ -190,19 +189,12 @@ export const logout = async () => {
   }
 };
 
-
-export const changeInfo = async (editData: any) => {
+export const changeInfo = async (field: string, value: any) => {
   const [token, id] = AuthService.getTokenAndId();
-  console.log(editData);
   try {
     const formData = new FormData();
     const boundary = "----WebKitFormBoundary";
-    formData.append("id", editData.id);
-    formData.append("name", editData.name);
-    formData.append("email", editData.email);
-    formData.append("info", editData.info);
-    formData.append("created_at", editData.created_at);
-    formData.append("avatar", editData.avatar);
+    formData.append(`${field}`, value);
 
     const response = await fetch(
       `${process.env.REACT_APP_SERVER}api/users/${id}/`,
@@ -215,6 +207,8 @@ export const changeInfo = async (editData: any) => {
         body: formData,
       }
     ).then((result) => result.json());
+
+    return response;
   } catch (error: any) {
     alert(error);
   }
@@ -326,24 +320,6 @@ export const getSearchedUsers = async (id: string) => {
   }
 };
 
-export const getChatList = async (id: string) => {
-  try {
-    const response = fetch(
-      `${process.env.REACT_APP_SERVER}api/chatrooms/?target=${id}&num=0`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token as string,
-        },
-      }
-    ).then((res) => res.json());
-    return response;
-  } catch (error: any) {
-    alert(error);
-  }
-};
-
 export const getAvatar = async (user_id: string) => {
   try {
     const response = fetch(
@@ -358,55 +334,6 @@ export const getAvatar = async (user_id: string) => {
     )
       .then((result) => result.blob())
       .then((blob) => URL.createObjectURL(blob));
-    return response;
-  } catch (error: any) {
-    alert(error);
-  }
-};
-
-export const makeChatRoom = async (
-  myId: string,
-  targetId: string,
-  token: string
-) => {
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER}api/chatrooms/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token as string,
-        },
-        body: JSON.stringify({
-          name: "테스트용 채팅방",
-          members: [myId, targetId],
-        }),
-      }
-    ).then((result) => result.json());
-    console.log(response);
-    return response;
-  } catch (error: any) {
-    alert(error);
-  }
-};
-
-export const userFollow = async (userId: any, tagetId: any) => {
-  console.log(userId, tagetId);
-  try {
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVER}api/users/${userId}/follow/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          target_user_id: tagetId,
-        }),
-      }
-    ).then((result) => result.json());
-    console.log(response);
     return response;
   } catch (error: any) {
     alert(error);

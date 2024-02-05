@@ -36,11 +36,11 @@ function FeedPage() {
 
   return (
     <div>
-      <React.Fragment>
+      <div>
         <Feed data={data} />
-      </React.Fragment>
+        <div style={{ width: "100%", height: "20px" }} ref={ref} />
+      </div>
       {isLoading && <Loading />}
-      <div style={{ width: "100%", height: "20px" }} ref={ref} />
     </div>
   );
 }

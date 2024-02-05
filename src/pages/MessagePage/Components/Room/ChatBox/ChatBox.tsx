@@ -6,6 +6,7 @@ import CommonInput from "../../../../../components/Input/Input";
 import ChatApi from "../../../../../services/chatApi";
 import { FlexColumnCenterCSS } from "../../../../../style/commonStyle";
 import { media } from "../../../../../style/theme";
+import { Button } from "../../../../../components/Button/Button";
 
 export interface Chat {
   message: string;
@@ -32,7 +33,6 @@ function ChatBox({ roomId }: { roomId: string }) {
     const history = await ChatApi.RoomHistory(roomId);
     if (history) {
       setMessages(history.data.result);
-      console.log(history.data.result);
     }
   };
 
@@ -106,24 +106,25 @@ function ChatBox({ roomId }: { roomId: string }) {
           <ChatBubble
             key={index}
             content={item}
-            isOwnContent={id === item.user_id}
+            $isOwnContent={id === item.user_id}
           ></ChatBubble>
         ))}
       </S.MessageContainer>
 
-      <form onSubmit={onSubmit}>
+      <S.Form onSubmit={onSubmit}>
         <CommonInput
           type="text"
           name="message"
           placeholder="메세지"
           value={newMessage}
           onChange={handleMessageChange}
-          customStyle={{
+          $customStyle={{
             width: "80%",
             height: "3rem",
           }}
-        />
-      </form>
+        ></CommonInput>
+        <Button variant="outlined">send</Button>
+      </S.Form>
     </S.Container>
   );
 }
@@ -170,6 +171,21 @@ const S = {
     &::-webkit-scrollbar-thumb {
       border-radius: 2px;
       background: ${(props) => props.theme.color.barColor};
+    }
+  `,
+
+  Form: styled.form`
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${(props) => props.theme.color.bgColor};
+    height: 10%;
+    border-top: 1px solid ${(props) => props.theme.color.navBorder};
+
+    & > button {
+      position: absolute;
+      right: 13%;
     }
   `,
 };

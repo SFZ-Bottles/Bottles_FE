@@ -1,15 +1,4 @@
-import {
-  C_FlexBox,
-  Form,
-  InputDiv,
-  IntroLegnth,
-  SignInDiv,
-  LoginInfo,
-  SemiTitle,
-  Span,
-  NextButton,
-  BigInput,
-} from "../../../style/styled_LogIn";
+import { IntroLegnth, BigInput } from "../../../style/styled_LogIn";
 import { useNavigate } from "react-router-dom";
 import LoginApi from "../../../services/loginApi";
 import { useForm } from "react-hook-form";
@@ -17,6 +6,9 @@ import { useRecoilState } from "recoil";
 import { SignupState } from "../../../atom/atom";
 import { styled } from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
+import { media } from "../../../style/theme";
+import { Button } from "../../../components/Button/Button";
+import { infoValidation } from "../../../utils/validation";
 
 function GetIntro() {
   const navigate = useNavigate();
@@ -57,11 +49,7 @@ function GetIntro() {
           <S.InputDiv>
             <BigInput
               placeholder="소개 입력"
-              {...register("intro", {
-                required: true,
-                minLength: 1,
-                maxLength: 150,
-              })}
+              {...register("intro", { ...infoValidation() })}
             ></BigInput>
           </S.InputDiv>
           {errors.intro && <p>최소 1자, 최대 150자 까지입니다.</p>}
@@ -70,7 +58,7 @@ function GetIntro() {
           </IntroLegnth>
         </S.InputContainer>
         <S.ButtonDiv>
-          <button type="submit">Join Us</button>
+          <Button>Join Us</Button>
         </S.ButtonDiv>
       </form>
     </S.Container>
@@ -79,17 +67,23 @@ function GetIntro() {
 
 const S = {
   Container: styled.div`
+    width: 100%;
     ${FlexColumnCenterCSS}
+    & > :first-child {
+      ${FlexCenterCSS};
+      margin: 2rem 0;
+      font-size: 6rem;
+      font-weight: 500;
+      text-align: center;
+      @media screen and (max-width: ${media.tablet}) {
+        font-size: 4rem;
+      }
+    }
 
     p {
       color: red;
       font-size: 2rem;
-    }
-
-    & > :first-child {
-      font-size: 6rem;
-      font-weight: 700;
-      margin: 2rem 0;
+      padding-left: 1rem;
     }
 
     & > form {
@@ -125,7 +119,7 @@ const S = {
 
     & > span {
       font-size: 4rem;
-      font-weight: 700;
+      font-weight: 500;
       padding: 1rem 1rem;
       & > :first-child {
         margin-top: 1rem;

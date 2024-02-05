@@ -59,7 +59,7 @@ function Pinpage() {
           name="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          customStyle={{
+          $customStyle={{
             width: "20rem",
           }}
         />

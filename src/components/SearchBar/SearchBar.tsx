@@ -13,7 +13,7 @@ const SearchBar = ({ value, onChange, ...rest }: Props) => {
             name={value}
             onChange={onChange}
             {...rest}
-            customStyle={{
+            $customStyle={{
               paddingLeft: "50px",
               backgroundColor: "#E8E8E8",
               border: "none",

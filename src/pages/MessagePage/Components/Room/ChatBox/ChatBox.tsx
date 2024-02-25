@@ -60,38 +60,25 @@ function ChatBox({ roomId }: { roomId: string }) {
     getRoomHistory();
 
     const webSocket = new WebSocket(
-      `ws://14.4.145.80:8000/ws/chat/${roomId}/?token=${token}`
+      `wss://${process.env.REACT_APP_SERVER}ws/chat/${roomId}/?token=${token}`
     );
 
-    // 서버로부터 메시지 수신
     webSocket.onmessage = (event) => {
       const messageData = JSON.parse(event.data);
       setMessages((prevMessages: any) => [...prevMessages, messageData]);
     };
 
-    // 연결 오류 처리
     webSocket.onerror = (error) => {
       console.error("WebSocket Error:", error);
     };
 
-    // 연결이 끊어졌을 때 재연결 로직
-    // webSocket.onclose = () => {
-    //   console.log("WebSocket Disconnected. Attempting to Reconnect...");
-    //   setTimeout(() => {
-    //     console.log("re");
-    //     setWs(null);
-    //   }, 3000); // 3초 후 재연결
-    // };
-
     setWs(webSocket);
 
-    // 컴포넌트 언마운트 시 WebSocket 연결 해제
     return () => {
       webSocket.close();
     };
   }, [roomId]);
 
-  // 초기 스크롤 위치를 맨 밑으로 이동 하기 위한 useEffect
   useEffect(() => {
     if (messageContainerRef.current) {
       const scrollHeight = messageContainerRef.current.scrollHeight;
@@ -132,6 +119,7 @@ function ChatBox({ roomId }: { roomId: string }) {
 const S = {
   Container: styled.div`
     width: 100%;
+    padding: 0 1rem;
     ${FlexColumnCenterCSS}
     & > div {
       width: 100%;

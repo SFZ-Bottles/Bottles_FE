@@ -7,7 +7,7 @@ export const Container = styled.div`
   position: fixed;
   ${FlexColumnCenterCSS};
   width: 100%;
-  z-index: 2;
+  z-index: 3;
 `;
 
 export const ModalContainer = styled.div`

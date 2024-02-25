@@ -11,6 +11,7 @@ import {
   idValidation,
   nameValidation,
 } from "../../utils/validation";
+import { useNavigate } from "react-router-dom";
 
 export interface IEdit {
   id: string;
@@ -35,11 +36,19 @@ function EditModal({ editData, setUserData, onClose }: any) {
     clearErrors("inputData");
   }, [editData, setValue, clearErrors]);
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data: any) => {
     try {
       const changedInfo = await changeInfo(editData, data.inputData);
+
       AuthService.setTokenAndId(changedInfo.token, changedInfo.id);
       const { data: userInfo } = await InfoApi.getInfo(changedInfo.id);
+      if (editData === "id") {
+        localStorage.removeItem("id");
+        localStorage.removeItem("token");
+        navigate("/");
+      }
       setUserData(userInfo);
       onClose();
     } catch (error: any) {
@@ -86,6 +95,7 @@ const S = {
     height: 15rem;
     gap: 10%;
     font-size: 2rem;
+    color: black;
   `,
 
   FormWrapper: styled.div`

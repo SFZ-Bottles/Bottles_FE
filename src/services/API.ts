@@ -323,7 +323,7 @@ export const getSearchedUsers = async (id: string) => {
 export const getAvatar = async (user_id: string) => {
   try {
     const response = fetch(
-      `${process.env.REACT_APP_SERVER}api/image/avatar/${user_id}/?resizing=True&width=124&height=124`,
+      `${process.env.REACT_APP_SERVER}api/image/avatar/${user_id}/?resizing=True&width=100&height=100`,
       {
         method: "GET",
         headers: {

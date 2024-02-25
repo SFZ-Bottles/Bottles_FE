@@ -10,6 +10,7 @@ import InfoApi from "../../../services/infoApi";
 import basicCSS from "../../../style/basicStyle";
 import Profile from "../../../components/Profile/Profile";
 import { Button } from "../../../components/Button/Button";
+import UserService from "../../../utils/userService";
 
 export interface IEdit {
   id: string;
@@ -20,6 +21,7 @@ export interface IEdit {
 }
 
 function EditContent() {
+  const [isSecret, setIsSecret] = useState(false);
   const [userData, setUserData] = useState<IEdit>();
   const [editData, setEditData] = useState<null | string>(null);
 
@@ -45,13 +47,17 @@ function EditContent() {
   };
 
   useEffect(() => {
+    setIsSecret(UserService.isSecretMode());
     fetchData();
   }, []);
 
   return (
     <S.Container>
       <S.ContentContainer>
-        <span>Profile Image</span>
+        <span>
+          {isSecret && "Bottle "}
+          Profile Image
+        </span>
         <S.ProfileDiv>
           {userData && <Profile size={8} src={userData?.avatar} />}
           <S.ButtonWrapper>
@@ -64,7 +70,10 @@ function EditContent() {
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <span>ID</span>
+        <span>
+          {isSecret && "Bottle "}
+          ID
+        </span>
         <S.ButtonWrapper>
           {userData?.id}
           <Button variant="outlined" onClick={() => setEditData("id")}>
@@ -74,7 +83,7 @@ function EditContent() {
       </S.ContentContainer>
 
       <S.ContentContainer>
-        <span>Password</span>
+        <span>{isSecret ? "PIN" : "Password"}</span>
         <S.ButtonWrapper>
           <Button variant="outlined" onClick={() => setEditData("password")}>
             Edit
@@ -82,25 +91,29 @@ function EditContent() {
         </S.ButtonWrapper>
       </S.ContentContainer>
 
-      <S.ContentContainer>
-        <span>E-mail</span>
-        <S.ButtonWrapper>
-          {userData?.email}
-          <Button variant="outlined" onClick={() => setEditData("email")}>
-            Edit
-          </Button>
-        </S.ButtonWrapper>
-      </S.ContentContainer>
+      {!isSecret && (
+        <>
+          <S.ContentContainer>
+            <span>E-mail</span>
+            <S.ButtonWrapper>
+              {userData?.email}
+              <Button variant="outlined" onClick={() => setEditData("email")}>
+                Edit
+              </Button>
+            </S.ButtonWrapper>
+          </S.ContentContainer>
 
-      <S.ContentContainer>
-        <span>Name</span>
-        <S.ButtonWrapper>
-          {userData?.name}
-          <Button variant="outlined" onClick={() => setEditData("name")}>
-            Edit
-          </Button>
-        </S.ButtonWrapper>
-      </S.ContentContainer>
+          <S.ContentContainer>
+            <span>Name</span>
+            <S.ButtonWrapper>
+              {userData?.name}
+              <Button variant="outlined" onClick={() => setEditData("name")}>
+                Edit
+              </Button>
+            </S.ButtonWrapper>
+          </S.ContentContainer>
+        </>
+      )}
 
       <S.ContentContainer>
         <span>Info</span>

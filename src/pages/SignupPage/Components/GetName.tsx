@@ -1,5 +1,5 @@
 import { SignupState, signupPage } from "../../../atom/atom";
-import { IdLength, Input, PasswordLength } from "../../../style/styled_LogIn";
+import { Input } from "../../../style/styled_LogIn";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { styled } from "styled-components";
@@ -37,51 +37,57 @@ function GetName() {
       <span>Welcome to Bottles!</span>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.InputContainer>
-          <span>
-            Name
-            <div>
-              이름 정보는 프로필 상단에 표시되며
-              <br /> 이를 통해 친구와 연결될 수 있습니다.
-            </div>
-          </span>
-          <S.InputDiv>
-            <Input
-              type="text"
-              color={nameValue.length > 30 || errors.name ? "red" : "default"}
-              placeholder="Name"
-              {...register("name", {
-                ...nameValidation(),
-              })}
-            />
-          </S.InputDiv>
-          <S.InputLength len={nameValue.length || 0}>
-            {nameValue.length || 0} / 30
-          </S.InputLength>
-          <p>{errors?.name?.message}</p>
+          <S.InputWrapper>
+            <span>
+              Name
+              <div>
+                이름 정보는 프로필 상단에 표시되며 이를 통해 친구와 연결될 수
+                있습니다.
+              </div>
+            </span>
+            <S.InputDiv>
+              <Input
+                type="text"
+                color={nameValue.length > 30 || errors.name ? "red" : "default"}
+                placeholder="Name"
+                {...register("name", {
+                  ...nameValidation(),
+                })}
+              />
+            </S.InputDiv>
+            <S.InputLength len={nameValue.length || 0}>
+              {nameValue.length || 0} / 30
+            </S.InputLength>
+            <p>{errors?.name?.message}</p>
+          </S.InputWrapper>
         </S.InputContainer>
         <S.InputContainer>
-          <span>
-            E-mail
-            <div>
-              이메일 정보는 계정정보 분실시 이용됩니다.
-              <br /> 정확한 주소를 입력해 주세요.
-            </div>
-          </span>
+          <S.InputWrapper>
+            <span>
+              E-mail
+              <div>
+                이메일 정보는 계정정보 분실시 이용됩니다.
+                <br /> 정확한 주소를 입력해 주세요.
+              </div>
+            </span>
 
-          <S.InputDiv>
-            <Input
-              type="text"
-              color={emailValue.length > 30 || errors.email ? "red" : "default"}
-              placeholder="E-mail"
-              {...register("email", {
-                ...emailValidation(),
-              })}
-            />
-          </S.InputDiv>
-          <S.InputLength len={emailValue.length || 0}>
-            {emailValue.length || 0} / 30
-          </S.InputLength>
-          <p>{errors?.email?.message}</p>
+            <S.InputDiv>
+              <Input
+                type="text"
+                color={
+                  emailValue.length > 30 || errors.email ? "red" : "default"
+                }
+                placeholder="E-mail"
+                {...register("email", {
+                  ...emailValidation(),
+                })}
+              />
+            </S.InputDiv>
+            <S.InputLength len={emailValue.length || 0}>
+              {emailValue.length || 0} / 30
+            </S.InputLength>
+            <p>{errors?.email?.message}</p>
+          </S.InputWrapper>
         </S.InputContainer>
         <S.ButtonDiv>
           <Button>(2 / 3) 다음단계로</Button>
@@ -93,7 +99,7 @@ function GetName() {
 
 const S = {
   Container: styled.div`
-    width: 100%;
+    width: 100dvw;
     ${FlexColumnCenterCSS}
     & > :first-child {
       ${FlexCenterCSS};
@@ -113,6 +119,7 @@ const S = {
     }
 
     & > form {
+      width: 100%;
       gap: 3rem;
     }
   `,
@@ -126,16 +133,16 @@ const S = {
       border: none;
       border-radius: 2rem;
       margin-top: 5rem;
-      margin-right: 5rem;
       font-size: 1.5rem;
       font-weight: 700;
       cursor: pointer;
     }
   `,
 
-  InputContainer: styled.div`
+  InputWrapper: styled.div`
     position: relative;
     display: flex;
+    width: 40rem;
     flex-direction: column;
     gap: 1rem;
 
@@ -153,14 +160,20 @@ const S = {
         color: #888888;
       }
     }
+
+    @media screen and (max-width: ${media.mobile}) {
+      padding: 0 1rem;
+    }
   `,
-  InputWrapper: styled.div`
-    position: relative;
+  InputContainer: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
   `,
 
   InputLength: styled.div<{ len: number }>`
     position: absolute;
-    right: 0;
+    right: 1rem;
     bottom: -1rem;
     font-size: 1.5rem;
     font-weight: 600;

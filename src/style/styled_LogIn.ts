@@ -45,14 +45,10 @@ export const Input = styled.input<{ color: string }>`
   font-size: 1.5rem;
   padding-left: 2rem;
   border-color: ${(props) => props.color || "black"};
-
-  @media screen and (max-width: ${media.mobile}) {
-    flex: 1;
-  }
 `;
 
 export const BigInput = styled.textarea`
-  width: 50rem;
+  width: 100%;
   height: 25rem;
   border-radius: 2rem;
   font-size: 1.5rem;
@@ -139,7 +135,7 @@ export const CheckId = styled.div`
 
 export const IdLength = styled.div<{ len: number }>`
   position: absolute;
-  right: 0rem;
+  right: 1rem;
   bottom: -2rem;
   font-size: 1.5rem;
   font-weight: 600;

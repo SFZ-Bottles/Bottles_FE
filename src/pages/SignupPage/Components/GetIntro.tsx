@@ -13,7 +13,6 @@ import { infoValidation } from "../../../utils/validation";
 function GetIntro() {
   const navigate = useNavigate();
   const [signup, setSignup] = useRecoilState(SignupState);
-  console.log(signup);
   const {
     handleSubmit,
     formState: { errors },
@@ -28,9 +27,13 @@ function GetIntro() {
 
   const onSubmit = async () => {
     if (!errors.intro) {
-      console.log({ ...signup, intro: introValue });
-      await LoginApi.signUp({ ...signup, info: introValue });
-      navigate("/");
+      try {
+        console.log({ ...signup, info: introValue });
+        await LoginApi.signUp({ ...signup, info: introValue });
+        navigate("/");
+      } catch (e: any) {
+        alert(e);
+      }
     }
   };
 
@@ -42,8 +45,8 @@ function GetIntro() {
           <span>
             About you
             <div>
-              '서론'은 프로필에 표시되는 자신에 대한 소개입니다. 자유롭게
-              표현해보세요!
+              '서론'은 프로필에 표시되는 자신에 대한 소개입니다.
+              <br /> 자유롭게 표현해보세요!
             </div>
           </span>
           <S.InputDiv>
@@ -100,7 +103,6 @@ const S = {
       border: none;
       border-radius: 2rem;
       margin-top: 6rem;
-      margin-right: 5rem;
       font-size: 1.5rem;
       font-weight: 700;
       cursor: pointer;
@@ -112,6 +114,7 @@ const S = {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding: 0 1rem;
 
     & > p {
       font-size: 1.5rem;

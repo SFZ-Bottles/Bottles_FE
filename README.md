@@ -4,6 +4,22 @@
   <h2>Bottles</h2>
 </div>
 
+## 배포 사이트
+### 🖇️링크
+https://thebottles.shop/
+
+### 테스트 아이디
+<table>
+  <tr>
+    <th scope="col">id</th>
+    <th scope="col">password</th>
+  </tr>
+  <tr>
+    <td>test11111</td>
+    <td>12341234</td>
+  </tr>
+</table>
+
 ## 🍶 프로젝트 소개
   - Bottles는 익명으로 일상과 고민을 공유할 수 있는 SNS입니다.
   - 온라인 상에서 아는 사람과의 연결과 더불어 '랜덤한 연결'을 추구합니다.

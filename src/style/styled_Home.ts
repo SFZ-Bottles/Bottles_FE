@@ -40,6 +40,8 @@ export const Template = styled.div`
 `;
 
 export const Phrase = styled.div`
+  color: black;
+  font-weight: bold;
   font-size: 2rem;
 `;
 
@@ -47,7 +49,7 @@ export const ModalContainer = styled.div`
   display: grid;
   min-width: 400px;
   min-height: 400px;
-
+  color: black;
   & > :first-child {
     ${FlexCenterCSS}
     padding: 1rem 0;

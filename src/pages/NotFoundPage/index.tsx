@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../style/commonStyle";
 import { useNavigate } from "react-router-dom";
+import { modeNavigation } from "../../utils/modeUtils";
 
 const floatAnimation = `
   @keyframes float {
@@ -24,7 +25,9 @@ const NotFoundPage = () => {
   return (
     <S.Container>
       <S.ButtonDiv>
-        <button onClick={() => navigate("/home/feed")}>홈으로</button>
+        <button onClick={() => navigate(modeNavigation("/home/feed"))}>
+          홈으로
+        </button>
         <button onClick={() => navigate(-1)}>이전 페이지</button>
       </S.ButtonDiv>
       <FloatingBottle />

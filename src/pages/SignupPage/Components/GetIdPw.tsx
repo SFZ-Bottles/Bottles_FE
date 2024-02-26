@@ -3,15 +3,9 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { useForm } from "react-hook-form";
 import { SignupState, signupPage } from "../../../atom/atom";
 import LoginApi from "../../../services/loginApi";
-import {
-  CheckId,
-  IdLength,
-  Input,
-  PasswordLength,
-} from "../../../style/styled_LogIn";
+import { CheckId, IdLength, Input } from "../../../style/styled_LogIn";
 import styled from "styled-components";
 import { FlexCenterCSS, FlexColumnCenterCSS } from "../../../style/commonStyle";
-import React from "react";
 import { media } from "../../../style/theme";
 import { idValidation } from "../../../utils/validation";
 import { Button } from "../../../components/Button/Button";
@@ -65,48 +59,54 @@ function GetIdPw() {
       <span>Welcome to Bottles!</span>
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.InputContainer>
-          <span>
-            ID
-            <div>아이디를 입력 후, 중복검사를 해주세요!</div>
-          </span>
-          <S.IdWrapper>
-            <Input
-              type="text"
-              placeholder="ID"
-              color={idValue.length > 30 || errors.id ? "red" : "default"}
-              {...register("id", {
-                ...idValidation(idStatusMessage),
-              })}
-            />
-            <CheckId onClick={checkIdClicked}>check id</CheckId>
-          </S.IdWrapper>
-          <IdLength len={idValue?.length || 0}>
-            {idValue?.length || 0} / 30
-          </IdLength>
-          {errors.id && <p>{errors.id.message || "ID를 입력해주세요."}</p>}
-          {<p style={{ color: "blue" }}>{idStatusMessage}</p>}
+          <S.InputWrapper>
+            <span>
+              ID
+              <div>아이디를 입력 후, 중복검사를 해주세요!</div>
+            </span>
+            <S.IdWrapper>
+              <S.InputDiv>
+                <Input
+                  type="text"
+                  placeholder="ID"
+                  color={idValue.length > 30 || errors.id ? "red" : "default"}
+                  {...register("id", {
+                    ...idValidation(idStatusMessage),
+                  })}
+                />
+              </S.InputDiv>
+              <CheckId onClick={checkIdClicked}>check id</CheckId>
+            </S.IdWrapper>
+            <IdLength len={idValue?.length || 0}>
+              {idValue?.length || 0} / 30
+            </IdLength>
+            {errors.id && <p>{errors.id.message || "ID를 입력해주세요."}</p>}
+            {<p style={{ color: "blue" }}>{idStatusMessage}</p>}
+          </S.InputWrapper>
         </S.InputContainer>
         <S.InputContainer>
-          <span>
-            Password
-            <div>비밀번호를 입력해주세요!</div>
-          </span>
-          <S.InputDiv>
-            <Input
-              type="password"
-              placeholder="Password"
-              color={pwValue.length > 30 || errors.pw ? "red" : "default"}
-              {...register("pw", {
-                required: true,
-                minLength: 8,
-                maxLength: 30,
-              })}
-            />
-          </S.InputDiv>
-          <S.InputLength len={pwValue?.length || 0}>
-            {pwValue?.length || 0} / 30
-          </S.InputLength>
-          {errors.pw && <p>비밀번호는 8자이상, 30자 이하여야 합니다.</p>}
+          <S.InputWrapper>
+            <span>
+              Password
+              <div>비밀번호를 입력해주세요!</div>
+            </span>
+            <S.InputDiv>
+              <Input
+                type="password"
+                placeholder="Password"
+                color={pwValue.length > 30 || errors.pw ? "red" : "default"}
+                {...register("pw", {
+                  required: true,
+                  minLength: 8,
+                  maxLength: 30,
+                })}
+              />
+            </S.InputDiv>
+            <S.InputLength len={pwValue?.length || 0}>
+              {pwValue?.length || 0} / 30
+            </S.InputLength>
+            {errors.pw && <p>비밀번호는 8자이상, 30자 이하여야 합니다.</p>}
+          </S.InputWrapper>
         </S.InputContainer>
         <S.ButtonDiv>
           <Button>1 / 3 다음단계로</Button>
@@ -118,7 +118,7 @@ function GetIdPw() {
 
 const S = {
   Container: styled.div`
-    width: 100%;
+    width: 100dvw;
     ${FlexColumnCenterCSS}
     & > :first-child {
       ${FlexCenterCSS};
@@ -138,6 +138,7 @@ const S = {
     }
 
     & > form {
+      width: 100%;
       gap: 3rem;
     }
   `,
@@ -151,16 +152,21 @@ const S = {
       border: none;
       border-radius: 2rem;
       margin-top: 6rem;
-      margin-right: 5rem;
       font-size: 1.5rem;
       font-weight: 700;
       cursor: pointer;
     }
   `,
-
   InputContainer: styled.div`
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  `,
+
+  InputWrapper: styled.div`
     position: relative;
     display: flex;
+    width: 40rem;
     flex-direction: column;
     gap: 1rem;
 
@@ -195,14 +201,13 @@ const S = {
   `,
   IdWrapper: styled.div`
     position: relative;
-    padding: 0 1rem;
     & > :last-child {
       position: absolute;
     }
   `,
   InputLength: styled.div<{ len: number }>`
     position: absolute;
-    right: 0;
+    right: 1rem;
     bottom: -2rem;
     font-size: 1.5rem;
     font-weight: 600;

@@ -13,9 +13,6 @@
 ### 🖇️링크
 https://thebottles.shop/
 
-## 데모 영상
-https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/e215f813-e611-4cc2-9059-0009bed67942
-
 ### 테스트 아이디
 <table>
   <tr>
@@ -28,7 +25,8 @@ https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/e215f813-e611-4cc2-905
   </tr>
 </table>
 
-
+## 데모 영상
+https://github.com/SFZ-Bottles/Bottles_FE/assets/55770796/e215f813-e611-4cc2-9059-0009bed67942
 
 ## 🍶 Bottles 익명 모드 설명
 

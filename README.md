@@ -11,7 +11,9 @@
 
 ## 배포 사이트
 ### 🖇️링크
-https://thebottles.shop/
+~~https://thebottles.shop/~~<br/>
+<u>접속 일시 정지(24.03.25~)<u/>
+
 
 ### 테스트 아이디
 <table>
